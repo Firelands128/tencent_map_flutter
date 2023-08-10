@@ -87,7 +87,5 @@ class _TencentMapApi: NSObject, TencentMapApi {
 
   func start() throws { }
 
-  func destory() throws { }
-
-//     func destoryWithError(_: AutoreleasingUnsafeMutablePointer<FlutterError?>) {}
+  func destroy() throws { }
 }

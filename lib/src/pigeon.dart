@@ -59,7 +59,7 @@ abstract class TencentMapApi {
 
   void start();
 
-  void destory();
+  void destroy();
 }
 
 @FlutterApi()

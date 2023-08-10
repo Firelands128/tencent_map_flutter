@@ -154,7 +154,7 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
         _api.pause();
         break;
       case AppLifecycleState.detached:
-        _api.destory();
+        _api.destroy();
         break;
     }
   }
@@ -300,8 +300,8 @@ class TencentMapController {
   }
 
   /// 销毁地图
-  Future<void> destory() {
-    return _api.destory();
+  Future<void> destroy() {
+    return _api.destroy();
   }
 
   /// 停止地图渲染

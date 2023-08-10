@@ -41,7 +41,7 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     mapView.onStart()
   }
 
-  override fun destory() {
+  override fun destroy() {
     mapView.onDestroy()
   }
 

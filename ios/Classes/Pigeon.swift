@@ -393,7 +393,7 @@ protocol TencentMapApi {
   func resume() throws
   func stop() throws
   func start() throws
-  func destory() throws
+  func destroy() throws
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -710,18 +710,18 @@ class TencentMapApiSetup {
     } else {
       startChannel.setMessageHandler(nil)
     }
-    let destoryChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.destory", binaryMessenger: binaryMessenger, codec: codec)
+    let destroyChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.destroy", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
-      destoryChannel.setMessageHandler { _, reply in
+      destroyChannel.setMessageHandler { _, reply in
         do {
-          try api.destory()
+          try api.destroy()
           reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))
         }
       }
     } else {
-      destoryChannel.setMessageHandler(nil)
+      destroyChannel.setMessageHandler(nil)
     }
   }
 }

@@ -855,9 +855,9 @@ class TencentMapApi {
     }
   }
 
-  Future<void> destory() async {
+  Future<void> destroy() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.TencentMapApi.destory', codec,
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.destroy', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;

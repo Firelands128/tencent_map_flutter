@@ -426,7 +426,7 @@ interface TencentMapApi {
   fun resume()
   fun stop()
   fun start()
-  fun destory()
+  fun destroy()
 
   companion object {
     /** The codec used by TencentMapApi. */
@@ -827,12 +827,12 @@ interface TencentMapApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.destory", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.destroy", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
             var wrapped: List<Any?>
             try {
-              api.destory()
+              api.destroy()
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
