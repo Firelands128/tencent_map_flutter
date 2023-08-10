@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tencent_map/src/pigeon.g.dart';
-import 'package:tencent_map/src/marker.dart';
+
+import 'marker.dart';
+import 'pigeon.g.dart';
 
 /// 腾讯地图
 class TencentMap extends StatefulWidget {
@@ -214,8 +215,7 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     if (widget.myLocationEnabled != old.myLocationEnabled) {
       _api.setMyLocationEnabled(widget.myLocationEnabled);
     }
-    if (widget.myLocationStyle != old.myLocationStyle &&
-        widget.myLocationStyle != null) {
+    if (widget.myLocationStyle != old.myLocationStyle && widget.myLocationStyle != null) {
       _api.setMyLocationStyle(widget.myLocationStyle!);
     }
   }
