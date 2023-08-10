@@ -280,7 +280,7 @@ protocol TencentMapSdkApi {
 class TencentMapSdkApiSetup {
   /// The codec used by TencentMapSdkApi.
   /// Sets up an instance of `TencentMapSdkApi` to handle messages through the `binaryMessenger`.
-  static func setUp(_ binaryMessenger: FlutterBinaryMessenger, _ api: TencentMapSdkApi?) {
+  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: TencentMapSdkApi?) {
     let initSdkChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapSdkApi.initSdk", binaryMessenger: binaryMessenger)
     if let api = api {
       initSdkChannel.setMessageHandler { message, reply in
@@ -401,7 +401,7 @@ class TencentMapApiSetup {
   /// The codec used by TencentMapApi.
   static var codec: FlutterStandardMessageCodec { TencentMapApiCodec.shared }
   /// Sets up an instance of `TencentMapApi` to handle messages through the `binaryMessenger`.
-  static func setUp(_ binaryMessenger: FlutterBinaryMessenger, _ api: TencentMapApi?) {
+  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: TencentMapApi?) {
     let setMapTypeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setMapType", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setMapTypeChannel.setMessageHandler { message, reply in

@@ -20,7 +20,7 @@ class MapView: NSObject, FlutterPlatformView, QMapViewDelegate {
     init(_ registrar: FlutterPluginRegistrar) {
         mapView = QMapView()
         api = _TencentMapApi(mapView)
-        TencentMapApiSetup.setUp(registrar.messenger(), api)
+        TencentMapApiSetup.setUp(binaryMessenger: registrar.messenger(), api: api)
         super.init()
         mapView.delegate = self
     }
