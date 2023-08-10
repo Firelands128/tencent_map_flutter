@@ -8,8 +8,6 @@ import 'package:pigeon/pigeon.dart';
     kotlinOptions: KotlinOptions(package: 'com.morbit.tencent_map'),
     swiftOut: 'ios/Classes/Pigeon.swift',
     swiftOptions: SwiftOptions(),
-    // dartPackageName: "com.morbit",
-
   ),
 )
 @HostApi()
