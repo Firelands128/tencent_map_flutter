@@ -17,12 +17,10 @@ fun LatLng.toLatLng(): TencentLatLng {
 
 fun TencentLatLng.toLatLng(): LatLng {
     return LatLng(latitude, longitude)
-//    return TencentLatLng.Builder().setLatitude(latitude).setLongitude(longitude).build()
 }
 
 fun TencentMapPoi.toMapPoi(): MapPoi {
     return MapPoi(name, position.toLatLng())
-//    return MapPoi.Builder().setName(name).setPosition(position.toLatLng()).build()
 }
 
 fun TencentCameraPosition.toCameraPosition(): CameraPosition {

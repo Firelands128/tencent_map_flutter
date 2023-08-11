@@ -22,5 +22,5 @@ This is tencent map plugin
   s.swift_version = '5.0'
 
   s.dependency 'Tencent-MapSDK', '~> 5.1.0'
-	s.static_framework = true
+  s.static_framework = true
 end

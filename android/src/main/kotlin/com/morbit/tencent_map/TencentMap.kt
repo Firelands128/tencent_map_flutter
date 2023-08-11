@@ -85,8 +85,6 @@ class TencentMap(val binding: FlutterPlugin.FlutterPluginBinding, context: Conte
 					location.bearing.toDouble(),
 					location.accuracy.toDouble()
 				)
-//				val pigeonLocation = Location.Builder().setLatitude(location.latitude).setLongitude(location.longitude)
-//					.setAccuracy(location.accuracy.toDouble()).setBearing(location.bearing.toDouble()).build()
 				mapHandler.onLocation(pigeonLocation) {}
 			}
 
