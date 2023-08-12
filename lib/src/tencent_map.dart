@@ -295,7 +295,7 @@ class TencentMapController {
   }
 
   /// 添加标记
-  Future<Marker> addMarket(MarkerOptions options) async {
+  Future<Marker> addMarker(MarkerOptions options) async {
     return Marker(await _api.addMarker(options));
   }
 
