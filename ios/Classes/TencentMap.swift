@@ -15,14 +15,12 @@ class TencentMapFactory: NSObject, FlutterPlatformViewFactory {
 
 class MapView: NSObject, FlutterPlatformView, QMapViewDelegate {
   let mapView: QMapView
-  let api: _TencentMapApi
 
   init(_ registrar: FlutterPluginRegistrar) {
     mapView = QMapView()
-    api = _TencentMapApi(mapView)
-    TencentMapApiSetup.setUp(binaryMessenger: registrar.messenger(), api: api)
     super.init()
     mapView.delegate = self
+    TencentMapApiSetup.setUp(binaryMessenger: registrar.messenger(), api: _TencentMapApi(mapView))
   }
 
   func view() -> UIView {
