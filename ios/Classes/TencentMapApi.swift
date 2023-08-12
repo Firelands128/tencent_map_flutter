@@ -3,8 +3,8 @@ import QMapKit
 class _TencentMapApi: NSObject, TencentMapApi {
   let mapView: QMapView
 
-  init(_ mapView: QMapView) {
-    self.mapView = mapView
+  init(_ tencentMap: TencentMap) {
+    self.mapView = tencentMap.mapView
   }
 
   func setMapType(type: MapType) throws {
