@@ -62,6 +62,25 @@ abstract class TencentMapApi {
   void destroy();
 }
 
+@HostApi()
+abstract class MarkerApi {
+  void remove(String id);
+
+  void setRotation(String id, double rotation);
+
+  void setPosition(String id, LatLng position);
+
+  void setAnchor(String id, double x, double y);
+
+  void setZIndex(String id, int zIndex);
+
+  void setAlpha(String id, double alpha);
+
+  void setIcon(String id, Bitmap icon);
+
+  void setDraggable(String id, bool draggable);
+}
+
 @FlutterApi()
 abstract class TencentMapHandler {
   void onTap(LatLng latLng);
@@ -154,23 +173,4 @@ class PolylineOptions {
 class Bitmap {
   String? asset;
   Uint8List? bytes;
-}
-
-@HostApi()
-abstract class MarkerApi {
-  void remove(String id);
-
-  void setRotation(String id, double rotation);
-
-  void setPosition(String id, LatLng position);
-
-  void setAnchor(String id, double x, double y);
-
-  void setZIndex(String id, int zIndex);
-
-  void setAlpha(String id, double alpha);
-
-  void setIcon(String id, Bitmap icon);
-
-  void setDraggable(String id, bool draggable);
 }

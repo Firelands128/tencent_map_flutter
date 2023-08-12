@@ -725,127 +725,6 @@ class TencentMapApiSetup {
     }
   }
 }
-private class TencentMapHandlerCodecReader: FlutterStandardReader {
-  override func readValue(ofType type: UInt8) -> Any? {
-    switch type {
-      case 128:
-        return CameraPosition.fromList(self.readValue() as! [Any?])
-      case 129:
-        return LatLng.fromList(self.readValue() as! [Any?])
-      case 130:
-        return Location.fromList(self.readValue() as! [Any?])
-      case 131:
-        return MapPoi.fromList(self.readValue() as! [Any?])
-      default:
-        return super.readValue(ofType: type)
-    }
-  }
-}
-
-private class TencentMapHandlerCodecWriter: FlutterStandardWriter {
-  override func writeValue(_ value: Any) {
-    if let value = value as? CameraPosition {
-      super.writeByte(128)
-      super.writeValue(value.toList())
-    } else if let value = value as? LatLng {
-      super.writeByte(129)
-      super.writeValue(value.toList())
-    } else if let value = value as? Location {
-      super.writeByte(130)
-      super.writeValue(value.toList())
-    } else if let value = value as? MapPoi {
-      super.writeByte(131)
-      super.writeValue(value.toList())
-    } else {
-      super.writeValue(value)
-    }
-  }
-}
-
-private class TencentMapHandlerCodecReaderWriter: FlutterStandardReaderWriter {
-  override func reader(with data: Data) -> FlutterStandardReader {
-    return TencentMapHandlerCodecReader(data: data)
-  }
-
-  override func writer(with data: NSMutableData) -> FlutterStandardWriter {
-    return TencentMapHandlerCodecWriter(data: data)
-  }
-}
-
-class TencentMapHandlerCodec: FlutterStandardMessageCodec {
-  static let shared = TencentMapHandlerCodec(readerWriter: TencentMapHandlerCodecReaderWriter())
-}
-
-/// Generated class from Pigeon that represents Flutter messages that can be called from Swift.
-class TencentMapHandler {
-  private let binaryMessenger: FlutterBinaryMessenger
-  init(binaryMessenger: FlutterBinaryMessenger){
-    self.binaryMessenger = binaryMessenger
-  }
-  var codec: FlutterStandardMessageCodec {
-    return TencentMapHandlerCodec.shared
-  }
-  func onTap(latLng latLngArg: LatLng, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTap", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([latLngArg] as [Any?]) { _ in
-      completion()
-    }
-  }
-  func onTapPoi(poi poiArg: MapPoi, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapPoi", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([poiArg] as [Any?]) { _ in
-      completion()
-    }
-  }
-  func onLongPress(latLng latLngArg: LatLng, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onLongPress", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([latLngArg] as [Any?]) { _ in
-      completion()
-    }
-  }
-  func onCameraMove(cameraPosition cameraPositionArg: CameraPosition, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMove", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([cameraPositionArg] as [Any?]) { _ in
-      completion()
-    }
-  }
-  func onCameraIdle(cameraPosition cameraPositionArg: CameraPosition, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraIdle", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([cameraPositionArg] as [Any?]) { _ in
-      completion()
-    }
-  }
-  func onLocation(location locationArg: Location, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([locationArg] as [Any?]) { _ in
-      completion()
-    }
-  }
-  func onTapMarker(markerId markerIdArg: String, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapMarker", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([markerIdArg] as [Any?]) { _ in
-      completion()
-    }
-  }
-  func onMarkerDragStart(markerId markerIdArg: String, latLng latLngArg: LatLng, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragStart", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([markerIdArg, latLngArg] as [Any?]) { _ in
-      completion()
-    }
-  }
-  func onMarkerDrag(markerId markerIdArg: String, latLng latLngArg: LatLng, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDrag", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([markerIdArg, latLngArg] as [Any?]) { _ in
-      completion()
-    }
-  }
-  func onMarkerDragEnd(markerId markerIdArg: String, latLng latLngArg: LatLng, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragEnd", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([markerIdArg, latLngArg] as [Any?]) { _ in
-      completion()
-    }
-  }
-}
 private class MarkerApiCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
@@ -1032,6 +911,127 @@ class MarkerApiSetup {
       }
     } else {
       setDraggableChannel.setMessageHandler(nil)
+    }
+  }
+}
+private class TencentMapHandlerCodecReader: FlutterStandardReader {
+  override func readValue(ofType type: UInt8) -> Any? {
+    switch type {
+      case 128:
+        return CameraPosition.fromList(self.readValue() as! [Any?])
+      case 129:
+        return LatLng.fromList(self.readValue() as! [Any?])
+      case 130:
+        return Location.fromList(self.readValue() as! [Any?])
+      case 131:
+        return MapPoi.fromList(self.readValue() as! [Any?])
+      default:
+        return super.readValue(ofType: type)
+    }
+  }
+}
+
+private class TencentMapHandlerCodecWriter: FlutterStandardWriter {
+  override func writeValue(_ value: Any) {
+    if let value = value as? CameraPosition {
+      super.writeByte(128)
+      super.writeValue(value.toList())
+    } else if let value = value as? LatLng {
+      super.writeByte(129)
+      super.writeValue(value.toList())
+    } else if let value = value as? Location {
+      super.writeByte(130)
+      super.writeValue(value.toList())
+    } else if let value = value as? MapPoi {
+      super.writeByte(131)
+      super.writeValue(value.toList())
+    } else {
+      super.writeValue(value)
+    }
+  }
+}
+
+private class TencentMapHandlerCodecReaderWriter: FlutterStandardReaderWriter {
+  override func reader(with data: Data) -> FlutterStandardReader {
+    return TencentMapHandlerCodecReader(data: data)
+  }
+
+  override func writer(with data: NSMutableData) -> FlutterStandardWriter {
+    return TencentMapHandlerCodecWriter(data: data)
+  }
+}
+
+class TencentMapHandlerCodec: FlutterStandardMessageCodec {
+  static let shared = TencentMapHandlerCodec(readerWriter: TencentMapHandlerCodecReaderWriter())
+}
+
+/// Generated class from Pigeon that represents Flutter messages that can be called from Swift.
+class TencentMapHandler {
+  private let binaryMessenger: FlutterBinaryMessenger
+  init(binaryMessenger: FlutterBinaryMessenger){
+    self.binaryMessenger = binaryMessenger
+  }
+  var codec: FlutterStandardMessageCodec {
+    return TencentMapHandlerCodec.shared
+  }
+  func onTap(latLng latLngArg: LatLng, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTap", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([latLngArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  func onTapPoi(poi poiArg: MapPoi, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapPoi", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([poiArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  func onLongPress(latLng latLngArg: LatLng, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onLongPress", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([latLngArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  func onCameraMove(cameraPosition cameraPositionArg: CameraPosition, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMove", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([cameraPositionArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  func onCameraIdle(cameraPosition cameraPositionArg: CameraPosition, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraIdle", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([cameraPositionArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  func onLocation(location locationArg: Location, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([locationArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  func onTapMarker(markerId markerIdArg: String, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapMarker", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([markerIdArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  func onMarkerDragStart(markerId markerIdArg: String, latLng latLngArg: LatLng, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragStart", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([markerIdArg, latLngArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  func onMarkerDrag(markerId markerIdArg: String, latLng latLngArg: LatLng, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDrag", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([markerIdArg, latLngArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  func onMarkerDragEnd(markerId markerIdArg: String, latLng latLngArg: LatLng, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragEnd", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([markerIdArg, latLngArg] as [Any?]) { _ in
+      completion()
     }
   }
 }
