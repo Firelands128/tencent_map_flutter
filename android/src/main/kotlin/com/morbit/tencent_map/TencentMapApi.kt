@@ -1,21 +1,13 @@
 package com.morbit.tencent_map
 
+import android.os.Looper
+import android.widget.Toast
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory
 import com.tencent.tencentmap.mapsdk.maps.LocationSource
 import com.tencent.tencentmap.mapsdk.maps.TencentMap.*
 
 class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
   private val mapView = tencentMap.view
-  var locationListener: LocationSource.OnLocationChangedListener? = null
-
-  init {
-    mapView.map.setLocationSource(object : LocationSource {
-      override fun deactivate() {}
-      override fun activate(listener: LocationSource.OnLocationChangedListener) {
-        locationListener = listener
-      }
-    })
-  }
 
   override fun setMapType(type: MapType) {
     mapView.map.mapType = when (type) {
@@ -90,7 +82,7 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
   }
 
   override fun setMyLocation(location: Location) {
-    locationListener?.onLocationChanged(location.toLocation())
+    tencentMap.locationSource.locationChangedListener?.onLocationChanged(location.toLocation())
   }
 
   override fun setMyLocationStyle(style: MyLocationStyle) {
