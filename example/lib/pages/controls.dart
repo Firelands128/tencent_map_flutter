@@ -21,13 +21,13 @@ class _State extends State<ControlsPage> {
   @override
   build(context) {
     final items = _items.map(
-      (it) => Column(
+      (item) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(padding: const EdgeInsets.only(top: 16), child: Text(it)),
+          Padding(padding: const EdgeInsets.only(top: 16), child: Text(item)),
           Switch(
-            value: _state[it] ?? true,
-            onChanged: (value) => setState(() => _state[it] = value),
+            value: _state[item] ?? true,
+            onChanged: (value) => setState(() => _state[item] = value),
           ),
         ],
       ),

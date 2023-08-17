@@ -51,8 +51,6 @@ class _TencentMapApi: NSObject, TencentMapApi {
     mapView.showsBuildings = enabled
   }
 
-//     func moveCameraPosition(_: [AnyHashable: Any], duration _: NSNumber) throws {}
-
   func setMyLocationButtonEnabled(enabled: Bool) throws { }
 
   func setMyLocationEnabled(enabled: Bool) throws {
