@@ -23,6 +23,7 @@ class _LocationPageState extends State<LocationPage> {
       appBar: AppBar(title: const Text('定位')),
       body: TencentMap(
         mapType: context.isDark ? MapType.dark : MapType.normal,
+        androidTexture: true,
         myLocationEnabled: true,
         myLocationButtonEnabled: true,
         myLocationStyle: MyLocationStyle(
