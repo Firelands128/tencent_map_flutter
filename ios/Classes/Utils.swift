@@ -1,4 +1,7 @@
 import QMapKit
+import Flutter
+
+extension FlutterError: Error {}
 
 extension LatLng {
   var latLng: CLLocationCoordinate2D? {

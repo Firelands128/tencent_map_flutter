@@ -1,4 +1,5 @@
 import QMapKit
+import Flutter
 
 class _TencentMapApi: NSObject, TencentMapApi {
   let mapView: QMapView
@@ -51,7 +52,9 @@ class _TencentMapApi: NSObject, TencentMapApi {
     mapView.showsBuildings = enabled
   }
 
-  func setMyLocationButtonEnabled(enabled: Bool) throws { }
+  func setMyLocationButtonEnabled(enabled: Bool) throws {
+    throw FlutterError(code: "505", message: "Not supported on iOS platform.", details: nil)
+  }
 
   func setMyLocationEnabled(enabled: Bool) throws {
     mapView.showsUserLocation = enabled
