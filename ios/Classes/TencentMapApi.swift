@@ -2,9 +2,11 @@ import QMapKit
 import Flutter
 
 class _TencentMapApi: NSObject, TencentMapApi {
+  let tencentMap: TencentMap
   let mapView: QMapView
 
   init(_ tencentMap: TencentMap) {
+    self.tencentMap = tencentMap
     self.mapView = tencentMap.mapView
   }
 
@@ -73,7 +75,14 @@ class _TencentMapApi: NSObject, TencentMapApi {
   }
 
   func addMarker(options: MarkerOptions) throws -> String {
-    return ""
+    var id = UUID()
+    while(tencentMap.hasKeyInMarkers(key: id)) {
+      id = UUID()
+    }
+    let annotation = options.annotation
+    tencentMap.markers[id] = annotation
+    mapView.addAnnotation(annotation)
+    return id.uuidString
   }
 
   func addPolyline(options: PolylineOptions) throws -> String {
