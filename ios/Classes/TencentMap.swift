@@ -12,6 +12,7 @@ class TencentMap: NSObject, FlutterPlatformView {
     super.init()
     mapView.delegate = mapViewDelegate
     TencentMapApiSetup.setUp(binaryMessenger: registrar.messenger(), api: _TencentMapApi(self))
+    MarkerApiSetup.setUp(binaryMessenger: registrar.messenger(), api: _MarkerApi(self))
   }
 
   func view() -> UIView {
