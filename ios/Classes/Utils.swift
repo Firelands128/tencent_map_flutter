@@ -13,7 +13,7 @@ extension LatLng {
 }
 
 extension MarkerOptions {
-  var annotation: QAnnotation {
+  var annotation: QPointAnnotation {
     let annotation = QPointAnnotation()
     if(position.latitude != nil && position.longitude != nil) {
       annotation.coordinate = CLLocationCoordinate2DMake(position.latitude!, position.longitude!)

@@ -4,7 +4,7 @@ import QMapKit
 class TencentMap: NSObject, FlutterPlatformView {
   let mapView: QMapView
   let mapViewDelegate: TencentMapViewDelegate
-  var markers = [UUID: QAnnotation]()
+  var markers = [UUID: QPointAnnotation]()
 
   init(_ registrar: FlutterPluginRegistrar) {
     mapView = QMapView()
