@@ -27,6 +27,7 @@ class _EventsPageState extends State<EventsPage> {
         onTap: logger('onTap'),
         onTapPoi: logger('onTapPoi'),
         onLongPress: logger('onLongPress'),
+        onCameraMove: logger('onCameraMove'),
         onCameraIdle: logger('onCameraIdle'),
       ),
     );
