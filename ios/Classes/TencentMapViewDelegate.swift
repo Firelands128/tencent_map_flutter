@@ -21,7 +21,7 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
   }
 
   func mapView(_ mapView: QMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-    mapHandler.onPress(latLng: coordinate.latLng, completion: { })
+    mapHandler.onPress(position: coordinate.position, completion: { })
   }
 
   func mapView(_ mapView: QMapView!, didTapPoi poi: QPoiInfo!) {
@@ -42,16 +42,16 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
 
   func mapView(_ mapView: QMapView!, annotationView view: QAnnotationView!, didChange newState: QAnnotationViewDragState, fromOldState oldState: QAnnotationViewDragState) {
     if let annotation = view.annotation as? QPointAnnotation {
-      let position = annotation.coordinate.latLng
+      let position = annotation.coordinate.position
       if let userData = annotation.userData as? [String: Any?] {
         if let uuid = userData["id"] as? UUID {
           let markerId = uuid.uuidString
           if(newState == QAnnotationViewDragStateStarting) {
-            mapHandler.onMarkerDragStart(markerId: markerId, latLng: position, completion: { })
+            mapHandler.onMarkerDragStart(markerId: markerId, position: position, completion: { })
           } else if(newState == QAnnotationViewDragStateDragging) {
-            mapHandler.onMarkerDrag(markerId: markerId, latLng: position, completion: { })
+            mapHandler.onMarkerDrag(markerId: markerId, position: position, completion: { })
           } else if(newState == QAnnotationViewDragStateEnding) {
-            mapHandler.onMarkerDragEnd(markerId: markerId, latLng: position, completion: { })
+            mapHandler.onMarkerDragEnd(markerId: markerId, position: position, completion: { })
           }
         }
       }

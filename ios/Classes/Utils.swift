@@ -3,15 +3,15 @@ import Flutter
 
 extension FlutterError: Error { }
 
-extension LatLng {
+extension Position {
   var coordinate: CLLocationCoordinate2D {
     return CLLocationCoordinate2DMake(latitude, longitude)
   }
 }
 
 extension CLLocationCoordinate2D {
-  var latLng: LatLng {
-    return LatLng(latitude: latitude, longitude: longitude)
+  var position: Position {
+    return Position(latitude: latitude, longitude: longitude)
   }
 }
 
@@ -66,7 +66,7 @@ extension MarkerOptions {
 
 extension QPointAnnotation {
   var marker: MarkerOptions {
-    let position = coordinate.latLng
+    let position = coordinate.position
     var alpha: Double? = nil
     var rotation: Double? = nil
     var zIndex: Int64? = nil
@@ -143,7 +143,7 @@ extension QMapView {
   var cameraPosition: CameraPosition {
     return CameraPosition(
       bearing: rotation,
-      target: centerCoordinate.latLng,
+      target: centerCoordinate.position,
       tilt: overlooking,
       zoom: zoomLevel
     )
@@ -154,7 +154,7 @@ extension QPoiInfo {
   var poi: MapPoi {
     return MapPoi(
       name: name,
-      position: coordinate.latLng
+      position: coordinate.position
     )
   }
 }

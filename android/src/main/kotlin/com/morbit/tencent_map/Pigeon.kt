@@ -121,17 +121,17 @@ data class Anchor (
 }
 
 /** Generated class from Pigeon that represents data sent in messages. */
-data class LatLng (
+data class Position (
   val latitude: Double,
   val longitude: Double
 
 ) {
   companion object {
     @Suppress("UNCHECKED_CAST")
-    fun fromList(list: List<Any?>): LatLng {
+    fun fromList(list: List<Any?>): Position {
       val latitude = list[0] as Double
       val longitude = list[1] as Double
-      return LatLng(latitude, longitude)
+      return Position(latitude, longitude)
     }
   }
   fun toList(): List<Any?> {
@@ -173,14 +173,14 @@ data class Location (
 /** Generated class from Pigeon that represents data sent in messages. */
 data class MapPoi (
   val name: String,
-  val position: LatLng
+  val position: Position
 
 ) {
   companion object {
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): MapPoi {
       val name = list[0] as String
-      val position = LatLng.fromList(list[1] as List<Any?>)
+      val position = Position.fromList(list[1] as List<Any?>)
       return MapPoi(name, position)
     }
   }
@@ -195,7 +195,7 @@ data class MapPoi (
 /** Generated class from Pigeon that represents data sent in messages. */
 data class CameraPosition (
   val bearing: Double? = null,
-  val target: LatLng? = null,
+  val target: Position? = null,
   val tilt: Double? = null,
   val zoom: Double? = null
 
@@ -204,8 +204,8 @@ data class CameraPosition (
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): CameraPosition {
       val bearing = list[0] as Double?
-      val target: LatLng? = (list[1] as List<Any?>?)?.let {
-        LatLng.fromList(it)
+      val target: Position? = (list[1] as List<Any?>?)?.let {
+        Position.fromList(it)
       }
       val tilt = list[2] as Double?
       val zoom = list[3] as Double?
@@ -224,7 +224,7 @@ data class CameraPosition (
 
 /** Generated class from Pigeon that represents data sent in messages. */
 data class MarkerOptions (
-  val position: LatLng,
+  val position: Position,
   val alpha: Double? = null,
   val rotation: Double? = null,
   val zIndex: Long? = null,
@@ -237,7 +237,7 @@ data class MarkerOptions (
   companion object {
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): MarkerOptions {
-      val position = LatLng.fromList(list[0] as List<Any?>)
+      val position = Position.fromList(list[0] as List<Any?>)
       val alpha = list[1] as Double?
       val rotation = list[2] as Double?
       val zIndex = list[3].let { if (it is Int) it.toLong() else it as Long? }
@@ -268,13 +268,13 @@ data class MarkerOptions (
 
 /** Generated class from Pigeon that represents data sent in messages. */
 data class PolylineOptions (
-  val points: List<LatLng?>? = null
+  val points: List<Position?>? = null
 
 ) {
   companion object {
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): PolylineOptions {
-      val points = list[0] as List<LatLng?>?
+      val points = list[0] as List<Position?>?
       return PolylineOptions(points)
     }
   }
@@ -362,32 +362,32 @@ private object TencentMapApiCodec : StandardMessageCodec() {
       }
       131.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          LatLng.fromList(it)
+          Location.fromList(it)
         }
       }
       132.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          LatLng.fromList(it)
+          MarkerOptions.fromList(it)
         }
       }
       133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Location.fromList(it)
+          MyLocationStyle.fromList(it)
         }
       }
       134.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MarkerOptions.fromList(it)
+          PolylineOptions.fromList(it)
         }
       }
       135.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MyLocationStyle.fromList(it)
+          Position.fromList(it)
         }
       }
       136.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          PolylineOptions.fromList(it)
+          Position.fromList(it)
         }
       }
       else -> super.readValueOfType(type, buffer)
@@ -407,27 +407,27 @@ private object TencentMapApiCodec : StandardMessageCodec() {
         stream.write(130)
         writeValue(stream, value.toList())
       }
-      is LatLng -> {
+      is Location -> {
         stream.write(131)
         writeValue(stream, value.toList())
       }
-      is LatLng -> {
+      is MarkerOptions -> {
         stream.write(132)
         writeValue(stream, value.toList())
       }
-      is Location -> {
+      is MyLocationStyle -> {
         stream.write(133)
         writeValue(stream, value.toList())
       }
-      is MarkerOptions -> {
+      is PolylineOptions -> {
         stream.write(134)
         writeValue(stream, value.toList())
       }
-      is MyLocationStyle -> {
+      is Position -> {
         stream.write(135)
         writeValue(stream, value.toList())
       }
-      is PolylineOptions -> {
+      is Position -> {
         stream.write(136)
         writeValue(stream, value.toList())
       }
@@ -890,7 +890,7 @@ private object MarkerApiCodec : StandardMessageCodec() {
       }
       129.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          LatLng.fromList(it)
+          Position.fromList(it)
         }
       }
       else -> super.readValueOfType(type, buffer)
@@ -902,7 +902,7 @@ private object MarkerApiCodec : StandardMessageCodec() {
         stream.write(128)
         writeValue(stream, value.toList())
       }
-      is LatLng -> {
+      is Position -> {
         stream.write(129)
         writeValue(stream, value.toList())
       }
@@ -915,7 +915,7 @@ private object MarkerApiCodec : StandardMessageCodec() {
 interface MarkerApi {
   fun remove(id: String)
   fun setRotation(id: String, rotation: Double)
-  fun setPosition(id: String, position: LatLng)
+  fun setPosition(id: String, position: Position)
   fun setAnchor(id: String, x: Double, y: Double)
   fun setZIndex(id: String, zIndex: Long)
   fun setAlpha(id: String, alpha: Double)
@@ -975,7 +975,7 @@ interface MarkerApi {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val idArg = args[0] as String
-            val positionArg = args[1] as LatLng
+            val positionArg = args[1] as Position
             var wrapped: List<Any?>
             try {
               api.setPosition(idArg, positionArg)
@@ -1104,17 +1104,17 @@ private object TencentMapHandlerCodec : StandardMessageCodec() {
       }
       129.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          LatLng.fromList(it)
+          Location.fromList(it)
         }
       }
       130.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Location.fromList(it)
+          MapPoi.fromList(it)
         }
       }
       131.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MapPoi.fromList(it)
+          Position.fromList(it)
         }
       }
       else -> super.readValueOfType(type, buffer)
@@ -1126,15 +1126,15 @@ private object TencentMapHandlerCodec : StandardMessageCodec() {
         stream.write(128)
         writeValue(stream, value.toList())
       }
-      is LatLng -> {
+      is Location -> {
         stream.write(129)
         writeValue(stream, value.toList())
       }
-      is Location -> {
+      is MapPoi -> {
         stream.write(130)
         writeValue(stream, value.toList())
       }
-      is MapPoi -> {
+      is Position -> {
         stream.write(131)
         writeValue(stream, value.toList())
       }
@@ -1153,16 +1153,16 @@ class TencentMapHandler(private val binaryMessenger: BinaryMessenger) {
     }
   }
   /** 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截 */
-  fun onPress(latLngArg: LatLng, callback: () -> Unit) {
+  fun onPress(positionArg: Position, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onPress", codec)
-    channel.send(listOf(latLngArg)) {
+    channel.send(listOf(positionArg)) {
       callback()
     }
   }
   /** 当地图上任意地点进行长按点击时会触发该回调，事件可能被上层覆盖物拦截（Android Only） */
-  fun onLongPress(latLngArg: LatLng, callback: () -> Unit) {
+  fun onLongPress(positionArg: Position, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onLongPress", codec)
-    channel.send(listOf(latLngArg)) {
+    channel.send(listOf(positionArg)) {
       callback()
     }
   }
@@ -1202,23 +1202,23 @@ class TencentMapHandler(private val binaryMessenger: BinaryMessenger) {
     }
   }
   /** 当开始拖动点标记时触发该回调（Android Only） */
-  fun onMarkerDragStart(markerIdArg: String, latLngArg: LatLng, callback: () -> Unit) {
+  fun onMarkerDragStart(markerIdArg: String, positionArg: Position, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragStart", codec)
-    channel.send(listOf(markerIdArg, latLngArg)) {
+    channel.send(listOf(markerIdArg, positionArg)) {
       callback()
     }
   }
   /** 当拖动点标记时触发该回调（Android Only） */
-  fun onMarkerDrag(markerIdArg: String, latLngArg: LatLng, callback: () -> Unit) {
+  fun onMarkerDrag(markerIdArg: String, positionArg: Position, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDrag", codec)
-    channel.send(listOf(markerIdArg, latLngArg)) {
+    channel.send(listOf(markerIdArg, positionArg)) {
       callback()
     }
   }
   /** 当拖动点标记完成时触发该回调（Android Only） */
-  fun onMarkerDragEnd(markerIdArg: String, latLngArg: LatLng, callback: () -> Unit) {
+  fun onMarkerDragEnd(markerIdArg: String, positionArg: Position, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragEnd", codec)
-    channel.send(listOf(markerIdArg, latLngArg)) {
+    channel.send(listOf(markerIdArg, positionArg)) {
       callback()
     }
   }

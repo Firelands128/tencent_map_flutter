@@ -99,15 +99,15 @@ struct Anchor {
 }
 
 /// Generated class from Pigeon that represents data sent in messages.
-struct LatLng {
+struct Position {
   var latitude: Double
   var longitude: Double
 
-  static func fromList(_ list: [Any?]) -> LatLng? {
+  static func fromList(_ list: [Any?]) -> Position? {
     let latitude = list[0] as! Double
     let longitude = list[1] as! Double
 
-    return LatLng(
+    return Position(
       latitude: latitude,
       longitude: longitude
     )
@@ -153,11 +153,11 @@ struct Location {
 /// Generated class from Pigeon that represents data sent in messages.
 struct MapPoi {
   var name: String
-  var position: LatLng
+  var position: Position
 
   static func fromList(_ list: [Any?]) -> MapPoi? {
     let name = list[0] as! String
-    let position = LatLng.fromList(list[1] as! [Any?])!
+    let position = Position.fromList(list[1] as! [Any?])!
 
     return MapPoi(
       name: name,
@@ -175,15 +175,15 @@ struct MapPoi {
 /// Generated class from Pigeon that represents data sent in messages.
 struct CameraPosition {
   var bearing: Double? = nil
-  var target: LatLng? = nil
+  var target: Position? = nil
   var tilt: Double? = nil
   var zoom: Double? = nil
 
   static func fromList(_ list: [Any?]) -> CameraPosition? {
     let bearing: Double? = nilOrValue(list[0])
-    var target: LatLng? = nil
+    var target: Position? = nil
     if let targetList: [Any?] = nilOrValue(list[1]) {
-      target = LatLng.fromList(targetList)
+      target = Position.fromList(targetList)
     }
     let tilt: Double? = nilOrValue(list[2])
     let zoom: Double? = nilOrValue(list[3])
@@ -207,7 +207,7 @@ struct CameraPosition {
 
 /// Generated class from Pigeon that represents data sent in messages.
 struct MarkerOptions {
-  var position: LatLng
+  var position: Position
   var alpha: Double? = nil
   var rotation: Double? = nil
   var zIndex: Int64? = nil
@@ -217,7 +217,7 @@ struct MarkerOptions {
   var anchor: Anchor? = nil
 
   static func fromList(_ list: [Any?]) -> MarkerOptions? {
-    let position = LatLng.fromList(list[0] as! [Any?])!
+    let position = Position.fromList(list[0] as! [Any?])!
     let alpha: Double? = nilOrValue(list[1])
     let rotation: Double? = nilOrValue(list[2])
     let zIndex: Int64? = list[3] is NSNull ? nil : (list[3] is Int64? ? list[3] as! Int64? : Int64(list[3] as! Int32))
@@ -259,10 +259,10 @@ struct MarkerOptions {
 
 /// Generated class from Pigeon that represents data sent in messages.
 struct PolylineOptions {
-  var points: [LatLng?]? = nil
+  var points: [Position?]? = nil
 
   static func fromList(_ list: [Any?]) -> PolylineOptions? {
-    let points: [LatLng?]? = nilOrValue(list[0])
+    let points: [Position?]? = nilOrValue(list[0])
 
     return PolylineOptions(
       points: points
@@ -334,17 +334,17 @@ private class TencentMapApiCodecReader: FlutterStandardReader {
       case 130:
         return CameraPosition.fromList(self.readValue() as! [Any?])
       case 131:
-        return LatLng.fromList(self.readValue() as! [Any?])
-      case 132:
-        return LatLng.fromList(self.readValue() as! [Any?])
-      case 133:
         return Location.fromList(self.readValue() as! [Any?])
-      case 134:
+      case 132:
         return MarkerOptions.fromList(self.readValue() as! [Any?])
-      case 135:
+      case 133:
         return MyLocationStyle.fromList(self.readValue() as! [Any?])
-      case 136:
+      case 134:
         return PolylineOptions.fromList(self.readValue() as! [Any?])
+      case 135:
+        return Position.fromList(self.readValue() as! [Any?])
+      case 136:
+        return Position.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
     }
@@ -362,22 +362,22 @@ private class TencentMapApiCodecWriter: FlutterStandardWriter {
     } else if let value = value as? CameraPosition {
       super.writeByte(130)
       super.writeValue(value.toList())
-    } else if let value = value as? LatLng {
+    } else if let value = value as? Location {
       super.writeByte(131)
       super.writeValue(value.toList())
-    } else if let value = value as? LatLng {
+    } else if let value = value as? MarkerOptions {
       super.writeByte(132)
       super.writeValue(value.toList())
-    } else if let value = value as? Location {
+    } else if let value = value as? MyLocationStyle {
       super.writeByte(133)
       super.writeValue(value.toList())
-    } else if let value = value as? MarkerOptions {
+    } else if let value = value as? PolylineOptions {
       super.writeByte(134)
       super.writeValue(value.toList())
-    } else if let value = value as? MyLocationStyle {
+    } else if let value = value as? Position {
       super.writeByte(135)
       super.writeValue(value.toList())
-    } else if let value = value as? PolylineOptions {
+    } else if let value = value as? Position {
       super.writeByte(136)
       super.writeValue(value.toList())
     } else {
@@ -761,7 +761,7 @@ private class MarkerApiCodecReader: FlutterStandardReader {
       case 128:
         return Bitmap.fromList(self.readValue() as! [Any?])
       case 129:
-        return LatLng.fromList(self.readValue() as! [Any?])
+        return Position.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
     }
@@ -773,7 +773,7 @@ private class MarkerApiCodecWriter: FlutterStandardWriter {
     if let value = value as? Bitmap {
       super.writeByte(128)
       super.writeValue(value.toList())
-    } else if let value = value as? LatLng {
+    } else if let value = value as? Position {
       super.writeByte(129)
       super.writeValue(value.toList())
     } else {
@@ -800,7 +800,7 @@ class MarkerApiCodec: FlutterStandardMessageCodec {
 protocol MarkerApi {
   func remove(id: String) throws
   func setRotation(id: String, rotation: Double) throws
-  func setPosition(id: String, position: LatLng) throws
+  func setPosition(id: String, position: Position) throws
   func setAnchor(id: String, x: Double, y: Double) throws
   func setZIndex(id: String, zIndex: Int64) throws
   func setAlpha(id: String, alpha: Double) throws
@@ -850,7 +850,7 @@ class MarkerApiSetup {
       setPositionChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
         let idArg = args[0] as! String
-        let positionArg = args[1] as! LatLng
+        let positionArg = args[1] as! Position
         do {
           try api.setPosition(id: idArg, position: positionArg)
           reply(wrapResult(nil))
@@ -950,11 +950,11 @@ private class TencentMapHandlerCodecReader: FlutterStandardReader {
       case 128:
         return CameraPosition.fromList(self.readValue() as! [Any?])
       case 129:
-        return LatLng.fromList(self.readValue() as! [Any?])
-      case 130:
         return Location.fromList(self.readValue() as! [Any?])
-      case 131:
+      case 130:
         return MapPoi.fromList(self.readValue() as! [Any?])
+      case 131:
+        return Position.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
     }
@@ -966,13 +966,13 @@ private class TencentMapHandlerCodecWriter: FlutterStandardWriter {
     if let value = value as? CameraPosition {
       super.writeByte(128)
       super.writeValue(value.toList())
-    } else if let value = value as? LatLng {
+    } else if let value = value as? Location {
       super.writeByte(129)
       super.writeValue(value.toList())
-    } else if let value = value as? Location {
+    } else if let value = value as? MapPoi {
       super.writeByte(130)
       super.writeValue(value.toList())
-    } else if let value = value as? MapPoi {
+    } else if let value = value as? Position {
       super.writeByte(131)
       super.writeValue(value.toList())
     } else {
@@ -1005,16 +1005,16 @@ class TencentMapHandler {
     return TencentMapHandlerCodec.shared
   }
   /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
-  func onPress(latLng latLngArg: LatLng, completion: @escaping () -> Void) {
+  func onPress(position positionArg: Position, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onPress", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([latLngArg] as [Any?]) { _ in
+    channel.sendMessage([positionArg] as [Any?]) { _ in
       completion()
     }
   }
   /// 当地图上任意地点进行长按点击时会触发该回调，事件可能被上层覆盖物拦截（Android Only）
-  func onLongPress(latLng latLngArg: LatLng, completion: @escaping () -> Void) {
+  func onLongPress(position positionArg: Position, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onLongPress", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([latLngArg] as [Any?]) { _ in
+    channel.sendMessage([positionArg] as [Any?]) { _ in
       completion()
     }
   }
@@ -1054,23 +1054,23 @@ class TencentMapHandler {
     }
   }
   /// 当开始拖动点标记时触发该回调（Android Only）
-  func onMarkerDragStart(markerId markerIdArg: String, latLng latLngArg: LatLng, completion: @escaping () -> Void) {
+  func onMarkerDragStart(markerId markerIdArg: String, position positionArg: Position, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragStart", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([markerIdArg, latLngArg] as [Any?]) { _ in
+    channel.sendMessage([markerIdArg, positionArg] as [Any?]) { _ in
       completion()
     }
   }
   /// 当拖动点标记时触发该回调（Android Only）
-  func onMarkerDrag(markerId markerIdArg: String, latLng latLngArg: LatLng, completion: @escaping () -> Void) {
+  func onMarkerDrag(markerId markerIdArg: String, position positionArg: Position, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDrag", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([markerIdArg, latLngArg] as [Any?]) { _ in
+    channel.sendMessage([markerIdArg, positionArg] as [Any?]) { _ in
       completion()
     }
   }
   /// 当拖动点标记完成时触发该回调（Android Only）
-  func onMarkerDragEnd(markerId markerIdArg: String, latLng latLngArg: LatLng, completion: @escaping () -> Void) {
+  func onMarkerDragEnd(markerId markerIdArg: String, position positionArg: Position, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragEnd", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([markerIdArg, latLngArg] as [Any?]) { _ in
+    channel.sendMessage([markerIdArg, positionArg] as [Any?]) { _ in
       completion()
     }
   }

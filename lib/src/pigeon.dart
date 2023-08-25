@@ -68,7 +68,7 @@ abstract class MarkerApi {
 
   void setRotation(String id, double rotation);
 
-  void setPosition(String id, LatLng position);
+  void setPosition(String id, Position position);
 
   void setAnchor(String id, double x, double y);
 
@@ -84,10 +84,10 @@ abstract class MarkerApi {
 @FlutterApi()
 abstract class TencentMapHandler {
   /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
-  void onPress(LatLng latLng);
+  void onPress(Position position);
 
   /// 当地图上任意地点进行长按点击时会触发该回调，事件可能被上层覆盖物拦截（Android Only）
-  void onLongPress(LatLng latLng);
+  void onLongPress(Position position);
 
   /// 当点击地图上任意的POI时调用，方法会传入点击的POI信息
   void onTapPoi(MapPoi poi);
@@ -105,13 +105,13 @@ abstract class TencentMapHandler {
   void onTapMarker(String markerId);
 
   /// 当开始拖动点标记时触发该回调（Android Only）
-  void onMarkerDragStart(String markerId, LatLng latLng);
+  void onMarkerDragStart(String markerId, Position position);
 
   /// 当拖动点标记时触发该回调（Android Only）
-  void onMarkerDrag(String markerId, LatLng latLng);
+  void onMarkerDrag(String markerId, Position position);
 
   /// 当拖动点标记完成时触发该回调（Android Only）
-  void onMarkerDragEnd(String markerId, LatLng latLng);
+  void onMarkerDragEnd(String markerId, Position position);
 
   /// 当前位置改变时触发该回调（Android Only）
   void onLocation(Location location);
@@ -149,7 +149,7 @@ class Anchor {
   late double y;
 }
 
-class LatLng {
+class Position {
   late double latitude;
   late double longitude;
 }
@@ -163,18 +163,18 @@ class Location {
 
 class MapPoi {
   late String name;
-  late LatLng position;
+  late Position position;
 }
 
 class CameraPosition {
   double? bearing;
-  LatLng? target;
+  Position? target;
   double? tilt;
   double? zoom;
 }
 
 class MarkerOptions {
-  late LatLng position;
+  late Position position;
   double? alpha;
   double? rotation;
   int? zIndex;
@@ -185,7 +185,7 @@ class MarkerOptions {
 }
 
 class PolylineOptions {
-  List<LatLng?>? points;
+  List<Position?>? points;
 }
 
 class Bitmap {

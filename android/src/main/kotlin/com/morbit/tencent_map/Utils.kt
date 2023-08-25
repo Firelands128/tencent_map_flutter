@@ -11,22 +11,22 @@ import android.location.Location as AndroidLocation
 import com.tencent.tencentmap.mapsdk.maps.model.MyLocationStyle as TencentMyLocationStyle
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 
-fun LatLng.toLatLng(): TencentLatLng {
+fun Position.toPosition(): TencentLatLng {
     return TencentLatLng(latitude ?: 0.0, longitude ?: 0.0)
 }
 
-fun TencentLatLng.toLatLng(): LatLng {
-    return LatLng(latitude, longitude)
+fun TencentLatLng.toPosition(): Position {
+    return Position(latitude, longitude)
 }
 
 fun TencentMapPoi.toMapPoi(): MapPoi {
-    return MapPoi(name, position.toLatLng())
+    return MapPoi(name, position.toPosition())
 }
 
 fun TencentCameraPosition.toCameraPosition(): CameraPosition {
     return CameraPosition(
         bearing.toDouble(),
-        target.toLatLng(),
+        target.toPosition(),
         tilt.toDouble(),
         zoom.toDouble(),
     )
@@ -34,7 +34,7 @@ fun TencentCameraPosition.toCameraPosition(): CameraPosition {
 
 fun CameraPosition.toCameraPosition(cameraPosition: TencentCameraPosition): TencentCameraPosition {
     return TencentCameraPosition.Builder().let { builder ->
-        builder.target(target?.toLatLng() ?: cameraPosition.target)
+        builder.target(target?.toPosition() ?: cameraPosition.target)
         builder.tilt(tilt?.toFloat() ?: cameraPosition.tilt)
         builder.zoom(zoom?.toFloat() ?: cameraPosition.zoom)
         builder.bearing(bearing?.toFloat() ?: cameraPosition.bearing)
@@ -69,7 +69,7 @@ fun MyLocationStyle.toMyLocationStyle(): TencentMyLocationStyle {
 }
 
 fun MarkerOptions.toMarkerOptions(binding: FlutterPluginBinding): TencentMarkerOptions {
-    return TencentMarkerOptions(position.toLatLng()).let { options ->
+    return TencentMarkerOptions(position.toPosition()).let { options ->
         icon?.toBitmapDescriptor(binding)?.let { options.icon(it) }
         rotation?.toFloat()?.let { options.rotation(it) }
         alpha?.toFloat()?.let { options.alpha(it) }

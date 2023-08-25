@@ -33,8 +33,8 @@ class TencentMap(val binding: FlutterPlugin.FlutterPluginBinding, context: Conte
 		TencentMapApi.setUp(binding.binaryMessenger, mapApi)
 		MarkerApi.setUp(binding.binaryMessenger, _MarkerApi(this))
 		mapView.onResume()
-		mapView.map.setOnMapClickListener { mapHandler.onPress(it.toLatLng()) {} }
-		mapView.map.setOnMapLongClickListener { mapHandler.onLongPress(it.toLatLng()) {} }
+		mapView.map.setOnMapClickListener { mapHandler.onPress(it.toPosition()) {} }
+		mapView.map.setOnMapLongClickListener { mapHandler.onLongPress(it.toPosition()) {} }
 		mapView.map.setOnMapPoiClickListener { mapHandler.onTapPoi(it.toMapPoi()) {} }
 		mapView.map.setOnCameraChangeListener(object : TencentMap.OnCameraChangeListener {
 			override fun onCameraChange(position: CameraPosition) {
@@ -51,15 +51,15 @@ class TencentMap(val binding: FlutterPlugin.FlutterPluginBinding, context: Conte
 		}
 		mapView.map.setOnMarkerDragListener(object : TencentMap.OnMarkerDragListener {
 			override fun onMarkerDragStart(marker: Marker) {
-				mapHandler.onMarkerDragStart(marker.id, marker.position.toLatLng()) {}
+				mapHandler.onMarkerDragStart(marker.id, marker.position.toPosition()) {}
 			}
 
 			override fun onMarkerDrag(marker: Marker) {
-				mapHandler.onMarkerDrag(marker.id, marker.position.toLatLng()) {}
+				mapHandler.onMarkerDrag(marker.id, marker.position.toPosition()) {}
 			}
 
 			override fun onMarkerDragEnd(marker: Marker) {
-				mapHandler.onMarkerDragEnd(marker.id, marker.position.toLatLng()) {}
+				mapHandler.onMarkerDragEnd(marker.id, marker.position.toPosition()) {}
 			}
 		})
 		mapView.map.setLocationSource(locationSource)

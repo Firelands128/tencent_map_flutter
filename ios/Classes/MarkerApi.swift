@@ -39,7 +39,7 @@ class _MarkerApi: NSObject, MarkerApi {
     }
   }
 
-  func setPosition(id: String, position: LatLng) throws {
+  func setPosition(id: String, position: Position) throws {
     if let uuid = UUID(uuidString: id) {
       let annotation = tencentMap.markers[uuid]
       if (annotation != nil) {

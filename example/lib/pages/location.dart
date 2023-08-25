@@ -35,7 +35,7 @@ class _LocationPageState extends State<LocationPage> {
         onMapCreated: (controller) async {
           controller.moveCamera(
             CameraPosition(
-              target: LatLng(latitude: 39.909, longitude: 116.397),
+              target: Position(latitude: 39.909, longitude: 116.397),
             ),
           );
           controller.setMyLocation(

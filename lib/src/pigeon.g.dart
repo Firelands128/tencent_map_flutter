@@ -77,8 +77,8 @@ class Anchor {
   }
 }
 
-class LatLng {
-  LatLng({
+class Position {
+  Position({
     required this.latitude,
     required this.longitude,
   });
@@ -94,9 +94,9 @@ class LatLng {
     ];
   }
 
-  static LatLng decode(Object result) {
+  static Position decode(Object result) {
     result as List<Object?>;
-    return LatLng(
+    return Position(
       latitude: result[0]! as double,
       longitude: result[1]! as double,
     );
@@ -147,7 +147,7 @@ class MapPoi {
 
   String name;
 
-  LatLng position;
+  Position position;
 
   Object encode() {
     return <Object?>[
@@ -160,7 +160,7 @@ class MapPoi {
     result as List<Object?>;
     return MapPoi(
       name: result[0]! as String,
-      position: LatLng.decode(result[1]! as List<Object?>),
+      position: Position.decode(result[1]! as List<Object?>),
     );
   }
 }
@@ -175,7 +175,7 @@ class CameraPosition {
 
   double? bearing;
 
-  LatLng? target;
+  Position? target;
 
   double? tilt;
 
@@ -195,7 +195,7 @@ class CameraPosition {
     return CameraPosition(
       bearing: result[0] as double?,
       target: result[1] != null
-          ? LatLng.decode(result[1]! as List<Object?>)
+          ? Position.decode(result[1]! as List<Object?>)
           : null,
       tilt: result[2] as double?,
       zoom: result[3] as double?,
@@ -215,7 +215,7 @@ class MarkerOptions {
     this.anchor,
   });
 
-  LatLng position;
+  Position position;
 
   double? alpha;
 
@@ -247,7 +247,7 @@ class MarkerOptions {
   static MarkerOptions decode(Object result) {
     result as List<Object?>;
     return MarkerOptions(
-      position: LatLng.decode(result[0]! as List<Object?>),
+      position: Position.decode(result[0]! as List<Object?>),
       alpha: result[1] as double?,
       rotation: result[2] as double?,
       zIndex: result[3] as int?,
@@ -268,7 +268,7 @@ class PolylineOptions {
     this.points,
   });
 
-  List<LatLng?>? points;
+  List<Position?>? points;
 
   Object encode() {
     return <Object?>[
@@ -279,7 +279,7 @@ class PolylineOptions {
   static PolylineOptions decode(Object result) {
     result as List<Object?>;
     return PolylineOptions(
-      points: (result[0] as List<Object?>?)?.cast<LatLng?>(),
+      points: (result[0] as List<Object?>?)?.cast<Position?>(),
     );
   }
 }
@@ -356,22 +356,22 @@ class _TencentMapApiCodec extends StandardMessageCodec {
     } else if (value is CameraPosition) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
-    } else if (value is LatLng) {
+    } else if (value is Location) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
-    } else if (value is LatLng) {
+    } else if (value is MarkerOptions) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    } else if (value is Location) {
+    } else if (value is MyLocationStyle) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
-    } else if (value is MarkerOptions) {
+    } else if (value is PolylineOptions) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
-    } else if (value is MyLocationStyle) {
+    } else if (value is Position) {
       buffer.putUint8(135);
       writeValue(buffer, value.encode());
-    } else if (value is PolylineOptions) {
+    } else if (value is Position) {
       buffer.putUint8(136);
       writeValue(buffer, value.encode());
     } else {
@@ -389,17 +389,17 @@ class _TencentMapApiCodec extends StandardMessageCodec {
       case 130: 
         return CameraPosition.decode(readValue(buffer)!);
       case 131: 
-        return LatLng.decode(readValue(buffer)!);
-      case 132: 
-        return LatLng.decode(readValue(buffer)!);
-      case 133: 
         return Location.decode(readValue(buffer)!);
-      case 134: 
+      case 132: 
         return MarkerOptions.decode(readValue(buffer)!);
-      case 135: 
+      case 133: 
         return MyLocationStyle.decode(readValue(buffer)!);
-      case 136: 
+      case 134: 
         return PolylineOptions.decode(readValue(buffer)!);
+      case 135: 
+        return Position.decode(readValue(buffer)!);
+      case 136: 
+        return Position.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -918,7 +918,7 @@ class _MarkerApiCodec extends StandardMessageCodec {
     if (value is Bitmap) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else if (value is LatLng) {
+    } else if (value is Position) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
     } else {
@@ -932,7 +932,7 @@ class _MarkerApiCodec extends StandardMessageCodec {
       case 128: 
         return Bitmap.decode(readValue(buffer)!);
       case 129: 
-        return LatLng.decode(readValue(buffer)!);
+        return Position.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -993,7 +993,7 @@ class MarkerApi {
     }
   }
 
-  Future<void> setPosition(String arg_id, LatLng arg_position) async {
+  Future<void> setPosition(String arg_id, Position arg_position) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.MarkerApi.setPosition', codec,
         binaryMessenger: _binaryMessenger);
@@ -1133,13 +1133,13 @@ class _TencentMapHandlerCodec extends StandardMessageCodec {
     if (value is CameraPosition) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else if (value is LatLng) {
+    } else if (value is Location) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
-    } else if (value is Location) {
+    } else if (value is MapPoi) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
-    } else if (value is MapPoi) {
+    } else if (value is Position) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
     } else {
@@ -1153,11 +1153,11 @@ class _TencentMapHandlerCodec extends StandardMessageCodec {
       case 128: 
         return CameraPosition.decode(readValue(buffer)!);
       case 129: 
-        return LatLng.decode(readValue(buffer)!);
-      case 130: 
         return Location.decode(readValue(buffer)!);
-      case 131: 
+      case 130: 
         return MapPoi.decode(readValue(buffer)!);
+      case 131: 
+        return Position.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -1168,10 +1168,10 @@ abstract class TencentMapHandler {
   static const MessageCodec<Object?> codec = _TencentMapHandlerCodec();
 
   /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
-  void onPress(LatLng latLng);
+  void onPress(Position position);
 
   /// 当地图上任意地点进行长按点击时会触发该回调，事件可能被上层覆盖物拦截（Android Only）
-  void onLongPress(LatLng latLng);
+  void onLongPress(Position position);
 
   /// 当点击地图上任意的POI时调用，方法会传入点击的POI信息
   void onTapPoi(MapPoi poi);
@@ -1189,13 +1189,13 @@ abstract class TencentMapHandler {
   void onTapMarker(String markerId);
 
   /// 当开始拖动点标记时触发该回调（Android Only）
-  void onMarkerDragStart(String markerId, LatLng latLng);
+  void onMarkerDragStart(String markerId, Position position);
 
   /// 当拖动点标记时触发该回调（Android Only）
-  void onMarkerDrag(String markerId, LatLng latLng);
+  void onMarkerDrag(String markerId, Position position);
 
   /// 当拖动点标记完成时触发该回调（Android Only）
-  void onMarkerDragEnd(String markerId, LatLng latLng);
+  void onMarkerDragEnd(String markerId, Position position);
 
   /// 当前位置改变时触发该回调（Android Only）
   void onLocation(Location location);
@@ -1212,10 +1212,10 @@ abstract class TencentMapHandler {
           assert(message != null,
           'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onPress was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final LatLng? arg_latLng = (args[0] as LatLng?);
-          assert(arg_latLng != null,
-              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onPress was null, expected non-null LatLng.');
-          api.onPress(arg_latLng!);
+          final Position? arg_position = (args[0] as Position?);
+          assert(arg_position != null,
+              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onPress was null, expected non-null Position.');
+          api.onPress(arg_position!);
           return;
         });
       }
@@ -1231,10 +1231,10 @@ abstract class TencentMapHandler {
           assert(message != null,
           'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onLongPress was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final LatLng? arg_latLng = (args[0] as LatLng?);
-          assert(arg_latLng != null,
-              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onLongPress was null, expected non-null LatLng.');
-          api.onLongPress(arg_latLng!);
+          final Position? arg_position = (args[0] as Position?);
+          assert(arg_position != null,
+              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onLongPress was null, expected non-null Position.');
+          api.onLongPress(arg_position!);
           return;
         });
       }
@@ -1348,10 +1348,10 @@ abstract class TencentMapHandler {
           final String? arg_markerId = (args[0] as String?);
           assert(arg_markerId != null,
               'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragStart was null, expected non-null String.');
-          final LatLng? arg_latLng = (args[1] as LatLng?);
-          assert(arg_latLng != null,
-              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragStart was null, expected non-null LatLng.');
-          api.onMarkerDragStart(arg_markerId!, arg_latLng!);
+          final Position? arg_position = (args[1] as Position?);
+          assert(arg_position != null,
+              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragStart was null, expected non-null Position.');
+          api.onMarkerDragStart(arg_markerId!, arg_position!);
           return;
         });
       }
@@ -1370,10 +1370,10 @@ abstract class TencentMapHandler {
           final String? arg_markerId = (args[0] as String?);
           assert(arg_markerId != null,
               'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDrag was null, expected non-null String.');
-          final LatLng? arg_latLng = (args[1] as LatLng?);
-          assert(arg_latLng != null,
-              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDrag was null, expected non-null LatLng.');
-          api.onMarkerDrag(arg_markerId!, arg_latLng!);
+          final Position? arg_position = (args[1] as Position?);
+          assert(arg_position != null,
+              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDrag was null, expected non-null Position.');
+          api.onMarkerDrag(arg_markerId!, arg_position!);
           return;
         });
       }
@@ -1392,10 +1392,10 @@ abstract class TencentMapHandler {
           final String? arg_markerId = (args[0] as String?);
           assert(arg_markerId != null,
               'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragEnd was null, expected non-null String.');
-          final LatLng? arg_latLng = (args[1] as LatLng?);
-          assert(arg_latLng != null,
-              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragEnd was null, expected non-null LatLng.');
-          api.onMarkerDragEnd(arg_markerId!, arg_latLng!);
+          final Position? arg_position = (args[1] as Position?);
+          assert(arg_position != null,
+              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragEnd was null, expected non-null Position.');
+          api.onMarkerDragEnd(arg_markerId!, arg_position!);
           return;
         });
       }

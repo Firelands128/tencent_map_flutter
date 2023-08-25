@@ -12,8 +12,8 @@ class _MarkerApi(tencentMap: TencentMap) : MarkerApi {
     }
   }
 
-  override fun setPosition(id: String, position: LatLng) {
-    markers[id]?.position = position.toLatLng()
+  override fun setPosition(id: String, position: Position) {
+    markers[id]?.position = position.toPosition()
   }
 
   override fun setZIndex(id: String, zIndex: Long) {

@@ -9,7 +9,7 @@ class Marker {
 
   void remove() => _api.remove(id);
 
-  void setPosition(LatLng position) => _api.setPosition(id, position);
+  void setPosition(Position position) => _api.setPosition(id, position);
 
   void setAlpha(double alpha) => _api.setAlpha(id, alpha);
 

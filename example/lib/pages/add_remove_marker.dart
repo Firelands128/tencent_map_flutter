@@ -39,7 +39,7 @@ class _AddRemoveMarkerPageState extends State<AddRemoveMarkerPage> {
     );
   }
 
-  void onTap(LatLng position) async {
+  void onTap(Position position) async {
     final marker = await controller.addMarker(
       MarkerOptions(
         position: position,

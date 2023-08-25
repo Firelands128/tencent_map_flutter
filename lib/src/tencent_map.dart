@@ -86,10 +86,10 @@ class TencentMap extends StatefulWidget {
   final void Function(TencentMapController)? onMapCreated;
 
   /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
-  final void Function(LatLng)? onPress;
+  final void Function(Position)? onPress;
 
   /// 当地图上任意地点进行长按点击时会触发该回调，事件可能被上层覆盖物拦截（Android Only）
-  final void Function(LatLng)? onLongPress;
+  final void Function(Position)? onLongPress;
 
   /// 当点击地图上任意的POI时调用，方法会传入点击的POI信息
   final void Function(MapPoi)? onTapPoi;
@@ -107,13 +107,13 @@ class TencentMap extends StatefulWidget {
   final void Function(String markerId)? onTapMarker;
 
   /// 当开始拖动点标记时触发该回调（Android Only）
-  final void Function(String markerId, LatLng latLng)? onMarkerDragStart;
+  final void Function(String markerId, Position position)? onMarkerDragStart;
 
   /// 当拖动点标记时触发该回调（Android Only）
-  final void Function(String markerId, LatLng latLng)? onMarkerDrag;
+  final void Function(String markerId, Position position)? onMarkerDrag;
 
   /// 当拖动点标记完成时触发该回调（Android Only）
-  final void Function(String markerId, LatLng latLng)? onMarkerDragEnd;
+  final void Function(String markerId, Position position)? onMarkerDragEnd;
 
   /// 当前位置改变时触发该回调（Android Only）
   final void Function(Location)? onLocation;
@@ -237,13 +237,13 @@ class _TencentMapHandler extends TencentMapHandler {
   _TencentMapHandler(this.tencentMap);
 
   @override
-  void onPress(LatLng latLng) {
-    tencentMap.onPress?.call(latLng);
+  void onPress(Position position) {
+    tencentMap.onPress?.call(position);
   }
 
   @override
-  void onLongPress(LatLng latLng) {
-    tencentMap.onLongPress?.call(latLng);
+  void onLongPress(Position position) {
+    tencentMap.onLongPress?.call(position);
   }
 
   @override
@@ -272,18 +272,18 @@ class _TencentMapHandler extends TencentMapHandler {
   }
 
   @override
-  void onMarkerDragStart(String markerId, LatLng latLng) {
-    tencentMap.onMarkerDragStart?.call(markerId, latLng);
+  void onMarkerDragStart(String markerId, Position position) {
+    tencentMap.onMarkerDragStart?.call(markerId, position);
   }
 
   @override
-  void onMarkerDrag(String markerId, LatLng latLng) {
-    tencentMap.onMarkerDrag?.call(markerId, latLng);
+  void onMarkerDrag(String markerId, Position position) {
+    tencentMap.onMarkerDrag?.call(markerId, position);
   }
 
   @override
-  void onMarkerDragEnd(String markerId, LatLng latLng) {
-    tencentMap.onMarkerDragEnd?.call(markerId, latLng);
+  void onMarkerDragEnd(String markerId, Position position) {
+    tencentMap.onMarkerDragEnd?.call(markerId, position);
   }
 
   @override
