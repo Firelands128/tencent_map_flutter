@@ -27,30 +27,91 @@ class _MarkerApi: NSObject, MarkerApi {
   }
 
   func setRotation(id: String, rotation: Double) throws {
-    throw FlutterError(code: "505", message: "Not supported on iOS platform.", details: nil)
+    if let uuid = UUID(uuidString: id) {
+      var annotation = tencentMap.markers[uuid]
+      if (annotation != nil) {
+        tencentMap.mapView.removeAnnotation(annotation)
+        var marker = annotation?.marker
+        marker?.rotation = rotation
+        annotation = marker?.annotation
+        tencentMap.mapView.addAnnotation(annotation)
+      }
+    }
   }
 
   func setPosition(id: String, position: LatLng) throws {
-    throw FlutterError(code: "505", message: "Not supported on iOS platform.", details: nil)
+    if let uuid = UUID(uuidString: id) {
+      let annotation = tencentMap.markers[uuid]
+      if (annotation != nil) {
+        tencentMap.mapView.removeAnnotation(annotation)
+        annotation?.coordinate = position.latLng
+        tencentMap.mapView.addAnnotation(annotation)
+      }
+    }
   }
 
   func setAnchor(id: String, x: Double, y: Double) throws {
-    throw FlutterError(code: "505", message: "Not supported on iOS platform.", details: nil)
+    if let uuid = UUID(uuidString: id) {
+      var annotation = tencentMap.markers[uuid]
+      if (annotation != nil) {
+        tencentMap.mapView.removeAnnotation(annotation)
+        var marker = annotation?.marker
+        marker?.anchor = Anchor(x: x, y: y)
+        annotation = marker?.annotation
+        tencentMap.mapView.addAnnotation(annotation)
+      }
+    }
   }
 
   func setZIndex(id: String, zIndex: Int64) throws {
-    throw FlutterError(code: "505", message: "Not supported on iOS platform.", details: nil)
+    if let uuid = UUID(uuidString: id) {
+      var annotation = tencentMap.markers[uuid]
+      if (annotation != nil) {
+        tencentMap.mapView.removeAnnotation(annotation)
+        var marker = annotation?.marker
+        marker?.zIndex = zIndex
+        annotation = marker?.annotation
+        tencentMap.mapView.addAnnotation(annotation)
+      }
+    }
   }
 
   func setAlpha(id: String, alpha: Double) throws {
-    throw FlutterError(code: "505", message: "Not supported on iOS platform.", details: nil)
+    if let uuid = UUID(uuidString: id) {
+      var annotation = tencentMap.markers[uuid]
+      if (annotation != nil) {
+        tencentMap.mapView.removeAnnotation(annotation)
+        var marker = annotation?.marker
+        marker?.alpha = alpha
+        annotation = marker?.annotation
+        tencentMap.mapView.addAnnotation(annotation)
+      }
+    }
   }
 
   func setIcon(id: String, icon: Bitmap) throws {
-    throw FlutterError(code: "505", message: "Not supported on iOS platform.", details: nil)
+    if let uuid = UUID(uuidString: id) {
+      var annotation = tencentMap.markers[uuid]
+      if (annotation != nil) {
+        tencentMap.mapView.removeAnnotation(annotation)
+        var marker = annotation?.marker
+        marker?.icon = icon
+        annotation = marker?.annotation
+        tencentMap.mapView.addAnnotation(annotation)
+      }
+    }
   }
 
   func setDraggable(id: String, draggable: Bool) throws {
-    throw FlutterError(code: "505", message: "Not supported on iOS platform.", details: nil)
+    if let uuid = UUID(uuidString: id) {
+      var annotation = tencentMap.markers[uuid]
+      if (annotation != nil) {
+        tencentMap.mapView.removeAnnotation(annotation)
+        var marker = annotation?.marker
+        marker?.draggable = draggable
+        annotation = marker?.annotation
+        tencentMap.mapView.addAnnotation(annotation)
+      }
+    }
   }
 }

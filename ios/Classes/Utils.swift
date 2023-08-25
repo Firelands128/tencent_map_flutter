@@ -64,6 +64,73 @@ extension MarkerOptions {
   }
 }
 
+extension QPointAnnotation {
+  var marker: MarkerOptions {
+    let position = coordinate.latLng
+    var alpha: Double? = nil
+    var rotation: Double? = nil
+    var zIndex: Int64? = nil
+    var draggable: Bool? = nil
+    var icon: Bitmap? = nil
+    var anchor: Anchor? = nil
+    if let userData = userData as? [String: Any?] {
+      alpha = userData["alpha"] as? Double
+      if let orientation = userData["orientation"] as? UIImage.Orientation {
+        switch orientation {
+        case UIImage.Orientation.up:
+          rotation = 0
+          break
+        case UIImage.Orientation.right:
+          rotation = 90
+          break
+        case UIImage.Orientation.down:
+          rotation = 180
+          break
+        case UIImage.Orientation.left:
+          rotation = 270
+          break
+        default:
+          rotation = 0
+        }
+      }
+      if let z = userData["zIndex"] as? Int32 {
+        zIndex = Int64(z)
+      }
+      draggable = userData["draggable"] as? Bool
+      icon = userData["icon"] as? Bitmap
+      if let point = userData["anchor"] as? CGPoint {
+        if let orientation = userData["orientation"] as? UIImage.Orientation {
+          switch orientation {
+          case UIImage.Orientation.up:
+            anchor = Anchor(x: point.x, y: point.y)
+            break
+          case UIImage.Orientation.right:
+            anchor = Anchor(x: point.y, y: 1 - point.x)
+            break
+          case UIImage.Orientation.down:
+            anchor = Anchor(x: 1 - point.x, y: 1 - point.y)
+            break
+          case UIImage.Orientation.left:
+            anchor = Anchor(x: 1 - point.y, y: point.x)
+            break
+          default:
+            anchor = Anchor(x: 0.5, y: 0.5)
+          }
+        }
+      }
+    }
+    return MarkerOptions(
+      position: position,
+      alpha: alpha,
+      rotation: rotation,
+      zIndex: zIndex,
+      draggable: draggable,
+      icon: icon,
+      anchor: anchor
+    )
+  }
+}
+
 extension UIImage {
   func withAlpha(_ a: CGFloat) -> UIImage {
     return UIGraphicsImageRenderer(size: size, format: imageRendererFormat).image { (_) in
