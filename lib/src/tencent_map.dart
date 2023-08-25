@@ -23,11 +23,12 @@ class TencentMap extends StatefulWidget {
     this.myLocationEnabled = false,
     this.myLocationStyle,
     this.mapType = MapType.normal,
-    this.onTap,
-    this.onTapPoi,
+    this.onPress,
     this.onLongPress,
+    this.onTapPoi,
+    this.onCameraMoveStart,
     this.onCameraMove,
-    this.onCameraIdle,
+    this.onCameraMoveEnd,
     this.onTapMarker,
     this.onMarkerDragStart,
     this.onMarkerDrag,
@@ -84,34 +85,37 @@ class TencentMap extends StatefulWidget {
   /// 可以使用参数 [TencentMapController] 调用地图方法
   final void Function(TencentMapController)? onMapCreated;
 
-  /// 地图空白区域单击事件回调函数
-  final void Function(LatLng)? onTap;
+  /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
+  final void Function(LatLng)? onPress;
 
-  /// 地图兴趣点单击事件回调函数
-  final void Function(MapPoi)? onTapPoi;
-
-  /// 地图长按事件回调函数
+  /// 当地图上任意地点进行长按点击时会触发该回调，事件可能被上层覆盖物拦截（Android Only）
   final void Function(LatLng)? onLongPress;
 
-  /// 地图视野改变事件回调函数
+  /// 当点击地图上任意的POI时调用，方法会传入点击的POI信息
+  final void Function(MapPoi)? onTapPoi;
+
+  /// 当地图视野即将改变时会触发该回调（iOS Only）
+  final void Function(CameraPosition)? onCameraMoveStart;
+
+  /// 当地图视野发生变化时触发该回调。视野持续变化时本回调可能会被频繁多次调用, 请不要做耗时或复杂的事情
   final void Function(CameraPosition)? onCameraMove;
 
-  /// 地图视野结束改变事件回调函数
-  final void Function(CameraPosition)? onCameraIdle;
+  /// 当地图视野变化完成时触发该回调，需注意当前地图状态有可能并不是稳定状态
+  final void Function(CameraPosition)? onCameraMoveEnd;
 
-  /// 地图标记点击事件回调函数
+  /// 当点击点标记时触发该回调（Android Only）
   final void Function(String markerId)? onTapMarker;
 
-  /// 地图标记开始拖拽事件回调函数
+  /// 当开始拖动点标记时触发该回调（Android Only）
   final void Function(String markerId, LatLng latLng)? onMarkerDragStart;
 
-  /// 地图标记拖拽事件回调函数
+  /// 当拖动点标记时触发该回调（Android Only）
   final void Function(String markerId, LatLng latLng)? onMarkerDrag;
 
-  /// 地图标记拖拽结束事件回调函数
+  /// 当拖动点标记完成时触发该回调（Android Only）
   final void Function(String markerId, LatLng latLng)? onMarkerDragEnd;
 
-  /// 地图定位回调函数
+  /// 当前位置改变时触发该回调（Android Only）
   final void Function(Location)? onLocation;
 
   @override
@@ -233,13 +237,8 @@ class _TencentMapHandler extends TencentMapHandler {
   _TencentMapHandler(this.tencentMap);
 
   @override
-  void onCameraIdle(CameraPosition cameraPosition) {
-    tencentMap.onCameraIdle?.call(cameraPosition);
-  }
-
-  @override
-  void onCameraMove(CameraPosition cameraPosition) {
-    tencentMap.onCameraMove?.call(cameraPosition);
+  void onPress(LatLng latLng) {
+    tencentMap.onPress?.call(latLng);
   }
 
   @override
@@ -248,13 +247,23 @@ class _TencentMapHandler extends TencentMapHandler {
   }
 
   @override
-  void onTap(LatLng latLng) {
-    tencentMap.onTap?.call(latLng);
+  void onTapPoi(MapPoi mapPoi) {
+    tencentMap.onTapPoi?.call(mapPoi);
   }
 
   @override
-  void onTapPoi(MapPoi mapPoi) {
-    tencentMap.onTapPoi?.call(mapPoi);
+  void onCameraMoveStart(CameraPosition cameraPosition) {
+    tencentMap.onCameraMoveStart?.call(cameraPosition);
+  }
+
+  @override
+  void onCameraMove(CameraPosition cameraPosition) {
+    tencentMap.onCameraMove?.call(cameraPosition);
+  }
+
+  @override
+  void onCameraMoveEnd(CameraPosition cameraPosition) {
+    tencentMap.onCameraMoveEnd?.call(cameraPosition);
   }
 
   @override

@@ -24,11 +24,12 @@ class _EventsPageState extends State<EventsPage> {
       appBar: AppBar(title: const Text('地图事件')),
       body: TencentMap(
         mapType: context.isDark ? MapType.dark : MapType.normal,
-        onTap: logger('onTap'),
-        onTapPoi: logger('onTapPoi'),
+        onPress: logger('onTap'),
         onLongPress: logger('onLongPress'),
-        onCameraMove: logger('onCameraMove'),
-        onCameraIdle: logger('onCameraIdle'),
+        onTapPoi: logger('onTapPoi'),
+        onCameraMoveStart: logger("onCameraMoveStart"),
+        onCameraMove: logger("onCameraMove"),
+        onCameraMoveEnd: logger("onCameraMoveEnd"),
       ),
     );
   }

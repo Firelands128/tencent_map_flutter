@@ -33,16 +33,16 @@ class TencentMap(val binding: FlutterPlugin.FlutterPluginBinding, context: Conte
 		TencentMapApi.setUp(binding.binaryMessenger, mapApi)
 		MarkerApi.setUp(binding.binaryMessenger, _MarkerApi(this))
 		mapView.onResume()
-		mapView.map.setOnMapClickListener { mapHandler.onTap(it.toLatLng()) {} }
-		mapView.map.setOnMapPoiClickListener { mapHandler.onTapPoi(it.toMapPoi()) {} }
+		mapView.map.setOnMapClickListener { mapHandler.onPress(it.toLatLng()) {} }
 		mapView.map.setOnMapLongClickListener { mapHandler.onLongPress(it.toLatLng()) {} }
+		mapView.map.setOnMapPoiClickListener { mapHandler.onTapPoi(it.toMapPoi()) {} }
 		mapView.map.setOnCameraChangeListener(object : TencentMap.OnCameraChangeListener {
 			override fun onCameraChange(position: CameraPosition) {
 				mapHandler.onCameraMove(position.toCameraPosition()) {}
 			}
 
 			override fun onCameraChangeFinished(position: CameraPosition) {
-				mapHandler.onCameraIdle(position.toCameraPosition()) {}
+				mapHandler.onCameraMoveEnd(position.toCameraPosition()) {}
 			}
 		})
 		mapView.map.setOnMarkerClickListener {

@@ -12,6 +12,12 @@ extension LatLng {
   }
 }
 
+extension CLLocationCoordinate2D {
+  var latLng: LatLng {
+    return LatLng(latitude: latitude, longitude: longitude)
+  }
+}
+
 extension MarkerOptions {
   var annotation: QPointAnnotation {
     let annotation = QPointAnnotation()
@@ -78,8 +84,22 @@ extension UIImage {
   }
 }
 
-extension CLLocationCoordinate2D {
-  var latLng: LatLng {
-    return LatLng(latitude: latitude, longitude: longitude)
+extension QMapView {
+  var cameraPosition: CameraPosition {
+    return CameraPosition(
+      bearing: rotation,
+      target: centerCoordinate.latLng,
+      tilt: overlooking,
+      zoom: zoomLevel
+    )
+  }
+}
+
+extension QPoiInfo {
+  var poi: MapPoi {
+    return MapPoi(
+      name: name,
+      position: coordinate.latLng
+    )
   }
 }

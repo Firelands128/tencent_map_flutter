@@ -974,63 +974,80 @@ class TencentMapHandler {
   var codec: FlutterStandardMessageCodec {
     return TencentMapHandlerCodec.shared
   }
-  func onTap(latLng latLngArg: LatLng, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTap", binaryMessenger: binaryMessenger, codec: codec)
+  /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
+  func onPress(latLng latLngArg: LatLng, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onPress", binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage([latLngArg] as [Any?]) { _ in
       completion()
     }
   }
-  func onTapPoi(poi poiArg: MapPoi, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapPoi", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([poiArg] as [Any?]) { _ in
-      completion()
-    }
-  }
+  /// 当地图上任意地点进行长按点击时会触发该回调，事件可能被上层覆盖物拦截（Android Only）
   func onLongPress(latLng latLngArg: LatLng, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onLongPress", binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage([latLngArg] as [Any?]) { _ in
       completion()
     }
   }
+  /// 当点击地图上任意的POI时调用，方法会传入点击的POI信息
+  func onTapPoi(poi poiArg: MapPoi, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapPoi", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([poiArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  /// 当地图视野即将改变时会触发该回调（iOS Only）
+  func onCameraMoveStart(cameraPosition cameraPositionArg: CameraPosition, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMoveStart", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([cameraPositionArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  /// 当地图视野发生变化时触发该回调。视野持续变化时本回调可能会被频繁多次调用, 请不要做耗时或复杂的事情
   func onCameraMove(cameraPosition cameraPositionArg: CameraPosition, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMove", binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage([cameraPositionArg] as [Any?]) { _ in
       completion()
     }
   }
-  func onCameraIdle(cameraPosition cameraPositionArg: CameraPosition, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraIdle", binaryMessenger: binaryMessenger, codec: codec)
+  /// 当地图视野变化完成时触发该回调，需注意当前地图状态有可能并不是稳定状态
+  func onCameraMoveEnd(cameraPosition cameraPositionArg: CameraPosition, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMoveEnd", binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage([cameraPositionArg] as [Any?]) { _ in
       completion()
     }
   }
-  func onLocation(location locationArg: Location, completion: @escaping () -> Void) {
-    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([locationArg] as [Any?]) { _ in
-      completion()
-    }
-  }
+  /// 当点击点标记时触发该回调（Android Only）
   func onTapMarker(markerId markerIdArg: String, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapMarker", binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage([markerIdArg] as [Any?]) { _ in
       completion()
     }
   }
+  /// 当开始拖动点标记时触发该回调（Android Only）
   func onMarkerDragStart(markerId markerIdArg: String, latLng latLngArg: LatLng, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragStart", binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage([markerIdArg, latLngArg] as [Any?]) { _ in
       completion()
     }
   }
+  /// 当拖动点标记时触发该回调（Android Only）
   func onMarkerDrag(markerId markerIdArg: String, latLng latLngArg: LatLng, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDrag", binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage([markerIdArg, latLngArg] as [Any?]) { _ in
       completion()
     }
   }
+  /// 当拖动点标记完成时触发该回调（Android Only）
   func onMarkerDragEnd(markerId markerIdArg: String, latLng latLngArg: LatLng, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragEnd", binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage([markerIdArg, latLngArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  /// 当前位置改变时触发该回调（Android Only）
+  func onLocation(location locationArg: Location, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([locationArg] as [Any?]) { _ in
       completion()
     }
   }

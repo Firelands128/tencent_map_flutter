@@ -1134,61 +1134,55 @@ class _TencentMapHandlerCodec extends StandardMessageCodec {
 abstract class TencentMapHandler {
   static const MessageCodec<Object?> codec = _TencentMapHandlerCodec();
 
-  void onTap(LatLng latLng);
+  /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
+  void onPress(LatLng latLng);
 
-  void onTapPoi(MapPoi poi);
-
+  /// 当地图上任意地点进行长按点击时会触发该回调，事件可能被上层覆盖物拦截（Android Only）
   void onLongPress(LatLng latLng);
 
+  /// 当点击地图上任意的POI时调用，方法会传入点击的POI信息
+  void onTapPoi(MapPoi poi);
+
+  /// 当地图视野即将改变时会触发该回调（iOS Only）
+  void onCameraMoveStart(CameraPosition cameraPosition);
+
+  /// 当地图视野发生变化时触发该回调。视野持续变化时本回调可能会被频繁多次调用, 请不要做耗时或复杂的事情
   void onCameraMove(CameraPosition cameraPosition);
 
-  void onCameraIdle(CameraPosition cameraPosition);
+  /// 当地图视野变化完成时触发该回调，需注意当前地图状态有可能并不是稳定状态
+  void onCameraMoveEnd(CameraPosition cameraPosition);
 
-  void onLocation(Location location);
-
+  /// 当点击点标记时触发该回调（Android Only）
   void onTapMarker(String markerId);
 
+  /// 当开始拖动点标记时触发该回调（Android Only）
   void onMarkerDragStart(String markerId, LatLng latLng);
 
+  /// 当拖动点标记时触发该回调（Android Only）
   void onMarkerDrag(String markerId, LatLng latLng);
 
+  /// 当拖动点标记完成时触发该回调（Android Only）
   void onMarkerDragEnd(String markerId, LatLng latLng);
+
+  /// 当前位置改变时触发该回调（Android Only）
+  void onLocation(Location location);
 
   static void setup(TencentMapHandler? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.tencent_map.TencentMapHandler.onTap', codec,
+          'dev.flutter.pigeon.tencent_map.TencentMapHandler.onPress', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onTap was null.');
+          'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onPress was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final LatLng? arg_latLng = (args[0] as LatLng?);
           assert(arg_latLng != null,
-              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onTap was null, expected non-null LatLng.');
-          api.onTap(arg_latLng!);
-          return;
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapPoi', codec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        channel.setMessageHandler(null);
-      } else {
-        channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapPoi was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final MapPoi? arg_poi = (args[0] as MapPoi?);
-          assert(arg_poi != null,
-              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapPoi was null, expected non-null MapPoi.');
-          api.onTapPoi(arg_poi!);
+              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onPress was null, expected non-null LatLng.');
+          api.onPress(arg_latLng!);
           return;
         });
       }
@@ -1214,6 +1208,44 @@ abstract class TencentMapHandler {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapPoi', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapPoi was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final MapPoi? arg_poi = (args[0] as MapPoi?);
+          assert(arg_poi != null,
+              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapPoi was null, expected non-null MapPoi.');
+          api.onTapPoi(arg_poi!);
+          return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMoveStart', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMoveStart was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final CameraPosition? arg_cameraPosition = (args[0] as CameraPosition?);
+          assert(arg_cameraPosition != null,
+              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMoveStart was null, expected non-null CameraPosition.');
+          api.onCameraMoveStart(arg_cameraPosition!);
+          return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
           'dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMove', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
@@ -1233,38 +1265,19 @@ abstract class TencentMapHandler {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraIdle', codec,
+          'dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMoveEnd', codec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraIdle was null.');
+          'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMoveEnd was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final CameraPosition? arg_cameraPosition = (args[0] as CameraPosition?);
           assert(arg_cameraPosition != null,
-              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraIdle was null, expected non-null CameraPosition.');
-          api.onCameraIdle(arg_cameraPosition!);
-          return;
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation', codec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        channel.setMessageHandler(null);
-      } else {
-        channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final Location? arg_location = (args[0] as Location?);
-          assert(arg_location != null,
-              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation was null, expected non-null Location.');
-          api.onLocation(arg_location!);
+              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMoveEnd was null, expected non-null CameraPosition.');
+          api.onCameraMoveEnd(arg_cameraPosition!);
           return;
         });
       }
@@ -1350,6 +1363,25 @@ abstract class TencentMapHandler {
           assert(arg_latLng != null,
               'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragEnd was null, expected non-null LatLng.');
           api.onMarkerDragEnd(arg_markerId!, arg_latLng!);
+          return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final Location? arg_location = (args[0] as Location?);
+          assert(arg_location != null,
+              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation was null, expected non-null Location.');
+          api.onLocation(arg_location!);
           return;
         });
       }

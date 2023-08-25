@@ -1119,63 +1119,80 @@ class TencentMapHandler(private val binaryMessenger: BinaryMessenger) {
       TencentMapHandlerCodec
     }
   }
-  fun onTap(latLngArg: LatLng, callback: () -> Unit) {
-    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTap", codec)
+  /** 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截 */
+  fun onPress(latLngArg: LatLng, callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onPress", codec)
     channel.send(listOf(latLngArg)) {
       callback()
     }
   }
-  fun onTapPoi(poiArg: MapPoi, callback: () -> Unit) {
-    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapPoi", codec)
-    channel.send(listOf(poiArg)) {
-      callback()
-    }
-  }
+  /** 当地图上任意地点进行长按点击时会触发该回调，事件可能被上层覆盖物拦截（Android Only） */
   fun onLongPress(latLngArg: LatLng, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onLongPress", codec)
     channel.send(listOf(latLngArg)) {
       callback()
     }
   }
+  /** 当点击地图上任意的POI时调用，方法会传入点击的POI信息 */
+  fun onTapPoi(poiArg: MapPoi, callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapPoi", codec)
+    channel.send(listOf(poiArg)) {
+      callback()
+    }
+  }
+  /** 当地图视野即将改变时会触发该回调（iOS Only） */
+  fun onCameraMoveStart(cameraPositionArg: CameraPosition, callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMoveStart", codec)
+    channel.send(listOf(cameraPositionArg)) {
+      callback()
+    }
+  }
+  /** 当地图视野发生变化时触发该回调。视野持续变化时本回调可能会被频繁多次调用, 请不要做耗时或复杂的事情 */
   fun onCameraMove(cameraPositionArg: CameraPosition, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMove", codec)
     channel.send(listOf(cameraPositionArg)) {
       callback()
     }
   }
-  fun onCameraIdle(cameraPositionArg: CameraPosition, callback: () -> Unit) {
-    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraIdle", codec)
+  /** 当地图视野变化完成时触发该回调，需注意当前地图状态有可能并不是稳定状态 */
+  fun onCameraMoveEnd(cameraPositionArg: CameraPosition, callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onCameraMoveEnd", codec)
     channel.send(listOf(cameraPositionArg)) {
       callback()
     }
   }
-  fun onLocation(locationArg: Location, callback: () -> Unit) {
-    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation", codec)
-    channel.send(listOf(locationArg)) {
-      callback()
-    }
-  }
+  /** 当点击点标记时触发该回调（Android Only） */
   fun onTapMarker(markerIdArg: String, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onTapMarker", codec)
     channel.send(listOf(markerIdArg)) {
       callback()
     }
   }
+  /** 当开始拖动点标记时触发该回调（Android Only） */
   fun onMarkerDragStart(markerIdArg: String, latLngArg: LatLng, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragStart", codec)
     channel.send(listOf(markerIdArg, latLngArg)) {
       callback()
     }
   }
+  /** 当拖动点标记时触发该回调（Android Only） */
   fun onMarkerDrag(markerIdArg: String, latLngArg: LatLng, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDrag", codec)
     channel.send(listOf(markerIdArg, latLngArg)) {
       callback()
     }
   }
+  /** 当拖动点标记完成时触发该回调（Android Only） */
   fun onMarkerDragEnd(markerIdArg: String, latLngArg: LatLng, callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onMarkerDragEnd", codec)
     channel.send(listOf(markerIdArg, latLngArg)) {
+      callback()
+    }
+  }
+  /** 当前位置改变时触发该回调（Android Only） */
+  fun onLocation(locationArg: Location, callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation", codec)
+    channel.send(listOf(locationArg)) {
       callback()
     }
   }

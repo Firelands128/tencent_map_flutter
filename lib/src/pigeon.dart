@@ -83,25 +83,38 @@ abstract class MarkerApi {
 
 @FlutterApi()
 abstract class TencentMapHandler {
-  void onTap(LatLng latLng);
+  /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
+  void onPress(LatLng latLng);
 
-  void onTapPoi(MapPoi poi);
-
+  /// 当地图上任意地点进行长按点击时会触发该回调，事件可能被上层覆盖物拦截（Android Only）
   void onLongPress(LatLng latLng);
 
+  /// 当点击地图上任意的POI时调用，方法会传入点击的POI信息
+  void onTapPoi(MapPoi poi);
+
+  /// 当地图视野即将改变时会触发该回调（iOS Only）
+  void onCameraMoveStart(CameraPosition cameraPosition);
+
+  /// 当地图视野发生变化时触发该回调。视野持续变化时本回调可能会被频繁多次调用, 请不要做耗时或复杂的事情
   void onCameraMove(CameraPosition cameraPosition);
 
-  void onCameraIdle(CameraPosition cameraPosition);
+  /// 当地图视野变化完成时触发该回调，需注意当前地图状态有可能并不是稳定状态
+  void onCameraMoveEnd(CameraPosition cameraPosition);
 
-  void onLocation(Location location);
-
+  /// 当点击点标记时触发该回调（Android Only）
   void onTapMarker(String markerId);
 
+  /// 当开始拖动点标记时触发该回调（Android Only）
   void onMarkerDragStart(String markerId, LatLng latLng);
 
+  /// 当拖动点标记时触发该回调（Android Only）
   void onMarkerDrag(String markerId, LatLng latLng);
 
+  /// 当拖动点标记完成时触发该回调（Android Only）
   void onMarkerDragEnd(String markerId, LatLng latLng);
+
+  /// 当前位置改变时触发该回调（Android Only）
+  void onLocation(Location location);
 }
 
 enum MapType {
