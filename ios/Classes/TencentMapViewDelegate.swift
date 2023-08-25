@@ -40,6 +40,24 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
     mapHandler.onCameraMoveEnd(cameraPosition: mapView.cameraPosition, completion: { })
   }
 
+  func mapView(_ mapView: QMapView!, annotationView view: QAnnotationView!, didChange newState: QAnnotationViewDragState, fromOldState oldState: QAnnotationViewDragState) {
+    if let annotation = view.annotation as? QPointAnnotation {
+      let position = annotation.coordinate.latLng
+      if let userData = annotation.userData as? [String: Any?] {
+        if let uuid = userData["id"] as? UUID {
+          let markerId = uuid.uuidString
+          if(newState == QAnnotationViewDragStateStarting) {
+            mapHandler.onMarkerDragStart(markerId: markerId, latLng: position, completion: { })
+          } else if(newState == QAnnotationViewDragStateDragging) {
+            mapHandler.onMarkerDrag(markerId: markerId, latLng: position, completion: { })
+          } else if(newState == QAnnotationViewDragStateEnding) {
+            mapHandler.onMarkerDragEnd(markerId: markerId, latLng: position, completion: { })
+          }
+        }
+      }
+    }
+  }
+
   func mapView(_ mapView: QMapView!, viewFor annotation: QAnnotation!) -> QAnnotationView! {
     if(annotation is QPointAnnotation) {
       let point = annotation as! QPointAnnotation
