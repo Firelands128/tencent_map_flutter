@@ -144,9 +144,14 @@ class MyLocationStyle {
   MyLocationType? myLocationType;
 }
 
+class Anchor {
+  late double x;
+  late double y;
+}
+
 class LatLng {
-  double? latitude;
-  double? longitude;
+  late double latitude;
+  late double longitude;
 }
 
 class Location {
@@ -176,7 +181,7 @@ class MarkerOptions {
   bool? flat;
   bool? draggable;
   Bitmap? icon;
-  List<double?>? anchor;
+  Anchor? anchor;
 }
 
 class PolylineOptions {

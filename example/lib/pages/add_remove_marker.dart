@@ -44,7 +44,7 @@ class _AddRemoveMarkerPageState extends State<AddRemoveMarkerPage> {
       MarkerOptions(
         position: position,
         icon: Bitmap(asset: 'images/marker.png'),
-        anchor: [0.5, 1],
+        anchor: Anchor(x: 0.5, y: 1),
         draggable: true,
       ),
     );

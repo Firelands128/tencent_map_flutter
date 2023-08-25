@@ -1,6 +1,7 @@
 export 'src/marker.dart';
 export 'src/pigeon.g.dart'
     show
+        Anchor,
         LatLng,
         MapType,
         CameraPosition,

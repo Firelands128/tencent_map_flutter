@@ -99,16 +99,38 @@ data class MyLocationStyle (
 }
 
 /** Generated class from Pigeon that represents data sent in messages. */
+data class Anchor (
+  val x: Double,
+  val y: Double
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): Anchor {
+      val x = list[0] as Double
+      val y = list[1] as Double
+      return Anchor(x, y)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      x,
+      y,
+    )
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
 data class LatLng (
-  val latitude: Double? = null,
-  val longitude: Double? = null
+  val latitude: Double,
+  val longitude: Double
 
 ) {
   companion object {
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): LatLng {
-      val latitude = list[0] as Double?
-      val longitude = list[1] as Double?
+      val latitude = list[0] as Double
+      val longitude = list[1] as Double
       return LatLng(latitude, longitude)
     }
   }
@@ -209,7 +231,7 @@ data class MarkerOptions (
   val flat: Boolean? = null,
   val draggable: Boolean? = null,
   val icon: Bitmap? = null,
-  val anchor: List<Double?>? = null
+  val anchor: Anchor? = null
 
 ) {
   companion object {
@@ -224,7 +246,9 @@ data class MarkerOptions (
       val icon: Bitmap? = (list[6] as List<Any?>?)?.let {
         Bitmap.fromList(it)
       }
-      val anchor = list[7] as List<Double?>?
+      val anchor: Anchor? = (list[7] as List<Any?>?)?.let {
+        Anchor.fromList(it)
+      }
       return MarkerOptions(position, alpha, rotation, zIndex, flat, draggable, icon, anchor)
     }
   }
@@ -237,7 +261,7 @@ data class MarkerOptions (
       flat,
       draggable,
       icon?.toList(),
-      anchor,
+      anchor?.toList(),
     )
   }
 }
@@ -323,17 +347,17 @@ private object TencentMapApiCodec : StandardMessageCodec() {
     return when (type) {
       128.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Bitmap.fromList(it)
+          Anchor.fromList(it)
         }
       }
       129.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          CameraPosition.fromList(it)
+          Bitmap.fromList(it)
         }
       }
       130.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          LatLng.fromList(it)
+          CameraPosition.fromList(it)
         }
       }
       131.toByte() -> {
@@ -343,20 +367,25 @@ private object TencentMapApiCodec : StandardMessageCodec() {
       }
       132.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Location.fromList(it)
+          LatLng.fromList(it)
         }
       }
       133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MarkerOptions.fromList(it)
+          Location.fromList(it)
         }
       }
       134.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MyLocationStyle.fromList(it)
+          MarkerOptions.fromList(it)
         }
       }
       135.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          MyLocationStyle.fromList(it)
+        }
+      }
+      136.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           PolylineOptions.fromList(it)
         }
@@ -366,15 +395,15 @@ private object TencentMapApiCodec : StandardMessageCodec() {
   }
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
     when (value) {
-      is Bitmap -> {
+      is Anchor -> {
         stream.write(128)
         writeValue(stream, value.toList())
       }
-      is CameraPosition -> {
+      is Bitmap -> {
         stream.write(129)
         writeValue(stream, value.toList())
       }
-      is LatLng -> {
+      is CameraPosition -> {
         stream.write(130)
         writeValue(stream, value.toList())
       }
@@ -382,20 +411,24 @@ private object TencentMapApiCodec : StandardMessageCodec() {
         stream.write(131)
         writeValue(stream, value.toList())
       }
-      is Location -> {
+      is LatLng -> {
         stream.write(132)
         writeValue(stream, value.toList())
       }
-      is MarkerOptions -> {
+      is Location -> {
         stream.write(133)
         writeValue(stream, value.toList())
       }
-      is MyLocationStyle -> {
+      is MarkerOptions -> {
         stream.write(134)
         writeValue(stream, value.toList())
       }
-      is PolylineOptions -> {
+      is MyLocationStyle -> {
         stream.write(135)
+        writeValue(stream, value.toList())
+      }
+      is PolylineOptions -> {
+        stream.write(136)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)

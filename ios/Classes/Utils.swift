@@ -4,11 +4,8 @@ import Flutter
 extension FlutterError: Error { }
 
 extension LatLng {
-  var latLng: CLLocationCoordinate2D? {
-    if latitude != nil, longitude != nil {
-      return CLLocationCoordinate2DMake(latitude!, longitude!)
-    }
-    return nil
+  var latLng: CLLocationCoordinate2D {
+    return CLLocationCoordinate2DMake(latitude, longitude)
   }
 }
 
@@ -21,9 +18,7 @@ extension CLLocationCoordinate2D {
 extension MarkerOptions {
   var annotation: QPointAnnotation {
     let annotation = QPointAnnotation()
-    if(position.latitude != nil && position.longitude != nil) {
-      annotation.coordinate = CLLocationCoordinate2DMake(position.latitude!, position.longitude!)
-    }
+    annotation.coordinate = position.latLng
     let orientation = {
       switch rotation {
       case 0:
@@ -38,31 +33,24 @@ extension MarkerOptions {
         return UIImage.Orientation.up
       }
     }()
-    var anchorPoint: CGPoint?
-    if let anchorList = anchor {
-      let x: Double; let y: Double
+    var point: CGPoint?
+    if let anchor = anchor {
       switch orientation {
       case UIImage.Orientation.up:
-        x = anchorList[0] ?? 0.5
-        y = anchorList[1] ?? 0.5
+        point = CGPoint(x: anchor.x, y: anchor.y)
         break
       case UIImage.Orientation.right:
-        x = 1 - (anchorList[1] ?? 0.5)
-        y = anchorList[0] ?? 0.5
+        point = CGPoint(x: 1 - anchor.y, y: anchor.x)
         break
       case UIImage.Orientation.down:
-        x = 1 - (anchorList[0] ?? 0.5)
-        y = 1 - (anchorList[1] ?? 0.5)
+        point = CGPoint(x: 1 - anchor.x, y: 1 - anchor.y)
         break
       case UIImage.Orientation.left:
-        x = anchorList[1] ?? 0.5
-        y = 1 - (anchorList[0] ?? 0.5)
+        point = CGPoint(x: anchor.y, y: 1 - anchor.x)
         break
       default:
-        x = 0.5
-        y = 0.5
+        point = CGPoint(x: 0.5, y: 0.5)
       }
-      anchorPoint = CGPoint(x: x, y: y)
     }
     annotation.userData = [
       "alpha": alpha,
@@ -70,7 +58,7 @@ extension MarkerOptions {
       "zIndex": zIndex != nil ? Int32(zIndex!) : nil,
       "draggable": draggable,
       "icon": icon,
-      "anchor": anchorPoint,
+      "anchor": point,
     ] as [String: Any?]
     return annotation
   }

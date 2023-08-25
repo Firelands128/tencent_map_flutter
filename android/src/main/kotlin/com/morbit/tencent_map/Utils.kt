@@ -74,7 +74,7 @@ fun MarkerOptions.toMarkerOptions(binding: FlutterPluginBinding): TencentMarkerO
         rotation?.toFloat()?.let { options.rotation(it) }
         alpha?.toFloat()?.let { options.alpha(it) }
         flat?.let { options.flat(it) }
-        anchor?.let { it[0]?.let { it0 -> it[1]?.let { it1 -> options.anchor(it0.toFloat(), it1.toFloat()) } } }
+        anchor?.let { options.anchor(it.x.toFloat(), it.y.toFloat()) }
         draggable?.let { options.draggable(it) }
         zIndex?.let { options.zIndex(it.toFloat()) }
         options

@@ -23,11 +23,11 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
   func mapView(_ mapView: QMapView, didTapAt coordinate: CLLocationCoordinate2D) {
     mapHandler.onPress(latLng: coordinate.latLng, completion: { })
   }
-  
+
   func mapView(_ mapView: QMapView!, didTapPoi poi: QPoiInfo!) {
     mapHandler.onTapPoi(poi: poi.poi, completion: { })
   }
-  
+
   func mapView(_ mapView: QMapView!, regionWillChangeAnimated animated: Bool, gesture bGesture: Bool) {
     mapHandler.onCameraMoveStart(cameraPosition: mapView.cameraPosition, completion: { })
   }
@@ -35,7 +35,7 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
   func mapViewRegionChange(_ mapView: QMapView!) {
     mapHandler.onCameraMove(cameraPosition: mapView.cameraPosition, completion: { })
   }
-  
+
   func mapView(_ mapView: QMapView!, regionDidChangeAnimated animated: Bool, gesture bGesture: Bool) {
     mapHandler.onCameraMoveEnd(cameraPosition: mapView.cameraPosition, completion: { })
   }

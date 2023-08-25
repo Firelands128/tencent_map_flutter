@@ -77,13 +77,35 @@ struct MyLocationStyle {
 }
 
 /// Generated class from Pigeon that represents data sent in messages.
+struct Anchor {
+  var x: Double
+  var y: Double
+
+  static func fromList(_ list: [Any?]) -> Anchor? {
+    let x = list[0] as! Double
+    let y = list[1] as! Double
+
+    return Anchor(
+      x: x,
+      y: y
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      x,
+      y,
+    ]
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
 struct LatLng {
-  var latitude: Double? = nil
-  var longitude: Double? = nil
+  var latitude: Double
+  var longitude: Double
 
   static func fromList(_ list: [Any?]) -> LatLng? {
-    let latitude: Double? = nilOrValue(list[0])
-    let longitude: Double? = nilOrValue(list[1])
+    let latitude = list[0] as! Double
+    let longitude = list[1] as! Double
 
     return LatLng(
       latitude: latitude,
@@ -192,7 +214,7 @@ struct MarkerOptions {
   var flat: Bool? = nil
   var draggable: Bool? = nil
   var icon: Bitmap? = nil
-  var anchor: [Double?]? = nil
+  var anchor: Anchor? = nil
 
   static func fromList(_ list: [Any?]) -> MarkerOptions? {
     let position = LatLng.fromList(list[0] as! [Any?])!
@@ -205,7 +227,10 @@ struct MarkerOptions {
     if let iconList: [Any?] = nilOrValue(list[6]) {
       icon = Bitmap.fromList(iconList)
     }
-    let anchor: [Double?]? = nilOrValue(list[7])
+    var anchor: Anchor? = nil
+    if let anchorList: [Any?] = nilOrValue(list[7]) {
+      anchor = Anchor.fromList(anchorList)
+    }
 
     return MarkerOptions(
       position: position,
@@ -227,7 +252,7 @@ struct MarkerOptions {
       flat,
       draggable,
       icon?.toList(),
-      anchor,
+      anchor?.toList(),
     ]
   }
 }
@@ -303,20 +328,22 @@ private class TencentMapApiCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
       case 128:
-        return Bitmap.fromList(self.readValue() as! [Any?])
+        return Anchor.fromList(self.readValue() as! [Any?])
       case 129:
-        return CameraPosition.fromList(self.readValue() as! [Any?])
+        return Bitmap.fromList(self.readValue() as! [Any?])
       case 130:
-        return LatLng.fromList(self.readValue() as! [Any?])
+        return CameraPosition.fromList(self.readValue() as! [Any?])
       case 131:
         return LatLng.fromList(self.readValue() as! [Any?])
       case 132:
-        return Location.fromList(self.readValue() as! [Any?])
+        return LatLng.fromList(self.readValue() as! [Any?])
       case 133:
-        return MarkerOptions.fromList(self.readValue() as! [Any?])
+        return Location.fromList(self.readValue() as! [Any?])
       case 134:
-        return MyLocationStyle.fromList(self.readValue() as! [Any?])
+        return MarkerOptions.fromList(self.readValue() as! [Any?])
       case 135:
+        return MyLocationStyle.fromList(self.readValue() as! [Any?])
+      case 136:
         return PolylineOptions.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
@@ -326,29 +353,32 @@ private class TencentMapApiCodecReader: FlutterStandardReader {
 
 private class TencentMapApiCodecWriter: FlutterStandardWriter {
   override func writeValue(_ value: Any) {
-    if let value = value as? Bitmap {
+    if let value = value as? Anchor {
       super.writeByte(128)
       super.writeValue(value.toList())
-    } else if let value = value as? CameraPosition {
+    } else if let value = value as? Bitmap {
       super.writeByte(129)
       super.writeValue(value.toList())
-    } else if let value = value as? LatLng {
+    } else if let value = value as? CameraPosition {
       super.writeByte(130)
       super.writeValue(value.toList())
     } else if let value = value as? LatLng {
       super.writeByte(131)
       super.writeValue(value.toList())
-    } else if let value = value as? Location {
+    } else if let value = value as? LatLng {
       super.writeByte(132)
       super.writeValue(value.toList())
-    } else if let value = value as? MarkerOptions {
+    } else if let value = value as? Location {
       super.writeByte(133)
       super.writeValue(value.toList())
-    } else if let value = value as? MyLocationStyle {
+    } else if let value = value as? MarkerOptions {
       super.writeByte(134)
       super.writeValue(value.toList())
-    } else if let value = value as? PolylineOptions {
+    } else if let value = value as? MyLocationStyle {
       super.writeByte(135)
+      super.writeValue(value.toList())
+    } else if let value = value as? PolylineOptions {
+      super.writeByte(136)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)

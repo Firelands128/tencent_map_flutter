@@ -51,15 +51,41 @@ class MyLocationStyle {
   }
 }
 
-class LatLng {
-  LatLng({
-    this.latitude,
-    this.longitude,
+class Anchor {
+  Anchor({
+    required this.x,
+    required this.y,
   });
 
-  double? latitude;
+  double x;
 
-  double? longitude;
+  double y;
+
+  Object encode() {
+    return <Object?>[
+      x,
+      y,
+    ];
+  }
+
+  static Anchor decode(Object result) {
+    result as List<Object?>;
+    return Anchor(
+      x: result[0]! as double,
+      y: result[1]! as double,
+    );
+  }
+}
+
+class LatLng {
+  LatLng({
+    required this.latitude,
+    required this.longitude,
+  });
+
+  double latitude;
+
+  double longitude;
 
   Object encode() {
     return <Object?>[
@@ -71,8 +97,8 @@ class LatLng {
   static LatLng decode(Object result) {
     result as List<Object?>;
     return LatLng(
-      latitude: result[0] as double?,
-      longitude: result[1] as double?,
+      latitude: result[0]! as double,
+      longitude: result[1]! as double,
     );
   }
 }
@@ -203,7 +229,7 @@ class MarkerOptions {
 
   Bitmap? icon;
 
-  List<double?>? anchor;
+  Anchor? anchor;
 
   Object encode() {
     return <Object?>[
@@ -214,7 +240,7 @@ class MarkerOptions {
       flat,
       draggable,
       icon?.encode(),
-      anchor,
+      anchor?.encode(),
     ];
   }
 
@@ -230,7 +256,9 @@ class MarkerOptions {
       icon: result[6] != null
           ? Bitmap.decode(result[6]! as List<Object?>)
           : null,
-      anchor: (result[7] as List<Object?>?)?.cast<double?>(),
+      anchor: result[7] != null
+          ? Anchor.decode(result[7]! as List<Object?>)
+          : null,
     );
   }
 }
@@ -319,29 +347,32 @@ class _TencentMapApiCodec extends StandardMessageCodec {
   const _TencentMapApiCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is Bitmap) {
+    if (value is Anchor) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else if (value is CameraPosition) {
+    } else if (value is Bitmap) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
-    } else if (value is LatLng) {
+    } else if (value is CameraPosition) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
     } else if (value is LatLng) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
-    } else if (value is Location) {
+    } else if (value is LatLng) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    } else if (value is MarkerOptions) {
+    } else if (value is Location) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
-    } else if (value is MyLocationStyle) {
+    } else if (value is MarkerOptions) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
-    } else if (value is PolylineOptions) {
+    } else if (value is MyLocationStyle) {
       buffer.putUint8(135);
+      writeValue(buffer, value.encode());
+    } else if (value is PolylineOptions) {
+      buffer.putUint8(136);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -352,20 +383,22 @@ class _TencentMapApiCodec extends StandardMessageCodec {
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
       case 128: 
-        return Bitmap.decode(readValue(buffer)!);
+        return Anchor.decode(readValue(buffer)!);
       case 129: 
-        return CameraPosition.decode(readValue(buffer)!);
+        return Bitmap.decode(readValue(buffer)!);
       case 130: 
-        return LatLng.decode(readValue(buffer)!);
+        return CameraPosition.decode(readValue(buffer)!);
       case 131: 
         return LatLng.decode(readValue(buffer)!);
       case 132: 
-        return Location.decode(readValue(buffer)!);
+        return LatLng.decode(readValue(buffer)!);
       case 133: 
-        return MarkerOptions.decode(readValue(buffer)!);
+        return Location.decode(readValue(buffer)!);
       case 134: 
-        return MyLocationStyle.decode(readValue(buffer)!);
+        return MarkerOptions.decode(readValue(buffer)!);
       case 135: 
+        return MyLocationStyle.decode(readValue(buffer)!);
+      case 136: 
         return PolylineOptions.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
