@@ -68,7 +68,7 @@ class _TencentMapApi: NSObject, TencentMapApi {
 
   func moveCamera(position: CameraPosition, duration: Int64) throws {
     let animated = duration > 0
-    if let it = position.target?.latLng { mapView.setCenter(it, animated: animated) }
+    if let it = position.target?.coordinate { mapView.setCenter(it, animated: animated) }
     if let it = position.zoom { mapView.setZoomLevel(CGFloat(it), animated: animated) }
     if let it = position.tilt { mapView.setOverlooking(CGFloat(it), animated: animated) }
     if let it = position.bearing { mapView.setRotation(CGFloat(it), animated: animated) }

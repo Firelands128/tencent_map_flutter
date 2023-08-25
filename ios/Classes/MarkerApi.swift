@@ -44,7 +44,7 @@ class _MarkerApi: NSObject, MarkerApi {
       let annotation = tencentMap.markers[uuid]
       if (annotation != nil) {
         tencentMap.mapView.removeAnnotation(annotation)
-        annotation?.coordinate = position.latLng
+        annotation?.coordinate = position.coordinate
         tencentMap.mapView.addAnnotation(annotation)
       }
     }

@@ -4,7 +4,7 @@ import Flutter
 extension FlutterError: Error { }
 
 extension LatLng {
-  var latLng: CLLocationCoordinate2D {
+  var coordinate: CLLocationCoordinate2D {
     return CLLocationCoordinate2DMake(latitude, longitude)
   }
 }
@@ -18,7 +18,7 @@ extension CLLocationCoordinate2D {
 extension MarkerOptions {
   var annotation: QPointAnnotation {
     let annotation = QPointAnnotation()
-    annotation.coordinate = position.latLng
+    annotation.coordinate = position.coordinate
     let orientation = {
       switch rotation {
       case 0:
