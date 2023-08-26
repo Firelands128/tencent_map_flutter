@@ -22,7 +22,23 @@ class _LocationPageState extends State<LocationPage> {
   @override
   build(context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('定位')),
+      appBar: AppBar(
+        title: const Text('定位'),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              Location location = await controller.getUserLocation();
+              controller.moveCamera(
+                CameraPosition(
+                  target: location.position,
+                  bearing: location.bearing,
+                ),
+              );
+            },
+            child: const Text("当前位置"),
+          ),
+        ],
+      ),
       body: TencentMap(
         mapType: context.isDark ? MapType.dark : MapType.normal,
         androidTexture: true,
