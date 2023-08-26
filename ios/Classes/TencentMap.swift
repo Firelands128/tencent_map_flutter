@@ -11,6 +11,7 @@ class TencentMap: NSObject, FlutterPlatformView {
     mapViewDelegate = TencentMapViewDelegate(registrar, mapView: mapView)
     super.init()
     mapView.delegate = mapViewDelegate
+    mapView.showsUserLocation = true
     TencentMapApiSetup.setUp(binaryMessenger: registrar.messenger(), api: _TencentMapApi(self))
     MarkerApiSetup.setUp(binaryMessenger: registrar.messenger(), api: _MarkerApi(self))
   }

@@ -158,3 +158,13 @@ extension QPoiInfo {
     )
   }
 }
+
+extension QUserLocation {
+  var toLocation: Location {
+    return Location(
+      position: location.coordinate.position,
+      bearing: heading?.trueHeading ?? location.course,
+      accuracy: max(location.horizontalAccuracy, location.verticalAccuracy)
+    )
+  }
+}

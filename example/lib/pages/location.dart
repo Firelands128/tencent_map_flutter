@@ -11,6 +11,8 @@ class LocationPage extends StatefulWidget {
 }
 
 class _LocationPageState extends State<LocationPage> {
+  late TencentMapController controller;
+
   @override
   void initState() {
     super.initState();
@@ -29,10 +31,18 @@ class _LocationPageState extends State<LocationPage> {
         myLocationStyle: MyLocationStyle(
           myLocationType: MyLocationType.followNoCenter,
         ),
-        onLocation: (location) =>
-            // ignore: avoid_print
-            print('${location.latitude}, ${location.longitude}'),
+        onLocation: (location) {
+          controller.moveCamera(
+            CameraPosition(
+              target: location.position,
+              bearing: location.bearing,
+              tilt: null,
+              zoom: null,
+            ),
+          );
+        },
         onMapCreated: (controller) async {
+          this.controller = controller;
           controller.moveCamera(
             CameraPosition(
               target: Position(latitude: 39.909, longitude: 116.397),
