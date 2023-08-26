@@ -41,8 +41,6 @@ abstract class TencentMapApi {
 
   void setMyLocationEnabled(bool enabled);
 
-  void setMyLocation(Location location);
-
   void setUserLocationType(UserLocationType type);
 
   void moveCamera(CameraPosition position, int duration);

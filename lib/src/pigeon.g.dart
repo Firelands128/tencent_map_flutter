@@ -330,20 +330,17 @@ class _TencentMapApiCodec extends StandardMessageCodec {
     } else if (value is CameraPosition) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
-    } else if (value is Location) {
+    } else if (value is MarkerOptions) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
-    } else if (value is MarkerOptions) {
+    } else if (value is PolylineOptions) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    } else if (value is PolylineOptions) {
+    } else if (value is Position) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
     } else if (value is Position) {
       buffer.putUint8(134);
-      writeValue(buffer, value.encode());
-    } else if (value is Position) {
-      buffer.putUint8(135);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -360,14 +357,12 @@ class _TencentMapApiCodec extends StandardMessageCodec {
       case 130: 
         return CameraPosition.decode(readValue(buffer)!);
       case 131: 
-        return Location.decode(readValue(buffer)!);
-      case 132: 
         return MarkerOptions.decode(readValue(buffer)!);
-      case 133: 
+      case 132: 
         return PolylineOptions.decode(readValue(buffer)!);
-      case 134: 
+      case 133: 
         return Position.decode(readValue(buffer)!);
-      case 135: 
+      case 134: 
         return Position.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -633,28 +628,6 @@ class TencentMapApi {
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_enabled]) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else {
-      return;
-    }
-  }
-
-  Future<void> setMyLocation(Location arg_location) async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocation', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_location]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

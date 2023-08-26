@@ -340,25 +340,20 @@ private object TencentMapApiCodec : StandardMessageCodec() {
       }
       131.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Location.fromList(it)
+          MarkerOptions.fromList(it)
         }
       }
       132.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MarkerOptions.fromList(it)
+          PolylineOptions.fromList(it)
         }
       }
       133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          PolylineOptions.fromList(it)
-        }
-      }
-      134.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
           Position.fromList(it)
         }
       }
-      135.toByte() -> {
+      134.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           Position.fromList(it)
         }
@@ -380,24 +375,20 @@ private object TencentMapApiCodec : StandardMessageCodec() {
         stream.write(130)
         writeValue(stream, value.toList())
       }
-      is Location -> {
+      is MarkerOptions -> {
         stream.write(131)
         writeValue(stream, value.toList())
       }
-      is MarkerOptions -> {
+      is PolylineOptions -> {
         stream.write(132)
         writeValue(stream, value.toList())
       }
-      is PolylineOptions -> {
+      is Position -> {
         stream.write(133)
         writeValue(stream, value.toList())
       }
       is Position -> {
         stream.write(134)
-        writeValue(stream, value.toList())
-      }
-      is Position -> {
-        stream.write(135)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -419,7 +410,6 @@ interface TencentMapApi {
   fun setBuildingsEnabled(enabled: Boolean)
   fun setMyLocationButtonEnabled(enabled: Boolean)
   fun setMyLocationEnabled(enabled: Boolean)
-  fun setMyLocation(location: Location)
   fun setUserLocationType(type: UserLocationType)
   fun moveCamera(position: CameraPosition, duration: Long)
   fun addMarker(options: MarkerOptions): String
@@ -656,25 +646,6 @@ interface TencentMapApi {
             var wrapped: List<Any?>
             try {
               api.setMyLocationEnabled(enabledArg)
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocation", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            val args = message as List<Any?>
-            val locationArg = args[0] as Location
-            var wrapped: List<Any?>
-            try {
-              api.setMyLocation(locationArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

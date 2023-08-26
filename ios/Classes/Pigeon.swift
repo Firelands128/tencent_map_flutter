@@ -310,14 +310,12 @@ private class TencentMapApiCodecReader: FlutterStandardReader {
       case 130:
         return CameraPosition.fromList(self.readValue() as! [Any?])
       case 131:
-        return Location.fromList(self.readValue() as! [Any?])
-      case 132:
         return MarkerOptions.fromList(self.readValue() as! [Any?])
-      case 133:
+      case 132:
         return PolylineOptions.fromList(self.readValue() as! [Any?])
-      case 134:
+      case 133:
         return Position.fromList(self.readValue() as! [Any?])
-      case 135:
+      case 134:
         return Position.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
@@ -336,20 +334,17 @@ private class TencentMapApiCodecWriter: FlutterStandardWriter {
     } else if let value = value as? CameraPosition {
       super.writeByte(130)
       super.writeValue(value.toList())
-    } else if let value = value as? Location {
+    } else if let value = value as? MarkerOptions {
       super.writeByte(131)
       super.writeValue(value.toList())
-    } else if let value = value as? MarkerOptions {
+    } else if let value = value as? PolylineOptions {
       super.writeByte(132)
       super.writeValue(value.toList())
-    } else if let value = value as? PolylineOptions {
+    } else if let value = value as? Position {
       super.writeByte(133)
       super.writeValue(value.toList())
     } else if let value = value as? Position {
       super.writeByte(134)
-      super.writeValue(value.toList())
-    } else if let value = value as? Position {
-      super.writeByte(135)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)
@@ -385,7 +380,6 @@ protocol TencentMapApi {
   func setBuildingsEnabled(enabled: Bool) throws
   func setMyLocationButtonEnabled(enabled: Bool) throws
   func setMyLocationEnabled(enabled: Bool) throws
-  func setMyLocation(location: Location) throws
   func setUserLocationType(type: UserLocationType) throws
   func moveCamera(position: CameraPosition, duration: Int64) throws
   func addMarker(options: MarkerOptions) throws -> String
@@ -582,21 +576,6 @@ class TencentMapApiSetup {
       }
     } else {
       setMyLocationEnabledChannel.setMessageHandler(nil)
-    }
-    let setMyLocationChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocation", binaryMessenger: binaryMessenger, codec: codec)
-    if let api = api {
-      setMyLocationChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let locationArg = args[0] as! Location
-        do {
-          try api.setMyLocation(location: locationArg)
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      setMyLocationChannel.setMessageHandler(nil)
     }
     let setUserLocationTypeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setUserLocationType", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {

@@ -327,9 +327,4 @@ class TencentMapController {
   Future<void> resume() {
     return _api.resume();
   }
-
-  /// 设置当前定位
-  Future<void> setMyLocation(Location location) {
-    return _api.setMyLocation(location);
-  }
 }

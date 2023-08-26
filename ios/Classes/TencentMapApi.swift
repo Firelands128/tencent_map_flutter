@@ -62,8 +62,6 @@ class _TencentMapApi: NSObject, TencentMapApi {
     mapView.showsUserLocation = enabled
   }
 
-  func setMyLocation(location: Location) throws { }
-
   func setUserLocationType(type: UserLocationType) throws {
     if let trackingMode = type.trackingMode {
       mapView.setUserTrackingMode(trackingMode, animated: false)
