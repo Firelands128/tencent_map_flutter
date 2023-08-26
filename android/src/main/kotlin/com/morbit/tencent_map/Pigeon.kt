@@ -61,14 +61,16 @@ enum class MapType(val raw: Int) {
  * 在地图的各种应用场景中，用户对定位点展示时也希望地图能跟随定位点旋转、移动等多种行为
  */
 enum class UserLocationType(val raw: Int) {
-  /** 连续定位，但不会移动到地图中心点，并且会跟随设备移动 */
-  FOLLOWNOCENTER(0),
-  /** 连续定位，且将视角移动到地图中心，定位点依照设备方向旋转，并且会跟随设备移动,默认是此种类型 */
-  LOCATIONROTATE(1),
-  /** 连续定位，但不会移动到地图中心点，定位点依照设备方向旋转，并且跟随设备移动 */
-  LOCATIONROTATENOCENTER(2),
-  /** 连续定位，但不会移动到地图中心点，地图依照设备方向旋转，并且会跟随设备移动 */
-  MAPROTATENOCENTER(3);
+  /** 跟踪用户的位置与方向更新，默认是此种类型 */
+  TRACKINGLOCATIONROTATE(0),
+  /** 追踪用户的位置更新 */
+  TRACKINGLOCATION(1),
+  /** 跟踪用户的位置与方向更新，并移动到地图中心（Android only, Android default） */
+  TRACKINGLOCATIONROTATECENTER(2),
+  /** 不追踪用户的位置与方向更新（iOS only） */
+  NOTRACKING(3),
+  /** 跟踪用户的位置与方向更新，并地图依照用户方向旋转（Android only） */
+  TRACKINGROTATE(4);
 
   companion object {
     fun ofRaw(raw: Int): UserLocationType? {

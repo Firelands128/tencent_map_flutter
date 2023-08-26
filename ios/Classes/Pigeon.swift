@@ -44,14 +44,16 @@ enum MapType: Int {
 ///
 /// 在地图的各种应用场景中，用户对定位点展示时也希望地图能跟随定位点旋转、移动等多种行为
 enum UserLocationType: Int {
-  /// 连续定位，但不会移动到地图中心点，并且会跟随设备移动
-  case followNoCenter = 0
-  /// 连续定位，且将视角移动到地图中心，定位点依照设备方向旋转，并且会跟随设备移动,默认是此种类型
-  case locationRotate = 1
-  /// 连续定位，但不会移动到地图中心点，定位点依照设备方向旋转，并且跟随设备移动
-  case locationRotateNoCenter = 2
-  /// 连续定位，但不会移动到地图中心点，地图依照设备方向旋转，并且会跟随设备移动
-  case mapRotateNoCenter = 3
+  /// 跟踪用户的位置与方向更新，默认是此种类型
+  case trackingLocationRotate = 0
+  /// 追踪用户的位置更新
+  case trackingLocation = 1
+  /// 跟踪用户的位置与方向更新，并移动到地图中心（Android only, Android default）
+  case trackingLocationRotateCenter = 2
+  /// 不追踪用户的位置与方向更新（iOS only）
+  case noTracking = 3
+  /// 跟踪用户的位置与方向更新，并地图依照用户方向旋转（Android only）
+  case trackingRotate = 4
 }
 
 /// Generated class from Pigeon that represents data sent in messages.

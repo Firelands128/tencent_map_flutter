@@ -44,26 +44,24 @@ fun CameraPosition.toCameraPosition(cameraPosition: TencentCameraPosition): Tenc
 
 fun Location.toLocation(): AndroidLocation {
     return AndroidLocation("tencent_map").let { location ->
-	      position.let { location.latitude = it.latitude; location.longitude = it.longitude }
+        position.let { location.latitude = it.latitude; location.longitude = it.longitude }
         accuracy?.let { location.accuracy = it.toFloat() }
         bearing?.let { location.bearing = it.toFloat() }
         location
     }
 }
 
-fun MyLocationStyle.toMyLocationStyle(): TencentMyLocationStyle {
-    return TencentMyLocationStyle().let { style ->
-        myLocationType?.let {
-            style.myLocationType(
-                when (it) {
-                    MyLocationType.FOLLOWNOCENTER -> TencentMyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER
-                    MyLocationType.LOCATIONROTATE -> TencentMyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE
-                    MyLocationType.LOCATIONROTATENOCENTER -> TencentMyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER
-                    MyLocationType.MAPROTATENOCENTER -> TencentMyLocationStyle.LOCATION_TYPE_MAP_ROTATE_NO_CENTER
-                }
-            )
+fun UserLocationType.toMyLocationStyle(): TencentMyLocationStyle {
+    return TencentMyLocationStyle().also { style ->
+        when (this) {
+            UserLocationType.TRACKINGLOCATIONROTATE -> TencentMyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER
+            UserLocationType.TRACKINGLOCATION -> TencentMyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER
+            UserLocationType.TRACKINGLOCATIONROTATECENTER -> TencentMyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE
+            UserLocationType.TRACKINGROTATE -> TencentMyLocationStyle.LOCATION_TYPE_MAP_ROTATE_NO_CENTER
+            else -> null
+        }?.let { it ->
+            style.myLocationType(it)
         }
-        style
     }
 }
 

@@ -168,3 +168,18 @@ extension QUserLocation {
     )
   }
 }
+
+extension UserLocationType {
+  var trackingMode: QUserTrackingMode? {
+    switch (self) {
+    case .trackingLocationRotate:
+      return QUserTrackingMode.followWithHeading
+    case .trackingLocation:
+      return QUserTrackingMode.follow
+    case .noTracking:
+      return QUserTrackingMode.none
+    default:
+      return nil
+    }
+  }
+}

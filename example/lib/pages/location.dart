@@ -28,7 +28,7 @@ class _LocationPageState extends State<LocationPage> {
         androidTexture: true,
         myLocationEnabled: true,
         myLocationButtonEnabled: true,
-        userLocationType: UserLocationType.followNoCenter,
+        userLocationType: UserLocationType.trackingLocationRotate,
         onLocation: (location) {
           // ignore: avoid_print
           print('${location.position.latitude}, ${location.position.longitude}');
