@@ -17,7 +17,7 @@ class MapTypesPage extends StatefulWidget {
 }
 
 class _MapTypesPageState extends State<MapTypesPage> {
-  var mapType = MapType.satellite;
+  var mapType = MapType.normal;
   final types = {
     MapType.normal: '常规',
     MapType.satellite: '卫星',
