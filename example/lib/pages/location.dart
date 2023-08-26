@@ -32,14 +32,8 @@ class _LocationPageState extends State<LocationPage> {
           myLocationType: MyLocationType.followNoCenter,
         ),
         onLocation: (location) {
-          controller.moveCamera(
-            CameraPosition(
-              target: location.position,
-              bearing: location.bearing,
-              tilt: null,
-              zoom: null,
-            ),
-          );
+          // ignore: avoid_print
+          print('${location.position.latitude}, ${location.position.longitude}');
         },
         onMapCreated: (controller) async {
           this.controller = controller;
