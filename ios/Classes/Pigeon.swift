@@ -43,7 +43,7 @@ enum MapType: Int {
 /// 定位模式
 ///
 /// 在地图的各种应用场景中，用户对定位点展示时也希望地图能跟随定位点旋转、移动等多种行为
-enum MyLocationType: Int {
+enum UserLocationType: Int {
   /// 连续定位，但不会移动到地图中心点，并且会跟随设备移动
   case followNoCenter = 0
   /// 连续定位，且将视角移动到地图中心，定位点依照设备方向旋转，并且会跟随设备移动,默认是此种类型
@@ -52,28 +52,6 @@ enum MyLocationType: Int {
   case locationRotateNoCenter = 2
   /// 连续定位，但不会移动到地图中心点，地图依照设备方向旋转，并且会跟随设备移动
   case mapRotateNoCenter = 3
-}
-
-/// Generated class from Pigeon that represents data sent in messages.
-struct MyLocationStyle {
-  var myLocationType: MyLocationType? = nil
-
-  static func fromList(_ list: [Any?]) -> MyLocationStyle? {
-    var myLocationType: MyLocationType? = nil
-    let myLocationTypeEnumVal: Int? = nilOrValue(list[0])
-    if let myLocationTypeRawValue = myLocationTypeEnumVal {
-      myLocationType = MyLocationType(rawValue: myLocationTypeRawValue)!
-    }
-
-    return MyLocationStyle(
-      myLocationType: myLocationType
-    )
-  }
-  func toList() -> [Any?] {
-    return [
-      myLocationType?.rawValue,
-    ]
-  }
 }
 
 /// Generated class from Pigeon that represents data sent in messages.
@@ -334,12 +312,10 @@ private class TencentMapApiCodecReader: FlutterStandardReader {
       case 132:
         return MarkerOptions.fromList(self.readValue() as! [Any?])
       case 133:
-        return MyLocationStyle.fromList(self.readValue() as! [Any?])
-      case 134:
         return PolylineOptions.fromList(self.readValue() as! [Any?])
-      case 135:
+      case 134:
         return Position.fromList(self.readValue() as! [Any?])
-      case 136:
+      case 135:
         return Position.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
@@ -364,17 +340,14 @@ private class TencentMapApiCodecWriter: FlutterStandardWriter {
     } else if let value = value as? MarkerOptions {
       super.writeByte(132)
       super.writeValue(value.toList())
-    } else if let value = value as? MyLocationStyle {
+    } else if let value = value as? PolylineOptions {
       super.writeByte(133)
       super.writeValue(value.toList())
-    } else if let value = value as? PolylineOptions {
+    } else if let value = value as? Position {
       super.writeByte(134)
       super.writeValue(value.toList())
     } else if let value = value as? Position {
       super.writeByte(135)
-      super.writeValue(value.toList())
-    } else if let value = value as? Position {
-      super.writeByte(136)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)
@@ -411,7 +384,7 @@ protocol TencentMapApi {
   func setMyLocationButtonEnabled(enabled: Bool) throws
   func setMyLocationEnabled(enabled: Bool) throws
   func setMyLocation(location: Location) throws
-  func setMyLocationStyle(style: MyLocationStyle) throws
+  func setUserLocationType(type: UserLocationType) throws
   func moveCamera(position: CameraPosition, duration: Int64) throws
   func addMarker(options: MarkerOptions) throws -> String
   func addPolyline(options: PolylineOptions) throws -> String
@@ -623,20 +596,20 @@ class TencentMapApiSetup {
     } else {
       setMyLocationChannel.setMessageHandler(nil)
     }
-    let setMyLocationStyleChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocationStyle", binaryMessenger: binaryMessenger, codec: codec)
+    let setUserLocationTypeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setUserLocationType", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
-      setMyLocationStyleChannel.setMessageHandler { message, reply in
+      setUserLocationTypeChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
-        let styleArg = args[0] as! MyLocationStyle
+        let typeArg = UserLocationType(rawValue: args[0] as! Int)!
         do {
-          try api.setMyLocationStyle(style: styleArg)
+          try api.setUserLocationType(type: typeArg)
           reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))
         }
       }
     } else {
-      setMyLocationStyleChannel.setMessageHandler(nil)
+      setUserLocationTypeChannel.setMessageHandler(nil)
     }
     let moveCameraChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.moveCamera", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {

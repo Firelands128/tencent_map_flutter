@@ -17,7 +17,7 @@ enum MapType {
 /// 定位模式
 ///
 /// 在地图的各种应用场景中，用户对定位点展示时也希望地图能跟随定位点旋转、移动等多种行为
-enum MyLocationType {
+enum UserLocationType {
   /// 连续定位，但不会移动到地图中心点，并且会跟随设备移动
   followNoCenter,
   /// 连续定位，且将视角移动到地图中心，定位点依照设备方向旋转，并且会跟随设备移动,默认是此种类型
@@ -26,29 +26,6 @@ enum MyLocationType {
   locationRotateNoCenter,
   /// 连续定位，但不会移动到地图中心点，地图依照设备方向旋转，并且会跟随设备移动
   mapRotateNoCenter,
-}
-
-class MyLocationStyle {
-  MyLocationStyle({
-    this.myLocationType,
-  });
-
-  MyLocationType? myLocationType;
-
-  Object encode() {
-    return <Object?>[
-      myLocationType?.index,
-    ];
-  }
-
-  static MyLocationStyle decode(Object result) {
-    result as List<Object?>;
-    return MyLocationStyle(
-      myLocationType: result[0] != null
-          ? MyLocationType.values[result[0]! as int]
-          : null,
-    );
-  }
 }
 
 class Anchor {
@@ -357,17 +334,14 @@ class _TencentMapApiCodec extends StandardMessageCodec {
     } else if (value is MarkerOptions) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    } else if (value is MyLocationStyle) {
+    } else if (value is PolylineOptions) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
-    } else if (value is PolylineOptions) {
+    } else if (value is Position) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
     } else if (value is Position) {
       buffer.putUint8(135);
-      writeValue(buffer, value.encode());
-    } else if (value is Position) {
-      buffer.putUint8(136);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -388,12 +362,10 @@ class _TencentMapApiCodec extends StandardMessageCodec {
       case 132: 
         return MarkerOptions.decode(readValue(buffer)!);
       case 133: 
-        return MyLocationStyle.decode(readValue(buffer)!);
-      case 134: 
         return PolylineOptions.decode(readValue(buffer)!);
-      case 135: 
+      case 134: 
         return Position.decode(readValue(buffer)!);
-      case 136: 
+      case 135: 
         return Position.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -697,12 +669,12 @@ class TencentMapApi {
     }
   }
 
-  Future<void> setMyLocationStyle(MyLocationStyle arg_style) async {
+  Future<void> setUserLocationType(UserLocationType arg_type) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocationStyle', codec,
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.setUserLocationType', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_style]) as List<Object?>?;
+        await channel.send(<Object?>[arg_type.index]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

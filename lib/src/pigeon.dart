@@ -43,7 +43,7 @@ abstract class TencentMapApi {
 
   void setMyLocation(Location location);
 
-  void setMyLocationStyle(MyLocationStyle style);
+  void setUserLocationType(UserLocationType type);
 
   void moveCamera(CameraPosition position, int duration);
 
@@ -126,7 +126,7 @@ enum MapType {
 /// 定位模式
 ///
 /// 在地图的各种应用场景中，用户对定位点展示时也希望地图能跟随定位点旋转、移动等多种行为
-enum MyLocationType {
+enum UserLocationType {
   /// 连续定位，但不会移动到地图中心点，并且会跟随设备移动
   followNoCenter,
 
@@ -138,10 +138,6 @@ enum MyLocationType {
 
   /// 连续定位，但不会移动到地图中心点，地图依照设备方向旋转，并且会跟随设备移动
   mapRotateNoCenter,
-}
-
-class MyLocationStyle {
-  MyLocationType? myLocationType;
 }
 
 class Anchor {

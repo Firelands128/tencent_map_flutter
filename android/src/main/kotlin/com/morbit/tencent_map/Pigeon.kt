@@ -60,7 +60,7 @@ enum class MapType(val raw: Int) {
  *
  * 在地图的各种应用场景中，用户对定位点展示时也希望地图能跟随定位点旋转、移动等多种行为
  */
-enum class MyLocationType(val raw: Int) {
+enum class UserLocationType(val raw: Int) {
   /** 连续定位，但不会移动到地图中心点，并且会跟随设备移动 */
   FOLLOWNOCENTER(0),
   /** 连续定位，且将视角移动到地图中心，定位点依照设备方向旋转，并且会跟随设备移动,默认是此种类型 */
@@ -71,30 +71,9 @@ enum class MyLocationType(val raw: Int) {
   MAPROTATENOCENTER(3);
 
   companion object {
-    fun ofRaw(raw: Int): MyLocationType? {
+    fun ofRaw(raw: Int): UserLocationType? {
       return values().firstOrNull { it.raw == raw }
     }
-  }
-}
-
-/** Generated class from Pigeon that represents data sent in messages. */
-data class MyLocationStyle (
-  val myLocationType: MyLocationType? = null
-
-) {
-  companion object {
-    @Suppress("UNCHECKED_CAST")
-    fun fromList(list: List<Any?>): MyLocationStyle {
-      val myLocationType: MyLocationType? = (list[0] as Int?)?.let {
-        MyLocationType.ofRaw(it)
-      }
-      return MyLocationStyle(myLocationType)
-    }
-  }
-  fun toList(): List<Any?> {
-    return listOf<Any?>(
-      myLocationType?.raw,
-    )
   }
 }
 
@@ -369,20 +348,15 @@ private object TencentMapApiCodec : StandardMessageCodec() {
       }
       133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MyLocationStyle.fromList(it)
+          PolylineOptions.fromList(it)
         }
       }
       134.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          PolylineOptions.fromList(it)
-        }
-      }
-      135.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
           Position.fromList(it)
         }
       }
-      136.toByte() -> {
+      135.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           Position.fromList(it)
         }
@@ -412,20 +386,16 @@ private object TencentMapApiCodec : StandardMessageCodec() {
         stream.write(132)
         writeValue(stream, value.toList())
       }
-      is MyLocationStyle -> {
+      is PolylineOptions -> {
         stream.write(133)
         writeValue(stream, value.toList())
       }
-      is PolylineOptions -> {
+      is Position -> {
         stream.write(134)
         writeValue(stream, value.toList())
       }
       is Position -> {
         stream.write(135)
-        writeValue(stream, value.toList())
-      }
-      is Position -> {
-        stream.write(136)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -448,7 +418,7 @@ interface TencentMapApi {
   fun setMyLocationButtonEnabled(enabled: Boolean)
   fun setMyLocationEnabled(enabled: Boolean)
   fun setMyLocation(location: Location)
-  fun setMyLocationStyle(style: MyLocationStyle)
+  fun setUserLocationType(type: UserLocationType)
   fun moveCamera(position: CameraPosition, duration: Long)
   fun addMarker(options: MarkerOptions): String
   fun addPolyline(options: PolylineOptions): String
@@ -714,14 +684,14 @@ interface TencentMapApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocationStyle", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.setUserLocationType", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
-            val styleArg = args[0] as MyLocationStyle
+            val typeArg = UserLocationType.ofRaw(args[0] as Int)!!
             var wrapped: List<Any?>
             try {
-              api.setMyLocationStyle(styleArg)
+              api.setUserLocationType(typeArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

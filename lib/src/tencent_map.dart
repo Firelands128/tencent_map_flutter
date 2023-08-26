@@ -21,7 +21,7 @@ class TencentMap extends StatefulWidget {
     this.buildingsEnabled = true,
     this.myLocationButtonEnabled = false,
     this.myLocationEnabled = false,
-    this.myLocationStyle,
+    this.userLocationType,
     this.mapType = MapType.normal,
     this.onPress,
     this.onLongPress,
@@ -78,7 +78,7 @@ class TencentMap extends StatefulWidget {
   final bool myLocationEnabled;
 
   /// 定位样式
-  final MyLocationStyle? myLocationStyle;
+  final UserLocationType? userLocationType;
 
   /// 地图创建完成事件回调函数
   ///
@@ -219,8 +219,8 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     if (widget.myLocationEnabled != old.myLocationEnabled) {
       _api.setMyLocationEnabled(widget.myLocationEnabled);
     }
-    if (widget.myLocationStyle != old.myLocationStyle && widget.myLocationStyle != null) {
-      _api.setMyLocationStyle(widget.myLocationStyle!);
+    if (widget.userLocationType != old.userLocationType && widget.userLocationType != null) {
+      _api.setUserLocationType(widget.userLocationType!);
     }
   }
 

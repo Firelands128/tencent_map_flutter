@@ -8,6 +8,5 @@ export 'src/pigeon.g.dart'
         MarkerOptions,
         Bitmap,
         Location,
-        MyLocationStyle,
-        MyLocationType;
+        UserLocationType;
 export 'src/tencent_map.dart';
