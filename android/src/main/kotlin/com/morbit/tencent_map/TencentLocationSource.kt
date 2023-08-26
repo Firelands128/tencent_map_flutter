@@ -89,8 +89,7 @@ class TencentLocationSource(
 		}
 
 		val pigeonLocation = Location(
-			tencentLocation.latitude,
-			tencentLocation.longitude,
+			Position(tencentLocation.latitude, tencentLocation.longitude),
 			tencentLocation.bearing.toDouble(),
 			tencentLocation.accuracy.toDouble()
 		)

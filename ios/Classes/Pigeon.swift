@@ -122,28 +122,24 @@ struct Position {
 
 /// Generated class from Pigeon that represents data sent in messages.
 struct Location {
-  var latitude: Double? = nil
-  var longitude: Double? = nil
+  var position: Position
   var bearing: Double? = nil
   var accuracy: Double? = nil
 
   static func fromList(_ list: [Any?]) -> Location? {
-    let latitude: Double? = nilOrValue(list[0])
-    let longitude: Double? = nilOrValue(list[1])
-    let bearing: Double? = nilOrValue(list[2])
-    let accuracy: Double? = nilOrValue(list[3])
+    let position = Position.fromList(list[0] as! [Any?])!
+    let bearing: Double? = nilOrValue(list[1])
+    let accuracy: Double? = nilOrValue(list[2])
 
     return Location(
-      latitude: latitude,
-      longitude: longitude,
+      position: position,
       bearing: bearing,
       accuracy: accuracy
     )
   }
   func toList() -> [Any?] {
     return [
-      latitude,
-      longitude,
+      position.toList(),
       bearing,
       accuracy,
     ]
@@ -174,31 +170,31 @@ struct MapPoi {
 
 /// Generated class from Pigeon that represents data sent in messages.
 struct CameraPosition {
-  var bearing: Double? = nil
   var target: Position? = nil
+  var bearing: Double? = nil
   var tilt: Double? = nil
   var zoom: Double? = nil
 
   static func fromList(_ list: [Any?]) -> CameraPosition? {
-    let bearing: Double? = nilOrValue(list[0])
     var target: Position? = nil
-    if let targetList: [Any?] = nilOrValue(list[1]) {
+    if let targetList: [Any?] = nilOrValue(list[0]) {
       target = Position.fromList(targetList)
     }
+    let bearing: Double? = nilOrValue(list[1])
     let tilt: Double? = nilOrValue(list[2])
     let zoom: Double? = nilOrValue(list[3])
 
     return CameraPosition(
-      bearing: bearing,
       target: target,
+      bearing: bearing,
       tilt: tilt,
       zoom: zoom
     )
   }
   func toList() -> [Any?] {
     return [
-      bearing,
       target?.toList(),
+      bearing,
       tilt,
       zoom,
     ]

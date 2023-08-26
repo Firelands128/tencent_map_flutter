@@ -105,15 +105,12 @@ class Position {
 
 class Location {
   Location({
-    this.latitude,
-    this.longitude,
+    required this.position,
     this.bearing,
     this.accuracy,
   });
 
-  double? latitude;
-
-  double? longitude;
+  Position position;
 
   double? bearing;
 
@@ -121,8 +118,7 @@ class Location {
 
   Object encode() {
     return <Object?>[
-      latitude,
-      longitude,
+      position.encode(),
       bearing,
       accuracy,
     ];
@@ -131,10 +127,9 @@ class Location {
   static Location decode(Object result) {
     result as List<Object?>;
     return Location(
-      latitude: result[0] as double?,
-      longitude: result[1] as double?,
-      bearing: result[2] as double?,
-      accuracy: result[3] as double?,
+      position: Position.decode(result[0]! as List<Object?>),
+      bearing: result[1] as double?,
+      accuracy: result[2] as double?,
     );
   }
 }
@@ -167,15 +162,15 @@ class MapPoi {
 
 class CameraPosition {
   CameraPosition({
-    this.bearing,
     this.target,
+    this.bearing,
     this.tilt,
     this.zoom,
   });
 
-  double? bearing;
-
   Position? target;
+
+  double? bearing;
 
   double? tilt;
 
@@ -183,8 +178,8 @@ class CameraPosition {
 
   Object encode() {
     return <Object?>[
-      bearing,
       target?.encode(),
+      bearing,
       tilt,
       zoom,
     ];
@@ -193,10 +188,10 @@ class CameraPosition {
   static CameraPosition decode(Object result) {
     result as List<Object?>;
     return CameraPosition(
-      bearing: result[0] as double?,
-      target: result[1] != null
-          ? Position.decode(result[1]! as List<Object?>)
+      target: result[0] != null
+          ? Position.decode(result[0]! as List<Object?>)
           : null,
+      bearing: result[1] as double?,
       tilt: result[2] as double?,
       zoom: result[3] as double?,
     );

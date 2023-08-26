@@ -25,8 +25,8 @@ fun TencentMapPoi.toMapPoi(): MapPoi {
 
 fun TencentCameraPosition.toCameraPosition(): CameraPosition {
     return CameraPosition(
-        bearing.toDouble(),
         target.toPosition(),
+        bearing.toDouble(),
         tilt.toDouble(),
         zoom.toDouble(),
     )
@@ -44,8 +44,7 @@ fun CameraPosition.toCameraPosition(cameraPosition: TencentCameraPosition): Tenc
 
 fun Location.toLocation(): AndroidLocation {
     return AndroidLocation("tencent_map").let { location ->
-        latitude?.let { location.latitude = it }
-        longitude?.let { location.longitude = it }
+	      position.let { location.latitude = it.latitude; location.longitude = it.longitude }
         accuracy?.let { location.accuracy = it.toFloat() }
         bearing?.let { location.bearing = it.toFloat() }
         location

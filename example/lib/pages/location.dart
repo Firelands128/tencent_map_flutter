@@ -39,7 +39,10 @@ class _LocationPageState extends State<LocationPage> {
             ),
           );
           controller.setMyLocation(
-            Location(latitude: 39.909, longitude: 116.397, accuracy: 1000),
+            Location(
+              position: Position(latitude: 39.909, longitude: 116.397),
+              accuracy: 1000,
+            ),
           );
         },
       ),

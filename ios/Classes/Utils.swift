@@ -142,8 +142,8 @@ extension UIImage {
 extension QMapView {
   var cameraPosition: CameraPosition {
     return CameraPosition(
-      bearing: rotation,
       target: centerCoordinate.position,
+      bearing: rotation,
       tilt: overlooking,
       zoom: zoomLevel
     )

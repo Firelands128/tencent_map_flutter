@@ -155,8 +155,7 @@ class Position {
 }
 
 class Location {
-  double? latitude;
-  double? longitude;
+  late Position position;
   double? bearing;
   double? accuracy;
 }
@@ -167,8 +166,8 @@ class MapPoi {
 }
 
 class CameraPosition {
-  double? bearing;
   Position? target;
+  double? bearing;
   double? tilt;
   double? zoom;
 }

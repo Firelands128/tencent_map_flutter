@@ -144,8 +144,7 @@ data class Position (
 
 /** Generated class from Pigeon that represents data sent in messages. */
 data class Location (
-  val latitude: Double? = null,
-  val longitude: Double? = null,
+  val position: Position,
   val bearing: Double? = null,
   val accuracy: Double? = null
 
@@ -153,17 +152,15 @@ data class Location (
   companion object {
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): Location {
-      val latitude = list[0] as Double?
-      val longitude = list[1] as Double?
-      val bearing = list[2] as Double?
-      val accuracy = list[3] as Double?
-      return Location(latitude, longitude, bearing, accuracy)
+      val position = Position.fromList(list[0] as List<Any?>)
+      val bearing = list[1] as Double?
+      val accuracy = list[2] as Double?
+      return Location(position, bearing, accuracy)
     }
   }
   fun toList(): List<Any?> {
     return listOf<Any?>(
-      latitude,
-      longitude,
+      position.toList(),
       bearing,
       accuracy,
     )
@@ -194,8 +191,8 @@ data class MapPoi (
 
 /** Generated class from Pigeon that represents data sent in messages. */
 data class CameraPosition (
-  val bearing: Double? = null,
   val target: Position? = null,
+  val bearing: Double? = null,
   val tilt: Double? = null,
   val zoom: Double? = null
 
@@ -203,19 +200,19 @@ data class CameraPosition (
   companion object {
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): CameraPosition {
-      val bearing = list[0] as Double?
-      val target: Position? = (list[1] as List<Any?>?)?.let {
+      val target: Position? = (list[0] as List<Any?>?)?.let {
         Position.fromList(it)
       }
+      val bearing = list[1] as Double?
       val tilt = list[2] as Double?
       val zoom = list[3] as Double?
-      return CameraPosition(bearing, target, tilt, zoom)
+      return CameraPosition(target, bearing, tilt, zoom)
     }
   }
   fun toList(): List<Any?> {
     return listOf<Any?>(
-      bearing,
       target?.toList(),
+      bearing,
       tilt,
       zoom,
     )
