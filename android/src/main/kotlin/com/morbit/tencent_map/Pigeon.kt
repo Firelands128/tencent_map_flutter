@@ -340,20 +340,25 @@ private object TencentMapApiCodec : StandardMessageCodec() {
       }
       131.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MarkerOptions.fromList(it)
+          Location.fromList(it)
         }
       }
       132.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          PolylineOptions.fromList(it)
+          MarkerOptions.fromList(it)
         }
       }
       133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Position.fromList(it)
+          PolylineOptions.fromList(it)
         }
       }
       134.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          Position.fromList(it)
+        }
+      }
+      135.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           Position.fromList(it)
         }
@@ -375,20 +380,24 @@ private object TencentMapApiCodec : StandardMessageCodec() {
         stream.write(130)
         writeValue(stream, value.toList())
       }
-      is MarkerOptions -> {
+      is Location -> {
         stream.write(131)
         writeValue(stream, value.toList())
       }
-      is PolylineOptions -> {
+      is MarkerOptions -> {
         stream.write(132)
         writeValue(stream, value.toList())
       }
-      is Position -> {
+      is PolylineOptions -> {
         stream.write(133)
         writeValue(stream, value.toList())
       }
       is Position -> {
         stream.write(134)
+        writeValue(stream, value.toList())
+      }
+      is Position -> {
+        stream.write(135)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -411,6 +420,7 @@ interface TencentMapApi {
   fun setMyLocationButtonEnabled(enabled: Boolean)
   fun setMyLocationEnabled(enabled: Boolean)
   fun setUserLocationType(type: UserLocationType)
+  fun getUserLocation(): Location
   fun moveCamera(position: CameraPosition, duration: Long)
   fun addMarker(options: MarkerOptions): String
   fun addPolyline(options: PolylineOptions): String
@@ -666,6 +676,22 @@ interface TencentMapApi {
             try {
               api.setUserLocationType(typeArg)
               wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.getUserLocation", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            var wrapped: List<Any?>
+            try {
+              wrapped = listOf<Any?>(api.getUserLocation())
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
             }

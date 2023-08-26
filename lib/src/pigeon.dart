@@ -43,6 +43,8 @@ abstract class TencentMapApi {
 
   void setUserLocationType(UserLocationType type);
 
+  Location getUserLocation();
+
   void moveCamera(CameraPosition position, int duration);
 
   String addMarker(MarkerOptions options);

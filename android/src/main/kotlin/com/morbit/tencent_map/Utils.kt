@@ -42,13 +42,12 @@ fun CameraPosition.toCameraPosition(cameraPosition: TencentCameraPosition): Tenc
     }
 }
 
-fun Location.toLocation(): AndroidLocation {
-    return AndroidLocation("tencent_map").let { location ->
-        position.let { location.latitude = it.latitude; location.longitude = it.longitude }
-        accuracy?.let { location.accuracy = it.toFloat() }
-        bearing?.let { location.bearing = it.toFloat() }
-        location
-    }
+fun AndroidLocation.toLocation(): Location {
+    return Location(
+        Position(latitude, longitude),
+        bearing.toDouble(),
+        accuracy.toDouble()
+    )
 }
 
 fun UserLocationType.toMyLocationStyle(): TencentMyLocationStyle {

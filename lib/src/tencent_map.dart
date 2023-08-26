@@ -327,4 +327,9 @@ class TencentMapController {
   Future<void> resume() {
     return _api.resume();
   }
+
+  /// 获取当前定位
+  Future<Location> getUserLocation() {
+    return _api.getUserLocation();
+  }
 }

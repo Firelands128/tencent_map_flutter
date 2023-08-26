@@ -82,6 +82,10 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     mapView.map.setMyLocationStyle(type.toMyLocationStyle())
   }
 
+  override fun getUserLocation(): Location {
+    return mapView.map.myLocation.toLocation()
+  }
+
   override fun moveCamera(position: CameraPosition, duration: Long) {
     val cameraPosition = position.toCameraPosition(mapView.map.cameraPosition)
     val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
