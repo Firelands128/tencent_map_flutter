@@ -119,25 +119,25 @@ struct Location {
   /// 定位点的位置
   var position: Position
   /// 定位点的方向
-  var bearing: Double? = nil
+  var heading: Double? = nil
   /// 定位点的精确度
   var accuracy: Double? = nil
 
   static func fromList(_ list: [Any?]) -> Location? {
     let position = Position.fromList(list[0] as! [Any?])!
-    let bearing: Double? = nilOrValue(list[1])
+    let heading: Double? = nilOrValue(list[1])
     let accuracy: Double? = nilOrValue(list[2])
 
     return Location(
       position: position,
-      bearing: bearing,
+      heading: heading,
       accuracy: accuracy
     )
   }
   func toList() -> [Any?] {
     return [
       position.toList(),
-      bearing,
+      heading,
       accuracy,
     ]
   }
@@ -174,35 +174,35 @@ struct MapPoi {
 /// Generated class from Pigeon that represents data sent in messages.
 struct CameraPosition {
   /// 地图视野的位置
-  var target: Position? = nil
+  var position: Position? = nil
   /// 地图视野的旋转角度
-  var bearing: Double? = nil
+  var heading: Double? = nil
   /// 地图视野的倾斜角度
-  var tilt: Double? = nil
+  var skew: Double? = nil
   /// 地图视野的缩放级别
   var zoom: Double? = nil
 
   static func fromList(_ list: [Any?]) -> CameraPosition? {
-    var target: Position? = nil
-    if let targetList: [Any?] = nilOrValue(list[0]) {
-      target = Position.fromList(targetList)
+    var position: Position? = nil
+    if let positionList: [Any?] = nilOrValue(list[0]) {
+      position = Position.fromList(positionList)
     }
-    let bearing: Double? = nilOrValue(list[1])
-    let tilt: Double? = nilOrValue(list[2])
+    let heading: Double? = nilOrValue(list[1])
+    let skew: Double? = nilOrValue(list[2])
     let zoom: Double? = nilOrValue(list[3])
 
     return CameraPosition(
-      target: target,
-      bearing: bearing,
-      tilt: tilt,
+      position: position,
+      heading: heading,
+      skew: skew,
       zoom: zoom
     )
   }
   func toList() -> [Any?] {
     return [
-      target?.toList(),
-      bearing,
-      tilt,
+      position?.toList(),
+      heading,
+      skew,
       zoom,
     ]
   }
@@ -423,7 +423,7 @@ protocol TencentMapApi {
   func setRotateGesturesEnabled(enabled: Bool) throws
   func setScrollGesturesEnabled(enabled: Bool) throws
   func setZoomGesturesEnabled(enabled: Bool) throws
-  func setTiltGesturesEnabled(enabled: Bool) throws
+  func setSkewGesturesEnabled(enabled: Bool) throws
   func setIndoorViewEnabled(enabled: Bool) throws
   func setTrafficEnabled(enabled: Bool) throws
   func setBuildingsEnabled(enabled: Bool) throws
@@ -537,20 +537,20 @@ class TencentMapApiSetup {
     } else {
       setZoomGesturesEnabledChannel.setMessageHandler(nil)
     }
-    let setTiltGesturesEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setTiltGesturesEnabled", binaryMessenger: binaryMessenger, codec: codec)
+    let setSkewGesturesEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setSkewGesturesEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
-      setTiltGesturesEnabledChannel.setMessageHandler { message, reply in
+      setSkewGesturesEnabledChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
         let enabledArg = args[0] as! Bool
         do {
-          try api.setTiltGesturesEnabled(enabled: enabledArg)
+          try api.setSkewGesturesEnabled(enabled: enabledArg)
           reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))
         }
       }
     } else {
-      setTiltGesturesEnabledChannel.setMessageHandler(nil)
+      setSkewGesturesEnabledChannel.setMessageHandler(nil)
     }
     let setIndoorViewEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setIndoorViewEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {

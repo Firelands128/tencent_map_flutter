@@ -148,7 +148,7 @@ data class Location (
   /** 定位点的位置 */
   val position: Position,
   /** 定位点的方向 */
-  val bearing: Double? = null,
+  val heading: Double? = null,
   /** 定位点的精确度 */
   val accuracy: Double? = null
 
@@ -157,15 +157,15 @@ data class Location (
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): Location {
       val position = Position.fromList(list[0] as List<Any?>)
-      val bearing = list[1] as Double?
+      val heading = list[1] as Double?
       val accuracy = list[2] as Double?
-      return Location(position, bearing, accuracy)
+      return Location(position, heading, accuracy)
     }
   }
   fun toList(): List<Any?> {
     return listOf<Any?>(
       position.toList(),
-      bearing,
+      heading,
       accuracy,
     )
   }
@@ -206,11 +206,11 @@ data class MapPoi (
  */
 data class CameraPosition (
   /** 地图视野的位置 */
-  val target: Position? = null,
+  val position: Position? = null,
   /** 地图视野的旋转角度 */
-  val bearing: Double? = null,
+  val heading: Double? = null,
   /** 地图视野的倾斜角度 */
-  val tilt: Double? = null,
+  val skew: Double? = null,
   /** 地图视野的缩放级别 */
   val zoom: Double? = null
 
@@ -218,20 +218,20 @@ data class CameraPosition (
   companion object {
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): CameraPosition {
-      val target: Position? = (list[0] as List<Any?>?)?.let {
+      val position: Position? = (list[0] as List<Any?>?)?.let {
         Position.fromList(it)
       }
-      val bearing = list[1] as Double?
-      val tilt = list[2] as Double?
+      val heading = list[1] as Double?
+      val skew = list[2] as Double?
       val zoom = list[3] as Double?
-      return CameraPosition(target, bearing, tilt, zoom)
+      return CameraPosition(position, heading, skew, zoom)
     }
   }
   fun toList(): List<Any?> {
     return listOf<Any?>(
-      target?.toList(),
-      bearing,
-      tilt,
+      position?.toList(),
+      heading,
+      skew,
       zoom,
     )
   }
@@ -473,7 +473,7 @@ interface TencentMapApi {
   fun setRotateGesturesEnabled(enabled: Boolean)
   fun setScrollGesturesEnabled(enabled: Boolean)
   fun setZoomGesturesEnabled(enabled: Boolean)
-  fun setTiltGesturesEnabled(enabled: Boolean)
+  fun setSkewGesturesEnabled(enabled: Boolean)
   fun setIndoorViewEnabled(enabled: Boolean)
   fun setTrafficEnabled(enabled: Boolean)
   fun setBuildingsEnabled(enabled: Boolean)
@@ -613,14 +613,14 @@ interface TencentMapApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.setTiltGesturesEnabled", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.setSkewGesturesEnabled", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val enabledArg = args[0] as Boolean
             var wrapped: List<Any?>
             try {
-              api.setTiltGesturesEnabled(enabledArg)
+              api.setSkewGesturesEnabled(enabledArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

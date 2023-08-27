@@ -29,7 +29,7 @@ abstract class TencentMapApi {
 
   void setZoomGesturesEnabled(bool enabled);
 
-  void setTiltGesturesEnabled(bool enabled);
+  void setSkewGesturesEnabled(bool enabled);
 
   void setIndoorViewEnabled(bool enabled);
 
@@ -183,7 +183,7 @@ class Location {
   late Position position;
 
   /// 定位点的方向
-  double? bearing;
+  double? heading;
 
   /// 定位点的精确度
   double? accuracy;
@@ -201,13 +201,13 @@ class MapPoi {
 /// 地图视野
 class CameraPosition {
   /// 地图视野的位置
-  Position? target;
+  Position? position;
 
   /// 地图视野的旋转角度
-  double? bearing;
+  double? heading;
 
   /// 地图视野的倾斜角度
-  double? tilt;
+  double? skew;
 
   /// 地图视野的缩放级别
   double? zoom;

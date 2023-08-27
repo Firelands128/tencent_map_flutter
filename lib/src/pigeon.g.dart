@@ -96,7 +96,7 @@ class Position {
 class Location {
   Location({
     required this.position,
-    this.bearing,
+    this.heading,
     this.accuracy,
   });
 
@@ -104,7 +104,7 @@ class Location {
   Position position;
 
   /// 定位点的方向
-  double? bearing;
+  double? heading;
 
   /// 定位点的精确度
   double? accuracy;
@@ -112,7 +112,7 @@ class Location {
   Object encode() {
     return <Object?>[
       position.encode(),
-      bearing,
+      heading,
       accuracy,
     ];
   }
@@ -121,7 +121,7 @@ class Location {
     result as List<Object?>;
     return Location(
       position: Position.decode(result[0]! as List<Object?>),
-      bearing: result[1] as double?,
+      heading: result[1] as double?,
       accuracy: result[2] as double?,
     );
   }
@@ -159,29 +159,29 @@ class MapPoi {
 /// 地图视野
 class CameraPosition {
   CameraPosition({
-    this.target,
-    this.bearing,
-    this.tilt,
+    this.position,
+    this.heading,
+    this.skew,
     this.zoom,
   });
 
   /// 地图视野的位置
-  Position? target;
+  Position? position;
 
   /// 地图视野的旋转角度
-  double? bearing;
+  double? heading;
 
   /// 地图视野的倾斜角度
-  double? tilt;
+  double? skew;
 
   /// 地图视野的缩放级别
   double? zoom;
 
   Object encode() {
     return <Object?>[
-      target?.encode(),
-      bearing,
-      tilt,
+      position?.encode(),
+      heading,
+      skew,
       zoom,
     ];
   }
@@ -189,11 +189,11 @@ class CameraPosition {
   static CameraPosition decode(Object result) {
     result as List<Object?>;
     return CameraPosition(
-      target: result[0] != null
+      position: result[0] != null
           ? Position.decode(result[0]! as List<Object?>)
           : null,
-      bearing: result[1] as double?,
-      tilt: result[2] as double?,
+      heading: result[1] as double?,
+      skew: result[2] as double?,
       zoom: result[3] as double?,
     );
   }
@@ -553,9 +553,9 @@ class TencentMapApi {
     }
   }
 
-  Future<void> setTiltGesturesEnabled(bool arg_enabled) async {
+  Future<void> setSkewGesturesEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.TencentMapApi.setTiltGesturesEnabled', codec,
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.setSkewGesturesEnabled', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_enabled]) as List<Object?>?;

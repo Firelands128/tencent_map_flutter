@@ -32,8 +32,8 @@ class _LocationPageState extends State<LocationPage> {
               Location location = await controller.getUserLocation();
               controller.moveCamera(
                 CameraPosition(
-                  target: location.position,
-                  bearing: location.bearing,
+                  position: location.position,
+                  heading: location.heading,
                 ),
               );
             },

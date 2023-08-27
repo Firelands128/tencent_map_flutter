@@ -38,7 +38,7 @@ class _TencentMapApi: NSObject, TencentMapApi {
     mapView.isZoomEnabled = enabled
   }
 
-  func setTiltGesturesEnabled(enabled: Bool) throws {
+  func setSkewGesturesEnabled(enabled: Bool) throws {
     mapView.isOverlookingEnabled = enabled
   }
 
@@ -74,10 +74,10 @@ class _TencentMapApi: NSObject, TencentMapApi {
 
   func moveCamera(position: CameraPosition, duration: Int64) throws {
     let animated = duration > 0
-    if let it = position.target?.coordinate { mapView.setCenter(it, animated: animated) }
+    if let it = position.position?.coordinate { mapView.setCenter(it, animated: animated) }
     if let it = position.zoom { mapView.setZoomLevel(CGFloat(it), animated: animated) }
-    if let it = position.tilt { mapView.setOverlooking(CGFloat(it), animated: animated) }
-    if let it = position.bearing { mapView.setRotation(CGFloat(it), animated: animated) }
+    if let it = position.skew { mapView.setOverlooking(CGFloat(it), animated: animated) }
+    if let it = position.heading { mapView.setRotation(CGFloat(it), animated: animated) }
   }
 
   func addMarker(options: MarkerOptions) throws -> String {

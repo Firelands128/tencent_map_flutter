@@ -34,10 +34,10 @@ fun TencentCameraPosition.toCameraPosition(): CameraPosition {
 
 fun CameraPosition.toCameraPosition(cameraPosition: TencentCameraPosition): TencentCameraPosition {
     return TencentCameraPosition.Builder().let { builder ->
-        builder.target(target?.toPosition() ?: cameraPosition.target)
-        builder.tilt(tilt?.toFloat() ?: cameraPosition.tilt)
+        builder.target(position?.toPosition() ?: cameraPosition.target)
+        builder.tilt(skew?.toFloat() ?: cameraPosition.tilt)
         builder.zoom(zoom?.toFloat() ?: cameraPosition.zoom)
-        builder.bearing(bearing?.toFloat() ?: cameraPosition.bearing)
+        builder.bearing(heading?.toFloat() ?: cameraPosition.bearing)
         builder.build()
     }
 }

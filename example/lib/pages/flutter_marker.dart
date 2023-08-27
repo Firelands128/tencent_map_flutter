@@ -44,7 +44,7 @@ class _FlutterMarkerPageState extends State<FlutterMarkerPage> {
 
   void onMapCreated(TencentMapController controller) async {
     final position = Position(latitude: 39.909, longitude: 116.397);
-    controller.moveCamera(CameraPosition(target: position));
+    controller.moveCamera(CameraPosition(position: position));
     final image = await screenshot.capture();
     await controller.addMarker(
       MarkerOptions(position: position, icon: Bitmap(bytes: image)),

@@ -14,16 +14,16 @@ class _State extends State<MoveCameraPage> {
   late TencentMapController controller;
   var animated = false;
   static final position1 = CameraPosition(
-    target: Position(latitude: 39.97837, longitude: 116.31363),
+    position: Position(latitude: 39.97837, longitude: 116.31363),
     zoom: 19,
-    bearing: 45,
-    tilt: 45,
+    heading: 45,
+    skew: 45,
   );
   static final position2 = CameraPosition(
-    target: Position(latitude: 39.97537, longitude: 116.31363),
+    position: Position(latitude: 39.97537, longitude: 116.31363),
     zoom: 16,
-    bearing: 0,
-    tilt: 0,
+    heading: 0,
+    skew: 0,
   );
 
   @override

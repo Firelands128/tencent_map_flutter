@@ -142,9 +142,9 @@ extension UIImage {
 extension QMapView {
   var cameraPosition: CameraPosition {
     return CameraPosition(
-      target: centerCoordinate.position,
-      bearing: rotation,
-      tilt: overlooking,
+      position: centerCoordinate.position,
+      heading: rotation,
+      skew: overlooking,
       zoom: zoomLevel
     )
   }
@@ -163,7 +163,7 @@ extension QUserLocation {
   var toLocation: Location {
     return Location(
       position: location.coordinate.position,
-      bearing: heading?.trueHeading ?? location.course,
+      heading: heading?.trueHeading ?? location.course,
       accuracy: max(location.horizontalAccuracy, location.verticalAccuracy)
     )
   }

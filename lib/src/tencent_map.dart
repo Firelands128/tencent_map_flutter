@@ -15,7 +15,7 @@ class TencentMap extends StatefulWidget {
     this.scaleControlsEnabled = true,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
-    this.tiltGesturesEnabled = true,
+    this.skewGesturesEnabled = true,
     this.trafficEnabled = false,
     this.indoorViewEnabled = false,
     this.buildingsEnabled = true,
@@ -58,7 +58,7 @@ class TencentMap extends StatefulWidget {
   final bool scrollGesturesEnabled;
 
   /// 是否允许倾斜手势
-  final bool tiltGesturesEnabled;
+  final bool skewGesturesEnabled;
 
   /// 是否打开路况图层
   final bool trafficEnabled;
@@ -195,8 +195,8 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     if (widget.scaleControlsEnabled != old.scaleControlsEnabled) {
       _api.setScaleControlsEnabled(widget.scaleControlsEnabled);
     }
-    if (widget.tiltGesturesEnabled != old.tiltGesturesEnabled) {
-      _api.setTiltGesturesEnabled(widget.tiltGesturesEnabled);
+    if (widget.skewGesturesEnabled != old.skewGesturesEnabled) {
+      _api.setSkewGesturesEnabled(widget.skewGesturesEnabled);
     }
     if (widget.scrollGesturesEnabled != old.scrollGesturesEnabled) {
       _api.setScrollGesturesEnabled(widget.scrollGesturesEnabled);

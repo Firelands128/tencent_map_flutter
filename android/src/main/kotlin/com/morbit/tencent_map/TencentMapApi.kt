@@ -50,7 +50,7 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     mapView.map.uiSettings.isZoomGesturesEnabled = enabled
   }
 
-  override fun setTiltGesturesEnabled(enabled: Boolean) {
+  override fun setSkewGesturesEnabled(enabled: Boolean) {
     mapView.map.uiSettings.isTiltGesturesEnabled = enabled
   }
 
