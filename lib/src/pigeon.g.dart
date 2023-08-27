@@ -8,9 +8,13 @@ import 'dart:typed_data' show Float64List, Int32List, Int64List, Uint8List;
 import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
 import 'package:flutter/services.dart';
 
+/// 地图类型
 enum MapType {
+  /// 常规地图
   normal,
+  /// 卫星地图
   satellite,
+  /// 暗色地图
   dark,
 }
 
@@ -30,14 +34,17 @@ enum UserLocationType {
   trackingRotate,
 }
 
+/// 点标记图标锚点
 class Anchor {
   Anchor({
     required this.x,
     required this.y,
   });
 
+  /// 点标记图标锚点的X坐标
   double x;
 
+  /// 点标记图标锚点的Y坐标
   double y;
 
   Object encode() {
@@ -56,14 +63,17 @@ class Anchor {
   }
 }
 
+/// 位置
 class Position {
   Position({
     required this.latitude,
     required this.longitude,
   });
 
+  /// 位置的纬度
   double latitude;
 
+  /// 位置的经度
   double longitude;
 
   Object encode() {
@@ -82,6 +92,7 @@ class Position {
   }
 }
 
+/// 定位点
 class Location {
   Location({
     required this.position,
@@ -89,10 +100,13 @@ class Location {
     this.accuracy,
   });
 
+  /// 定位点的位置
   Position position;
 
+  /// 定位点的方向
   double? bearing;
 
+  /// 定位点的精确度
   double? accuracy;
 
   Object encode() {
@@ -113,14 +127,17 @@ class Location {
   }
 }
 
+/// 地图兴趣点
 class MapPoi {
   MapPoi({
     required this.name,
     required this.position,
   });
 
+  /// 兴趣点的名称
   String name;
 
+  /// 兴趣点的位置
   Position position;
 
   Object encode() {
@@ -139,6 +156,7 @@ class MapPoi {
   }
 }
 
+/// 地图视野
 class CameraPosition {
   CameraPosition({
     this.target,
@@ -147,12 +165,16 @@ class CameraPosition {
     this.zoom,
   });
 
+  /// 地图视野的位置
   Position? target;
 
+  /// 地图视野的旋转角度
   double? bearing;
 
+  /// 地图视野的倾斜角度
   double? tilt;
 
+  /// 地图视野的缩放级别
   double? zoom;
 
   Object encode() {
@@ -177,6 +199,7 @@ class CameraPosition {
   }
 }
 
+/// 标记点配置属性
 class MarkerOptions {
   MarkerOptions({
     required this.position,
@@ -189,20 +212,28 @@ class MarkerOptions {
     this.anchor,
   });
 
+  /// 标记点的位置
   Position position;
 
+  /// 标记点的透明度
   double? alpha;
 
+  /// 标记点的旋转角度
   double? rotation;
 
+  /// 标记点的Z轴显示顺序
   int? zIndex;
 
+  /// 标记点是否支持3D悬浮（Android Only)
   bool? flat;
 
+  /// 标记点是否支持拖动
   bool? draggable;
 
+  /// 标记点的图标信息
   Bitmap? icon;
 
+  /// 标记点的锚点
   Anchor? anchor;
 
   Object encode() {
@@ -237,11 +268,13 @@ class MarkerOptions {
   }
 }
 
+/// 折线配置属性
 class PolylineOptions {
   PolylineOptions({
     this.points,
   });
 
+  /// 折线中拐点位置的列表
   List<Position?>? points;
 
   Object encode() {
@@ -258,14 +291,17 @@ class PolylineOptions {
   }
 }
 
+/// 图片信息
 class Bitmap {
   Bitmap({
     this.asset,
     this.bytes,
   });
 
+  /// 图片资源路径
   String? asset;
 
+  /// 图片数据
   Uint8List? bytes;
 
   Object encode() {

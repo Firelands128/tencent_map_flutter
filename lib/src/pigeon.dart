@@ -125,9 +125,15 @@ abstract class TencentMapHandler {
   void onLocation(Location location);
 }
 
+/// 地图类型
 enum MapType {
+  /// 常规地图
   normal,
+
+  /// 卫星地图
   satellite,
+
+  /// 暗色地图
   dark,
 }
 
@@ -151,50 +157,98 @@ enum UserLocationType {
   trackingRotate,
 }
 
+/// 点标记图标锚点
 class Anchor {
+  /// 点标记图标锚点的X坐标
   late double x;
+
+  /// 点标记图标锚点的Y坐标
   late double y;
 }
 
+/// 位置
 class Position {
+  /// 位置的纬度
   late double latitude;
+
+  /// 位置的经度
   late double longitude;
 }
 
+/// 定位点
 class Location {
+  /// 定位点的位置
   late Position position;
+
+  /// 定位点的方向
   double? bearing;
+
+  /// 定位点的精确度
   double? accuracy;
 }
 
+/// 地图兴趣点
 class MapPoi {
+  /// 兴趣点的名称
   late String name;
+
+  /// 兴趣点的位置
   late Position position;
 }
 
+/// 地图视野
 class CameraPosition {
+  /// 地图视野的位置
   Position? target;
+
+  /// 地图视野的旋转角度
   double? bearing;
+
+  /// 地图视野的倾斜角度
   double? tilt;
+
+  /// 地图视野的缩放级别
   double? zoom;
 }
 
+/// 标记点配置属性
 class MarkerOptions {
+  /// 标记点的位置
   late Position position;
+
+  /// 标记点的透明度
   double? alpha;
+
+  /// 标记点的旋转角度
   double? rotation;
+
+  /// 标记点的Z轴显示顺序
   int? zIndex;
+
+  /// 标记点是否支持3D悬浮（Android Only)
   bool? flat;
+
+  /// 标记点是否支持拖动
   bool? draggable;
+
+  /// 标记点的图标信息
   Bitmap? icon;
+
+  /// 标记点的锚点
   Anchor? anchor;
 }
 
+/// 折线配置属性
 class PolylineOptions {
+  /// 折线中拐点位置的列表
   List<Position?>? points;
 }
 
+/// 图片信息
 class Bitmap {
+  /// 图片资源路径
   String? asset;
+
+  /// 图片数据
   Uint8List? bytes;
 }

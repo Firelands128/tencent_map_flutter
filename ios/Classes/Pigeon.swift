@@ -34,9 +34,13 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
   return value as! T?
 }
 
+/// 地图类型
 enum MapType: Int {
+  /// 常规地图
   case normal = 0
+  /// 卫星地图
   case satellite = 1
+  /// 暗色地图
   case dark = 2
 }
 
@@ -56,9 +60,13 @@ enum UserLocationType: Int {
   case trackingRotate = 4
 }
 
+/// 点标记图标锚点
+///
 /// Generated class from Pigeon that represents data sent in messages.
 struct Anchor {
+  /// 点标记图标锚点的X坐标
   var x: Double
+  /// 点标记图标锚点的Y坐标
   var y: Double
 
   static func fromList(_ list: [Any?]) -> Anchor? {
@@ -78,9 +86,13 @@ struct Anchor {
   }
 }
 
+/// 位置
+///
 /// Generated class from Pigeon that represents data sent in messages.
 struct Position {
+  /// 位置的纬度
   var latitude: Double
+  /// 位置的经度
   var longitude: Double
 
   static func fromList(_ list: [Any?]) -> Position? {
@@ -100,10 +112,15 @@ struct Position {
   }
 }
 
+/// 定位点
+///
 /// Generated class from Pigeon that represents data sent in messages.
 struct Location {
+  /// 定位点的位置
   var position: Position
+  /// 定位点的方向
   var bearing: Double? = nil
+  /// 定位点的精确度
   var accuracy: Double? = nil
 
   static func fromList(_ list: [Any?]) -> Location? {
@@ -126,9 +143,13 @@ struct Location {
   }
 }
 
+/// 地图兴趣点
+///
 /// Generated class from Pigeon that represents data sent in messages.
 struct MapPoi {
+  /// 兴趣点的名称
   var name: String
+  /// 兴趣点的位置
   var position: Position
 
   static func fromList(_ list: [Any?]) -> MapPoi? {
@@ -148,11 +169,17 @@ struct MapPoi {
   }
 }
 
+/// 地图视野
+///
 /// Generated class from Pigeon that represents data sent in messages.
 struct CameraPosition {
+  /// 地图视野的位置
   var target: Position? = nil
+  /// 地图视野的旋转角度
   var bearing: Double? = nil
+  /// 地图视野的倾斜角度
   var tilt: Double? = nil
+  /// 地图视野的缩放级别
   var zoom: Double? = nil
 
   static func fromList(_ list: [Any?]) -> CameraPosition? {
@@ -181,15 +208,25 @@ struct CameraPosition {
   }
 }
 
+/// 标记点配置属性
+///
 /// Generated class from Pigeon that represents data sent in messages.
 struct MarkerOptions {
+  /// 标记点的位置
   var position: Position
+  /// 标记点的透明度
   var alpha: Double? = nil
+  /// 标记点的旋转角度
   var rotation: Double? = nil
+  /// 标记点的Z轴显示顺序
   var zIndex: Int64? = nil
+  /// 标记点是否支持3D悬浮（Android Only)
   var flat: Bool? = nil
+  /// 标记点是否支持拖动
   var draggable: Bool? = nil
+  /// 标记点的图标信息
   var icon: Bitmap? = nil
+  /// 标记点的锚点
   var anchor: Anchor? = nil
 
   static func fromList(_ list: [Any?]) -> MarkerOptions? {
@@ -233,8 +270,11 @@ struct MarkerOptions {
   }
 }
 
+/// 折线配置属性
+///
 /// Generated class from Pigeon that represents data sent in messages.
 struct PolylineOptions {
+  /// 折线中拐点位置的列表
   var points: [Position?]? = nil
 
   static func fromList(_ list: [Any?]) -> PolylineOptions? {
@@ -251,9 +291,13 @@ struct PolylineOptions {
   }
 }
 
+/// 图片信息
+///
 /// Generated class from Pigeon that represents data sent in messages.
 struct Bitmap {
+  /// 图片资源路径
   var asset: String? = nil
+  /// 图片数据
   var bytes: FlutterStandardTypedData? = nil
 
   static func fromList(_ list: [Any?]) -> Bitmap? {

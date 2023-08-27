@@ -43,9 +43,13 @@ class FlutterError (
   val details: Any? = null
 ) : Throwable()
 
+/** 地图类型 */
 enum class MapType(val raw: Int) {
+  /** 常规地图 */
   NORMAL(0),
+  /** 卫星地图 */
   SATELLITE(1),
+  /** 暗色地图 */
   DARK(2);
 
   companion object {
@@ -79,9 +83,15 @@ enum class UserLocationType(val raw: Int) {
   }
 }
 
-/** Generated class from Pigeon that represents data sent in messages. */
+/**
+ * 点标记图标锚点
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
 data class Anchor (
+  /** 点标记图标锚点的X坐标 */
   val x: Double,
+  /** 点标记图标锚点的Y坐标 */
   val y: Double
 
 ) {
@@ -101,9 +111,15 @@ data class Anchor (
   }
 }
 
-/** Generated class from Pigeon that represents data sent in messages. */
+/**
+ * 位置
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
 data class Position (
+  /** 位置的纬度 */
   val latitude: Double,
+  /** 位置的经度 */
   val longitude: Double
 
 ) {
@@ -123,10 +139,17 @@ data class Position (
   }
 }
 
-/** Generated class from Pigeon that represents data sent in messages. */
+/**
+ * 定位点
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
 data class Location (
+  /** 定位点的位置 */
   val position: Position,
+  /** 定位点的方向 */
   val bearing: Double? = null,
+  /** 定位点的精确度 */
   val accuracy: Double? = null
 
 ) {
@@ -148,9 +171,15 @@ data class Location (
   }
 }
 
-/** Generated class from Pigeon that represents data sent in messages. */
+/**
+ * 地图兴趣点
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
 data class MapPoi (
+  /** 兴趣点的名称 */
   val name: String,
+  /** 兴趣点的位置 */
   val position: Position
 
 ) {
@@ -170,11 +199,19 @@ data class MapPoi (
   }
 }
 
-/** Generated class from Pigeon that represents data sent in messages. */
+/**
+ * 地图视野
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
 data class CameraPosition (
+  /** 地图视野的位置 */
   val target: Position? = null,
+  /** 地图视野的旋转角度 */
   val bearing: Double? = null,
+  /** 地图视野的倾斜角度 */
   val tilt: Double? = null,
+  /** 地图视野的缩放级别 */
   val zoom: Double? = null
 
 ) {
@@ -200,15 +237,27 @@ data class CameraPosition (
   }
 }
 
-/** Generated class from Pigeon that represents data sent in messages. */
+/**
+ * 标记点配置属性
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
 data class MarkerOptions (
+  /** 标记点的位置 */
   val position: Position,
+  /** 标记点的透明度 */
   val alpha: Double? = null,
+  /** 标记点的旋转角度 */
   val rotation: Double? = null,
+  /** 标记点的Z轴显示顺序 */
   val zIndex: Long? = null,
+  /** 标记点是否支持3D悬浮（Android Only) */
   val flat: Boolean? = null,
+  /** 标记点是否支持拖动 */
   val draggable: Boolean? = null,
+  /** 标记点的图标信息 */
   val icon: Bitmap? = null,
+  /** 标记点的锚点 */
   val anchor: Anchor? = null
 
 ) {
@@ -244,8 +293,13 @@ data class MarkerOptions (
   }
 }
 
-/** Generated class from Pigeon that represents data sent in messages. */
+/**
+ * 折线配置属性
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
 data class PolylineOptions (
+  /** 折线中拐点位置的列表 */
   val points: List<Position?>? = null
 
 ) {
@@ -263,9 +317,15 @@ data class PolylineOptions (
   }
 }
 
-/** Generated class from Pigeon that represents data sent in messages. */
+/**
+ * 图片信息
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
 data class Bitmap (
+  /** 图片资源路径 */
   val asset: String? = null,
+  /** 图片数据 */
   val bytes: ByteArray? = null
 
 ) {
