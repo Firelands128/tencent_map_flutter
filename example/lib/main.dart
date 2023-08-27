@@ -14,7 +14,9 @@ void main() {
   runApp(const App());
 }
 
+/// 主程序
 class App extends StatefulWidget {
+  /// 主程序构造函数
   const App({Key? key}) : super(key: key);
 
   @override
@@ -58,10 +60,14 @@ class _AppState extends State<App> {
   }
 }
 
+/// 示例项目
 class Item extends StatelessWidget {
+  /// 示例标题
   final String title;
+  /// 示例创建器
   final Widget Function(BuildContext) builder;
 
+  /// 示例项目构造函数
   const Item(this.title, this.builder, {Key? key}) : super(key: key);
 
   @override

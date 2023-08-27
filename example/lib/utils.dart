@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// BuildContext的扩展工具
 extension ContextExt on BuildContext {
+  /// 显示alert dialog
   Future<void> alert(String title) async {
     return showDialog(
       context: this,
@@ -13,12 +15,14 @@ extension ContextExt on BuildContext {
     );
   }
 
+  /// 显示snack bar
   Future<void> snackBar(String message) async {
     ScaffoldMessenger.of(this)
       ..clearSnackBars()
       ..showSnackBar(SnackBar(content: Text(message)));
   }
 
+  /// 是否是暗色模式
   bool get isDark {
     return Theme.of(this).brightness == Brightness.dark;
   }
