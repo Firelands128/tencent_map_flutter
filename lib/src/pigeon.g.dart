@@ -923,6 +923,7 @@ class MarkerApi {
 
   static const MessageCodec<Object?> codec = _MarkerApiCodec();
 
+  /// 移除标记点
   Future<void> remove(String arg_id) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.MarkerApi.remove', codec,
@@ -945,6 +946,7 @@ class MarkerApi {
     }
   }
 
+  /// 更新标记点的旋转角度
   Future<void> setRotation(String arg_id, double arg_rotation) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.MarkerApi.setRotation', codec,
@@ -967,6 +969,7 @@ class MarkerApi {
     }
   }
 
+  /// 更新标记点的位置
   Future<void> setPosition(String arg_id, Position arg_position) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.MarkerApi.setPosition', codec,
@@ -989,6 +992,7 @@ class MarkerApi {
     }
   }
 
+  /// 更新标记点的锚点
   Future<void> setAnchor(String arg_id, double arg_x, double arg_y) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.MarkerApi.setAnchor', codec,
@@ -1011,6 +1015,7 @@ class MarkerApi {
     }
   }
 
+  /// 更新标记点的Z轴显示顺序
   Future<void> setZIndex(String arg_id, int arg_zIndex) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.MarkerApi.setZIndex', codec,
@@ -1033,6 +1038,7 @@ class MarkerApi {
     }
   }
 
+  /// 更新标记点的透明度
   Future<void> setAlpha(String arg_id, double arg_alpha) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.MarkerApi.setAlpha', codec,
@@ -1055,6 +1061,7 @@ class MarkerApi {
     }
   }
 
+  /// 更新标记点的图标
   Future<void> setIcon(String arg_id, Bitmap arg_icon) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.MarkerApi.setIcon', codec,
@@ -1077,6 +1084,7 @@ class MarkerApi {
     }
   }
 
+  /// 更新标记点的是否可拖拽属性值
   Future<void> setDraggable(String arg_id, bool arg_draggable) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.MarkerApi.setDraggable', codec,

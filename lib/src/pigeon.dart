@@ -64,20 +64,28 @@ abstract class TencentMapApi {
 
 @HostApi()
 abstract class MarkerApi {
+  /// 移除标记点
   void remove(String id);
 
+  /// 更新标记点的旋转角度
   void setRotation(String id, double rotation);
 
+  /// 更新标记点的位置
   void setPosition(String id, Position position);
 
+  /// 更新标记点的锚点
   void setAnchor(String id, double x, double y);
 
+  /// 更新标记点的Z轴显示顺序
   void setZIndex(String id, int zIndex);
 
+  /// 更新标记点的透明度
   void setAlpha(String id, double alpha);
 
+  /// 更新标记点的图标
   void setIcon(String id, Bitmap icon);
 
+  /// 更新标记点的是否可拖拽属性值
   void setDraggable(String id, bool draggable);
 }
 

@@ -879,13 +879,21 @@ private object MarkerApiCodec : StandardMessageCodec() {
 
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface MarkerApi {
+  /** 移除标记点 */
   fun remove(id: String)
+  /** 更新标记点的旋转角度 */
   fun setRotation(id: String, rotation: Double)
+  /** 更新标记点的位置 */
   fun setPosition(id: String, position: Position)
+  /** 更新标记点的锚点 */
   fun setAnchor(id: String, x: Double, y: Double)
+  /** 更新标记点的Z轴显示顺序 */
   fun setZIndex(id: String, zIndex: Long)
+  /** 更新标记点的透明度 */
   fun setAlpha(id: String, alpha: Double)
+  /** 更新标记点的图标 */
   fun setIcon(id: String, icon: Bitmap)
+  /** 更新标记点的是否可拖拽属性值 */
   fun setDraggable(id: String, draggable: Boolean)
 
   companion object {
