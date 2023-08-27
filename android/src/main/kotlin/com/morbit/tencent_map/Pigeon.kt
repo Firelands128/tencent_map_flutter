@@ -344,8 +344,13 @@ data class Bitmap (
     )
   }
 }
-/** Generated interface from Pigeon that represents a handler of messages from Flutter. */
+/**
+ * 地图SDK接口
+ *
+ * Generated interface from Pigeon that represents a handler of messages from Flutter.
+ */
 interface TencentMapSdkApi {
+  /** 初始化地图SDK，显示地图前必须调用 */
   fun initSdk(iosApiKey: String?, agreePrivacy: Boolean)
 
   companion object {

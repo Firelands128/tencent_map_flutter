@@ -1,6 +1,7 @@
 // ignore: depend_on_referenced_packages
 import 'package:pigeon/pigeon.dart';
 
+/// 配置Pigeon
 @ConfigurePigeon(
   PigeonOptions(
     dartOut: 'lib/src/pigeon.g.dart',
@@ -10,8 +11,11 @@ import 'package:pigeon/pigeon.dart';
     swiftOptions: SwiftOptions(),
   ),
 )
+
+/// 地图SDK接口
 @HostApi()
 abstract class TencentMapSdkApi {
+  /// 初始化地图SDK，显示地图前必须调用
   void initSdk(String? iosApiKey, bool agreePrivacy);
 }
 

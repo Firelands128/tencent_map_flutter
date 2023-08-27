@@ -320,6 +320,7 @@ class Bitmap {
   }
 }
 
+/// 地图SDK接口
 class TencentMapSdkApi {
   /// Constructor for [TencentMapSdkApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
@@ -330,6 +331,7 @@ class TencentMapSdkApi {
 
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
+  /// 初始化地图SDK，显示地图前必须调用
   Future<void> initSdk(String? arg_iosApiKey, bool arg_agreePrivacy) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapSdkApi.initSdk', codec,

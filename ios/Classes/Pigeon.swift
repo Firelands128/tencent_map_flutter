@@ -316,8 +316,11 @@ struct Bitmap {
     ]
   }
 }
+/// 地图SDK接口
+///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol TencentMapSdkApi {
+  /// 初始化地图SDK，显示地图前必须调用
   func initSdk(iosApiKey: String?, agreePrivacy: Bool) throws
 }
 
@@ -326,6 +329,7 @@ class TencentMapSdkApiSetup {
   /// The codec used by TencentMapSdkApi.
   /// Sets up an instance of `TencentMapSdkApi` to handle messages through the `binaryMessenger`.
   static func setUp(binaryMessenger: FlutterBinaryMessenger, api: TencentMapSdkApi?) {
+    /// 初始化地图SDK，显示地图前必须调用
     let initSdkChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapSdkApi.initSdk", binaryMessenger: binaryMessenger)
     if let api = api {
       initSdkChannel.setMessageHandler { message, reply in
