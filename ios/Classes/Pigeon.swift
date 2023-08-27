@@ -865,18 +865,18 @@ class MarkerApiCodec: FlutterStandardMessageCodec {
 protocol MarkerApi {
   /// 移除标记点
   func remove(id: String) throws
-  /// 更新标记点的旋转角度
-  func setRotation(id: String, rotation: Double) throws
   /// 更新标记点的位置
   func setPosition(id: String, position: Position) throws
-  /// 更新标记点的锚点
-  func setAnchor(id: String, x: Double, y: Double) throws
-  /// 更新标记点的Z轴显示顺序
-  func setZIndex(id: String, zIndex: Int64) throws
-  /// 更新标记点的透明度
-  func setAlpha(id: String, alpha: Double) throws
   /// 更新标记点的图标
   func setIcon(id: String, icon: Bitmap) throws
+  /// 更新标记点的锚点
+  func setAnchor(id: String, x: Double, y: Double) throws
+  /// 更新标记点的透明度
+  func setAlpha(id: String, alpha: Double) throws
+  /// 更新标记点的旋转角度
+  func setRotation(id: String, rotation: Double) throws
+  /// 更新标记点的Z轴显示顺序
+  func setZIndex(id: String, zIndex: Int64) throws
   /// 更新标记点的是否可拖拽属性值
   func setDraggable(id: String, draggable: Bool) throws
 }
@@ -903,23 +903,6 @@ class MarkerApiSetup {
     } else {
       removeChannel.setMessageHandler(nil)
     }
-    /// 更新标记点的旋转角度
-    let setRotationChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setRotation", binaryMessenger: binaryMessenger, codec: codec)
-    if let api = api {
-      setRotationChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let idArg = args[0] as! String
-        let rotationArg = args[1] as! Double
-        do {
-          try api.setRotation(id: idArg, rotation: rotationArg)
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      setRotationChannel.setMessageHandler(nil)
-    }
     /// 更新标记点的位置
     let setPositionChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setPosition", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
@@ -936,6 +919,23 @@ class MarkerApiSetup {
       }
     } else {
       setPositionChannel.setMessageHandler(nil)
+    }
+    /// 更新标记点的图标
+    let setIconChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setIcon", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      setIconChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let idArg = args[0] as! String
+        let iconArg = args[1] as! Bitmap
+        do {
+          try api.setIcon(id: idArg, icon: iconArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      setIconChannel.setMessageHandler(nil)
     }
     /// 更新标记点的锚点
     let setAnchorChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setAnchor", binaryMessenger: binaryMessenger, codec: codec)
@@ -955,23 +955,6 @@ class MarkerApiSetup {
     } else {
       setAnchorChannel.setMessageHandler(nil)
     }
-    /// 更新标记点的Z轴显示顺序
-    let setZIndexChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setZIndex", binaryMessenger: binaryMessenger, codec: codec)
-    if let api = api {
-      setZIndexChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let idArg = args[0] as! String
-        let zIndexArg = args[1] is Int64 ? args[1] as! Int64 : Int64(args[1] as! Int32)
-        do {
-          try api.setZIndex(id: idArg, zIndex: zIndexArg)
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      setZIndexChannel.setMessageHandler(nil)
-    }
     /// 更新标记点的透明度
     let setAlphaChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setAlpha", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
@@ -989,22 +972,39 @@ class MarkerApiSetup {
     } else {
       setAlphaChannel.setMessageHandler(nil)
     }
-    /// 更新标记点的图标
-    let setIconChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setIcon", binaryMessenger: binaryMessenger, codec: codec)
+    /// 更新标记点的旋转角度
+    let setRotationChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setRotation", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
-      setIconChannel.setMessageHandler { message, reply in
+      setRotationChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
         let idArg = args[0] as! String
-        let iconArg = args[1] as! Bitmap
+        let rotationArg = args[1] as! Double
         do {
-          try api.setIcon(id: idArg, icon: iconArg)
+          try api.setRotation(id: idArg, rotation: rotationArg)
           reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))
         }
       }
     } else {
-      setIconChannel.setMessageHandler(nil)
+      setRotationChannel.setMessageHandler(nil)
+    }
+    /// 更新标记点的Z轴显示顺序
+    let setZIndexChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setZIndex", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      setZIndexChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let idArg = args[0] as! String
+        let zIndexArg = args[1] is Int64 ? args[1] as! Int64 : Int64(args[1] as! Int32)
+        do {
+          try api.setZIndex(id: idArg, zIndex: zIndexArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      setZIndexChannel.setMessageHandler(nil)
     }
     /// 更新标记点的是否可拖拽属性值
     let setDraggableChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setDraggable", binaryMessenger: binaryMessenger, codec: codec)

@@ -1008,13 +1008,13 @@ class MarkerApi {
     }
   }
 
-  /// 更新标记点的旋转角度
-  Future<void> setRotation(String arg_id, double arg_rotation) async {
+  /// 更新标记点的位置
+  Future<void> setPosition(String arg_id, Position arg_position) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.MarkerApi.setRotation', codec,
+        'dev.flutter.pigeon.tencent_map.MarkerApi.setPosition', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_rotation]) as List<Object?>?;
+        await channel.send(<Object?>[arg_id, arg_position]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -1031,13 +1031,13 @@ class MarkerApi {
     }
   }
 
-  /// 更新标记点的位置
-  Future<void> setPosition(String arg_id, Position arg_position) async {
+  /// 更新标记点的图标
+  Future<void> setIcon(String arg_id, Bitmap arg_icon) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.MarkerApi.setPosition', codec,
+        'dev.flutter.pigeon.tencent_map.MarkerApi.setIcon', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_position]) as List<Object?>?;
+        await channel.send(<Object?>[arg_id, arg_icon]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -1077,29 +1077,6 @@ class MarkerApi {
     }
   }
 
-  /// 更新标记点的Z轴显示顺序
-  Future<void> setZIndex(String arg_id, int arg_zIndex) async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.MarkerApi.setZIndex', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_zIndex]) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else {
-      return;
-    }
-  }
-
   /// 更新标记点的透明度
   Future<void> setAlpha(String arg_id, double arg_alpha) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -1123,13 +1100,36 @@ class MarkerApi {
     }
   }
 
-  /// 更新标记点的图标
-  Future<void> setIcon(String arg_id, Bitmap arg_icon) async {
+  /// 更新标记点的旋转角度
+  Future<void> setRotation(String arg_id, double arg_rotation) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.MarkerApi.setIcon', codec,
+        'dev.flutter.pigeon.tencent_map.MarkerApi.setRotation', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_icon]) as List<Object?>?;
+        await channel.send(<Object?>[arg_id, arg_rotation]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  /// 更新标记点的Z轴显示顺序
+  Future<void> setZIndex(String arg_id, int arg_zIndex) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.tencent_map.MarkerApi.setZIndex', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_id, arg_zIndex]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

@@ -976,18 +976,18 @@ private object MarkerApiCodec : StandardMessageCodec() {
 interface MarkerApi {
   /** 移除标记点 */
   fun remove(id: String)
-  /** 更新标记点的旋转角度 */
-  fun setRotation(id: String, rotation: Double)
   /** 更新标记点的位置 */
   fun setPosition(id: String, position: Position)
-  /** 更新标记点的锚点 */
-  fun setAnchor(id: String, x: Double, y: Double)
-  /** 更新标记点的Z轴显示顺序 */
-  fun setZIndex(id: String, zIndex: Long)
-  /** 更新标记点的透明度 */
-  fun setAlpha(id: String, alpha: Double)
   /** 更新标记点的图标 */
   fun setIcon(id: String, icon: Bitmap)
+  /** 更新标记点的锚点 */
+  fun setAnchor(id: String, x: Double, y: Double)
+  /** 更新标记点的透明度 */
+  fun setAlpha(id: String, alpha: Double)
+  /** 更新标记点的旋转角度 */
+  fun setRotation(id: String, rotation: Double)
+  /** 更新标记点的Z轴显示顺序 */
+  fun setZIndex(id: String, zIndex: Long)
   /** 更新标记点的是否可拖拽属性值 */
   fun setDraggable(id: String, draggable: Boolean)
 
@@ -1019,15 +1019,15 @@ interface MarkerApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setRotation", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setPosition", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val idArg = args[0] as String
-            val rotationArg = args[1] as Double
+            val positionArg = args[1] as Position
             var wrapped: List<Any?>
             try {
-              api.setRotation(idArg, rotationArg)
+              api.setPosition(idArg, positionArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
@@ -1039,15 +1039,15 @@ interface MarkerApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setPosition", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setIcon", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val idArg = args[0] as String
-            val positionArg = args[1] as Position
+            val iconArg = args[1] as Bitmap
             var wrapped: List<Any?>
             try {
-              api.setPosition(idArg, positionArg)
+              api.setIcon(idArg, iconArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
@@ -1080,26 +1080,6 @@ interface MarkerApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setZIndex", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            val args = message as List<Any?>
-            val idArg = args[0] as String
-            val zIndexArg = args[1].let { if (it is Int) it.toLong() else it as Long }
-            var wrapped: List<Any?>
-            try {
-              api.setZIndex(idArg, zIndexArg)
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setAlpha", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
@@ -1120,15 +1100,35 @@ interface MarkerApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setIcon", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setRotation", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val idArg = args[0] as String
-            val iconArg = args[1] as Bitmap
+            val rotationArg = args[1] as Double
             var wrapped: List<Any?>
             try {
-              api.setIcon(idArg, iconArg)
+              api.setRotation(idArg, rotationArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setZIndex", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val idArg = args[0] as String
+            val zIndexArg = args[1].let { if (it is Int) it.toLong() else it as Long }
+            var wrapped: List<Any?>
+            try {
+              api.setZIndex(idArg, zIndexArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
