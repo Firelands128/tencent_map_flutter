@@ -809,6 +809,8 @@ class MarkerApiCodec: FlutterStandardMessageCodec {
   static let shared = MarkerApiCodec(readerWriter: MarkerApiCodecReaderWriter())
 }
 
+/// 标记点操作接口
+///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol MarkerApi {
   /// 移除标记点
@@ -1024,6 +1026,8 @@ class TencentMapHandlerCodec: FlutterStandardMessageCodec {
   static let shared = TencentMapHandlerCodec(readerWriter: TencentMapHandlerCodecReaderWriter())
 }
 
+/// 地图状态事件回调处理器
+///
 /// Generated class from Pigeon that represents Flutter messages that can be called from Swift.
 class TencentMapHandler {
   private let binaryMessenger: FlutterBinaryMessenger

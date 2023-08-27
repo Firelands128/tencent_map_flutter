@@ -63,6 +63,7 @@ abstract class TencentMapApi {
 }
 
 @HostApi()
+/// 标记点操作接口
 abstract class MarkerApi {
   /// 移除标记点
   void remove(String id);
@@ -90,6 +91,7 @@ abstract class MarkerApi {
 }
 
 @FlutterApi()
+/// 地图状态事件回调处理器
 abstract class TencentMapHandler {
   /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
   void onPress(Position position);

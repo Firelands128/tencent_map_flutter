@@ -949,6 +949,7 @@ class _MarkerApiCodec extends StandardMessageCodec {
   }
 }
 
+/// 标记点操作接口
 class MarkerApi {
   /// Constructor for [MarkerApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
@@ -1182,6 +1183,7 @@ class _TencentMapHandlerCodec extends StandardMessageCodec {
   }
 }
 
+/// 地图状态事件回调处理器
 abstract class TencentMapHandler {
   static const MessageCodec<Object?> codec = _TencentMapHandlerCodec();
 

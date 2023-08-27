@@ -937,7 +937,11 @@ private object MarkerApiCodec : StandardMessageCodec() {
   }
 }
 
-/** Generated interface from Pigeon that represents a handler of messages from Flutter. */
+/**
+ * 标记点操作接口
+ *
+ * Generated interface from Pigeon that represents a handler of messages from Flutter.
+ */
 interface MarkerApi {
   /** 移除标记点 */
   fun remove(id: String)
@@ -1177,7 +1181,11 @@ private object TencentMapHandlerCodec : StandardMessageCodec() {
   }
 }
 
-/** Generated class from Pigeon that represents Flutter messages that can be called from Kotlin. */
+/**
+ * 地图状态事件回调处理器
+ *
+ * Generated class from Pigeon that represents Flutter messages that can be called from Kotlin.
+ */
 @Suppress("UNCHECKED_CAST")
 class TencentMapHandler(private val binaryMessenger: BinaryMessenger) {
   companion object {
