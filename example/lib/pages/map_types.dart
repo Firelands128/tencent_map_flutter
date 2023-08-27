@@ -2,14 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tencent_map/tencent_map.dart';
 
-class MapTypeItem {
-  final String name;
-  final int value;
-
-  MapTypeItem(this.name, this.value);
-}
-
+/// 地图类型切换页面
 class MapTypesPage extends StatefulWidget {
+  /// 地图类型切换页面构造函数
   const MapTypesPage({Key? key}) : super(key: key);
 
   @override

@@ -5,7 +5,9 @@ import 'package:tencent_map/tencent_map.dart';
 
 import '../utils.dart';
 
+/// 控件显示页面：比例尺、指南针、定位按钮
 class ControlsPage extends StatefulWidget {
+  /// 控件显示页面构造函数
   const ControlsPage({Key? key}) : super(key: key);
 
   @override

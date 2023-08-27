@@ -3,7 +3,9 @@ import 'package:tencent_map/tencent_map.dart';
 
 import '../utils.dart';
 
+/// 图层显示页面：路况、室内图、3D建筑
 class LayersPage extends StatefulWidget {
+  /// 图层显示页面构造函数
   const LayersPage({Key? key}) : super(key: key);
 
   @override

@@ -3,7 +3,9 @@ import 'package:tencent_map/tencent_map.dart';
 
 import '../utils.dart';
 
+/// 视野移动页面
 class MoveCameraPage extends StatefulWidget {
+  /// 视野移动页面构造函数
   const MoveCameraPage({Key? key}) : super(key: key);
 
   @override

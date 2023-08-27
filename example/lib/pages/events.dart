@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tencent_map/tencent_map.dart';
 import '../utils.dart';
 
+/// 地图事件回调页面
 class EventsPage extends StatefulWidget {
+  /// 地图事件回调页面构造函数
   const EventsPage({Key? key}) : super(key: key);
 
   @override

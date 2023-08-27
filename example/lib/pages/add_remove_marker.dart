@@ -3,7 +3,9 @@ import 'package:tencent_map/tencent_map.dart';
 
 import '../utils.dart';
 
+/// 添加、移除标记点页面
 class AddRemoveMarkerPage extends StatefulWidget {
+  /// 添加、移除标记点页面构造函数
   const AddRemoveMarkerPage({Key? key}) : super(key: key);
 
   @override

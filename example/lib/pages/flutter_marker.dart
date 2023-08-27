@@ -4,7 +4,9 @@ import 'package:tencent_map/tencent_map.dart';
 
 import '../utils.dart';
 
+/// 显示Flutter widget标记页面
 class FlutterMarkerPage extends StatefulWidget {
+  /// 显示Flutter widget标记页面构造函数
   const FlutterMarkerPage({Key? key}) : super(key: key);
 
   @override

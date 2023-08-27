@@ -5,7 +5,9 @@ import 'package:tencent_map/tencent_map.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../utils.dart';
 
+/// 定位页面
 class LocationPage extends StatefulWidget {
+  /// 定位页面构造函数
   const LocationPage({Key? key}) : super(key: key);
 
   @override
