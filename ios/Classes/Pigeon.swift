@@ -453,14 +453,14 @@ protocol TencentMapApi {
   func addMarker(options: MarkerOptions) throws -> String
   /// 添加折线
   func addPolyline(options: PolylineOptions) throws -> String
+  /// 开始
+  func start() throws
   /// 暂停
   func pause() throws
   /// 恢复
   func resume() throws
   /// 停止
   func stop() throws
-  /// 开始
-  func start() throws
   /// 销毁
   func destroy() throws
 }
@@ -742,6 +742,20 @@ class TencentMapApiSetup {
     } else {
       addPolylineChannel.setMessageHandler(nil)
     }
+    /// 开始
+    let startChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.start", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      startChannel.setMessageHandler { _, reply in
+        do {
+          try api.start()
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      startChannel.setMessageHandler(nil)
+    }
     /// 暂停
     let pauseChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.pause", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
@@ -783,20 +797,6 @@ class TencentMapApiSetup {
       }
     } else {
       stopChannel.setMessageHandler(nil)
-    }
-    /// 开始
-    let startChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.start", binaryMessenger: binaryMessenger, codec: codec)
-    if let api = api {
-      startChannel.setMessageHandler { _, reply in
-        do {
-          try api.start()
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      startChannel.setMessageHandler(nil)
     }
     /// 销毁
     let destroyChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.destroy", binaryMessenger: binaryMessenger, codec: codec)

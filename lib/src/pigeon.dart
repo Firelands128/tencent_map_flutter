@@ -15,8 +15,8 @@ abstract class TencentMapSdkApi {
   void initSdk(String? iosApiKey, bool agreePrivacy);
 }
 
-@HostApi()
 /// 地图操作接口
+@HostApi()
 abstract class TencentMapApi {
   /// 设置地图类型
   void setMapType(MapType type);
@@ -69,6 +69,9 @@ abstract class TencentMapApi {
   /// 添加折线
   String addPolyline(PolylineOptions options);
 
+  /// 开始
+  void start();
+
   /// 暂停
   void pause();
 
@@ -78,15 +81,12 @@ abstract class TencentMapApi {
   /// 停止
   void stop();
 
-  /// 开始
-  void start();
-
   /// 销毁
   void destroy();
 }
 
-@HostApi()
 /// 标记点操作接口
+@HostApi()
 abstract class MarkerApi {
   /// 移除标记点
   void remove(String id);
@@ -113,8 +113,8 @@ abstract class MarkerApi {
   void setDraggable(String id, bool draggable);
 }
 
-@FlutterApi()
 /// 地图状态事件回调处理器
+@FlutterApi()
 abstract class TencentMapHandler {
   /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
   void onPress(Position position);

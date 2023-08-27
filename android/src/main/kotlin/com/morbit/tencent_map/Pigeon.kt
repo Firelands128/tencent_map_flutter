@@ -505,14 +505,14 @@ interface TencentMapApi {
   fun addMarker(options: MarkerOptions): String
   /** 添加折线 */
   fun addPolyline(options: PolylineOptions): String
+  /** 开始 */
+  fun start()
   /** 暂停 */
   fun pause()
   /** 恢复 */
   fun resume()
   /** 停止 */
   fun stop()
-  /** 开始 */
-  fun start()
   /** 销毁 */
   fun destroy()
 
@@ -844,6 +844,23 @@ interface TencentMapApi {
         }
       }
       run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.start", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            var wrapped: List<Any?>
+            try {
+              api.start()
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.pause", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
@@ -884,23 +901,6 @@ interface TencentMapApi {
             var wrapped: List<Any?>
             try {
               api.stop()
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.start", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped: List<Any?>
-            try {
-              api.start()
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
