@@ -12,11 +12,11 @@ class LayersPage extends StatefulWidget {
   createState() => _State();
 }
 
-const traffic = '路况';
-const indoor = '室内图';
-const buildings = '3D 建筑';
-
 class _State extends State<LayersPage> {
+  static const traffic = '路况';
+  static const indoor = '室内图';
+  static const buildings = '3D 建筑';
+
   final _state = {traffic: true};
   final _items = [traffic, indoor, buildings];
 

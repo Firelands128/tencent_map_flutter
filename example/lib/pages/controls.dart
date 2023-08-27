@@ -14,11 +14,11 @@ class ControlsPage extends StatefulWidget {
   createState() => _State();
 }
 
-const scaleControls = '比例尺';
-const compass = '指南针';
-const myLocationButtonEnabled = '定位按钮';
-
 class _State extends State<ControlsPage> {
+  static const scaleControls = '比例尺';
+  static const compass = '指南针';
+  static const myLocationButtonEnabled = '定位按钮';
+
   final _items = [scaleControls, compass, myLocationButtonEnabled];
   final _state = {
     scaleControls: true,
