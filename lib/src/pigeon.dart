@@ -16,49 +16,72 @@ abstract class TencentMapSdkApi {
 }
 
 @HostApi()
+/// 地图操作接口
 abstract class TencentMapApi {
+  /// 设置地图类型
   void setMapType(MapType type);
 
+  /// 设置是否显示指南针
   void setCompassEnabled(bool enabled);
 
+  /// 设置是否显示比例尺
   void setScaleControlsEnabled(bool enabled);
 
+  /// 设置是否使用旋转手势
   void setRotateGesturesEnabled(bool enabled);
 
+  /// 设置是否使用滚动手势
   void setScrollGesturesEnabled(bool enabled);
 
+  /// 设置是否使用缩放手势
   void setZoomGesturesEnabled(bool enabled);
 
+  /// 设置是否使用倾斜手势
   void setSkewGesturesEnabled(bool enabled);
 
+  /// 设置是否显示室内图（需要API key支持）
   void setIndoorViewEnabled(bool enabled);
 
+  /// 设置是否显示路况
   void setTrafficEnabled(bool enabled);
 
+  /// 设置是否显示建筑物
   void setBuildingsEnabled(bool enabled);
 
+  /// 设置是否显示当前位置按钮（Android Only）
   void setMyLocationButtonEnabled(bool enabled);
 
+  /// 设置是否开启定位
   void setMyLocationEnabled(bool enabled);
 
+  /// 设置定位模式
   void setUserLocationType(UserLocationType type);
 
+  /// 获取当前定位信息
   Location getUserLocation();
 
+  /// 移动地图视野
   void moveCamera(CameraPosition position, int duration);
 
+  /// 添加标记点
   String addMarker(MarkerOptions options);
 
+  /// 添加折线
   String addPolyline(PolylineOptions options);
 
+  /// 暂停
   void pause();
 
+  /// 恢复
   void resume();
 
+  /// 停止
   void stop();
 
+  /// 开始
   void start();
 
+  /// 销毁
   void destroy();
 }
 

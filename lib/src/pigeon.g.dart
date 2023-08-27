@@ -411,6 +411,7 @@ class _TencentMapApiCodec extends StandardMessageCodec {
   }
 }
 
+/// 地图操作接口
 class TencentMapApi {
   /// Constructor for [TencentMapApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
@@ -421,6 +422,7 @@ class TencentMapApi {
 
   static const MessageCodec<Object?> codec = _TencentMapApiCodec();
 
+  /// 设置地图类型
   Future<void> setMapType(MapType arg_type) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setMapType', codec,
@@ -443,6 +445,7 @@ class TencentMapApi {
     }
   }
 
+  /// 设置是否显示指南针
   Future<void> setCompassEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setCompassEnabled', codec,
@@ -465,6 +468,7 @@ class TencentMapApi {
     }
   }
 
+  /// 设置是否显示比例尺
   Future<void> setScaleControlsEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setScaleControlsEnabled', codec,
@@ -487,6 +491,7 @@ class TencentMapApi {
     }
   }
 
+  /// 设置是否使用旋转手势
   Future<void> setRotateGesturesEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setRotateGesturesEnabled', codec,
@@ -509,6 +514,7 @@ class TencentMapApi {
     }
   }
 
+  /// 设置是否使用滚动手势
   Future<void> setScrollGesturesEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setScrollGesturesEnabled', codec,
@@ -531,6 +537,7 @@ class TencentMapApi {
     }
   }
 
+  /// 设置是否使用缩放手势
   Future<void> setZoomGesturesEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setZoomGesturesEnabled', codec,
@@ -553,6 +560,7 @@ class TencentMapApi {
     }
   }
 
+  /// 设置是否使用倾斜手势
   Future<void> setSkewGesturesEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setSkewGesturesEnabled', codec,
@@ -575,6 +583,7 @@ class TencentMapApi {
     }
   }
 
+  /// 设置是否显示室内图（需要API key支持）
   Future<void> setIndoorViewEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setIndoorViewEnabled', codec,
@@ -597,6 +606,7 @@ class TencentMapApi {
     }
   }
 
+  /// 设置是否显示路况
   Future<void> setTrafficEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setTrafficEnabled', codec,
@@ -619,6 +629,7 @@ class TencentMapApi {
     }
   }
 
+  /// 设置是否显示建筑物
   Future<void> setBuildingsEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setBuildingsEnabled', codec,
@@ -641,6 +652,7 @@ class TencentMapApi {
     }
   }
 
+  /// 设置是否显示当前位置按钮（Android Only）
   Future<void> setMyLocationButtonEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocationButtonEnabled', codec,
@@ -663,6 +675,7 @@ class TencentMapApi {
     }
   }
 
+  /// 设置是否开启定位
   Future<void> setMyLocationEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocationEnabled', codec,
@@ -685,6 +698,7 @@ class TencentMapApi {
     }
   }
 
+  /// 设置定位模式
   Future<void> setUserLocationType(UserLocationType arg_type) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setUserLocationType', codec,
@@ -707,6 +721,7 @@ class TencentMapApi {
     }
   }
 
+  /// 获取当前定位信息
   Future<Location> getUserLocation() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.getUserLocation', codec,
@@ -734,6 +749,7 @@ class TencentMapApi {
     }
   }
 
+  /// 移动地图视野
   Future<void> moveCamera(CameraPosition arg_position, int arg_duration) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.moveCamera', codec,
@@ -756,6 +772,7 @@ class TencentMapApi {
     }
   }
 
+  /// 添加标记点
   Future<String> addMarker(MarkerOptions arg_options) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.addMarker', codec,
@@ -783,6 +800,7 @@ class TencentMapApi {
     }
   }
 
+  /// 添加折线
   Future<String> addPolyline(PolylineOptions arg_options) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.addPolyline', codec,
@@ -810,6 +828,7 @@ class TencentMapApi {
     }
   }
 
+  /// 暂停
   Future<void> pause() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.pause', codec,
@@ -832,6 +851,7 @@ class TencentMapApi {
     }
   }
 
+  /// 恢复
   Future<void> resume() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.resume', codec,
@@ -854,6 +874,7 @@ class TencentMapApi {
     }
   }
 
+  /// 停止
   Future<void> stop() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.stop', codec,
@@ -876,6 +897,7 @@ class TencentMapApi {
     }
   }
 
+  /// 开始
   Future<void> start() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.start', codec,
@@ -898,6 +920,7 @@ class TencentMapApi {
     }
   }
 
+  /// 销毁
   Future<void> destroy() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.destroy', codec,

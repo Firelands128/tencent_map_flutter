@@ -415,29 +415,53 @@ class TencentMapApiCodec: FlutterStandardMessageCodec {
   static let shared = TencentMapApiCodec(readerWriter: TencentMapApiCodecReaderWriter())
 }
 
+/// 地图操作接口
+///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol TencentMapApi {
+  /// 设置地图类型
   func setMapType(type: MapType) throws
+  /// 设置是否显示指南针
   func setCompassEnabled(enabled: Bool) throws
+  /// 设置是否显示比例尺
   func setScaleControlsEnabled(enabled: Bool) throws
+  /// 设置是否使用旋转手势
   func setRotateGesturesEnabled(enabled: Bool) throws
+  /// 设置是否使用滚动手势
   func setScrollGesturesEnabled(enabled: Bool) throws
+  /// 设置是否使用缩放手势
   func setZoomGesturesEnabled(enabled: Bool) throws
+  /// 设置是否使用倾斜手势
   func setSkewGesturesEnabled(enabled: Bool) throws
+  /// 设置是否显示室内图（需要API key支持）
   func setIndoorViewEnabled(enabled: Bool) throws
+  /// 设置是否显示路况
   func setTrafficEnabled(enabled: Bool) throws
+  /// 设置是否显示建筑物
   func setBuildingsEnabled(enabled: Bool) throws
+  /// 设置是否显示当前位置按钮（Android Only）
   func setMyLocationButtonEnabled(enabled: Bool) throws
+  /// 设置是否开启定位
   func setMyLocationEnabled(enabled: Bool) throws
+  /// 设置定位模式
   func setUserLocationType(type: UserLocationType) throws
+  /// 获取当前定位信息
   func getUserLocation() throws -> Location
+  /// 移动地图视野
   func moveCamera(position: CameraPosition, duration: Int64) throws
+  /// 添加标记点
   func addMarker(options: MarkerOptions) throws -> String
+  /// 添加折线
   func addPolyline(options: PolylineOptions) throws -> String
+  /// 暂停
   func pause() throws
+  /// 恢复
   func resume() throws
+  /// 停止
   func stop() throws
+  /// 开始
   func start() throws
+  /// 销毁
   func destroy() throws
 }
 
@@ -447,6 +471,7 @@ class TencentMapApiSetup {
   static var codec: FlutterStandardMessageCodec { TencentMapApiCodec.shared }
   /// Sets up an instance of `TencentMapApi` to handle messages through the `binaryMessenger`.
   static func setUp(binaryMessenger: FlutterBinaryMessenger, api: TencentMapApi?) {
+    /// 设置地图类型
     let setMapTypeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setMapType", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setMapTypeChannel.setMessageHandler { message, reply in
@@ -462,6 +487,7 @@ class TencentMapApiSetup {
     } else {
       setMapTypeChannel.setMessageHandler(nil)
     }
+    /// 设置是否显示指南针
     let setCompassEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setCompassEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setCompassEnabledChannel.setMessageHandler { message, reply in
@@ -477,6 +503,7 @@ class TencentMapApiSetup {
     } else {
       setCompassEnabledChannel.setMessageHandler(nil)
     }
+    /// 设置是否显示比例尺
     let setScaleControlsEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setScaleControlsEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setScaleControlsEnabledChannel.setMessageHandler { message, reply in
@@ -492,6 +519,7 @@ class TencentMapApiSetup {
     } else {
       setScaleControlsEnabledChannel.setMessageHandler(nil)
     }
+    /// 设置是否使用旋转手势
     let setRotateGesturesEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setRotateGesturesEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setRotateGesturesEnabledChannel.setMessageHandler { message, reply in
@@ -507,6 +535,7 @@ class TencentMapApiSetup {
     } else {
       setRotateGesturesEnabledChannel.setMessageHandler(nil)
     }
+    /// 设置是否使用滚动手势
     let setScrollGesturesEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setScrollGesturesEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setScrollGesturesEnabledChannel.setMessageHandler { message, reply in
@@ -522,6 +551,7 @@ class TencentMapApiSetup {
     } else {
       setScrollGesturesEnabledChannel.setMessageHandler(nil)
     }
+    /// 设置是否使用缩放手势
     let setZoomGesturesEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setZoomGesturesEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setZoomGesturesEnabledChannel.setMessageHandler { message, reply in
@@ -537,6 +567,7 @@ class TencentMapApiSetup {
     } else {
       setZoomGesturesEnabledChannel.setMessageHandler(nil)
     }
+    /// 设置是否使用倾斜手势
     let setSkewGesturesEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setSkewGesturesEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setSkewGesturesEnabledChannel.setMessageHandler { message, reply in
@@ -552,6 +583,7 @@ class TencentMapApiSetup {
     } else {
       setSkewGesturesEnabledChannel.setMessageHandler(nil)
     }
+    /// 设置是否显示室内图（需要API key支持）
     let setIndoorViewEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setIndoorViewEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setIndoorViewEnabledChannel.setMessageHandler { message, reply in
@@ -567,6 +599,7 @@ class TencentMapApiSetup {
     } else {
       setIndoorViewEnabledChannel.setMessageHandler(nil)
     }
+    /// 设置是否显示路况
     let setTrafficEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setTrafficEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setTrafficEnabledChannel.setMessageHandler { message, reply in
@@ -582,6 +615,7 @@ class TencentMapApiSetup {
     } else {
       setTrafficEnabledChannel.setMessageHandler(nil)
     }
+    /// 设置是否显示建筑物
     let setBuildingsEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setBuildingsEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setBuildingsEnabledChannel.setMessageHandler { message, reply in
@@ -597,6 +631,7 @@ class TencentMapApiSetup {
     } else {
       setBuildingsEnabledChannel.setMessageHandler(nil)
     }
+    /// 设置是否显示当前位置按钮（Android Only）
     let setMyLocationButtonEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocationButtonEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setMyLocationButtonEnabledChannel.setMessageHandler { message, reply in
@@ -612,6 +647,7 @@ class TencentMapApiSetup {
     } else {
       setMyLocationButtonEnabledChannel.setMessageHandler(nil)
     }
+    /// 设置是否开启定位
     let setMyLocationEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocationEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setMyLocationEnabledChannel.setMessageHandler { message, reply in
@@ -627,6 +663,7 @@ class TencentMapApiSetup {
     } else {
       setMyLocationEnabledChannel.setMessageHandler(nil)
     }
+    /// 设置定位模式
     let setUserLocationTypeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setUserLocationType", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setUserLocationTypeChannel.setMessageHandler { message, reply in
@@ -642,6 +679,7 @@ class TencentMapApiSetup {
     } else {
       setUserLocationTypeChannel.setMessageHandler(nil)
     }
+    /// 获取当前定位信息
     let getUserLocationChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.getUserLocation", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       getUserLocationChannel.setMessageHandler { _, reply in
@@ -655,6 +693,7 @@ class TencentMapApiSetup {
     } else {
       getUserLocationChannel.setMessageHandler(nil)
     }
+    /// 移动地图视野
     let moveCameraChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.moveCamera", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       moveCameraChannel.setMessageHandler { message, reply in
@@ -671,6 +710,7 @@ class TencentMapApiSetup {
     } else {
       moveCameraChannel.setMessageHandler(nil)
     }
+    /// 添加标记点
     let addMarkerChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.addMarker", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       addMarkerChannel.setMessageHandler { message, reply in
@@ -686,6 +726,7 @@ class TencentMapApiSetup {
     } else {
       addMarkerChannel.setMessageHandler(nil)
     }
+    /// 添加折线
     let addPolylineChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.addPolyline", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       addPolylineChannel.setMessageHandler { message, reply in
@@ -701,6 +742,7 @@ class TencentMapApiSetup {
     } else {
       addPolylineChannel.setMessageHandler(nil)
     }
+    /// 暂停
     let pauseChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.pause", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       pauseChannel.setMessageHandler { _, reply in
@@ -714,6 +756,7 @@ class TencentMapApiSetup {
     } else {
       pauseChannel.setMessageHandler(nil)
     }
+    /// 恢复
     let resumeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.resume", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       resumeChannel.setMessageHandler { _, reply in
@@ -727,6 +770,7 @@ class TencentMapApiSetup {
     } else {
       resumeChannel.setMessageHandler(nil)
     }
+    /// 停止
     let stopChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.stop", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       stopChannel.setMessageHandler { _, reply in
@@ -740,6 +784,7 @@ class TencentMapApiSetup {
     } else {
       stopChannel.setMessageHandler(nil)
     }
+    /// 开始
     let startChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.start", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       startChannel.setMessageHandler { _, reply in
@@ -753,6 +798,7 @@ class TencentMapApiSetup {
     } else {
       startChannel.setMessageHandler(nil)
     }
+    /// 销毁
     let destroyChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.destroy", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       destroyChannel.setMessageHandler { _, reply in

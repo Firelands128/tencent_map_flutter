@@ -465,29 +465,55 @@ private object TencentMapApiCodec : StandardMessageCodec() {
   }
 }
 
-/** Generated interface from Pigeon that represents a handler of messages from Flutter. */
+/**
+ * 地图操作接口
+ *
+ * Generated interface from Pigeon that represents a handler of messages from Flutter.
+ */
 interface TencentMapApi {
+  /** 设置地图类型 */
   fun setMapType(type: MapType)
+  /** 设置是否显示指南针 */
   fun setCompassEnabled(enabled: Boolean)
+  /** 设置是否显示比例尺 */
   fun setScaleControlsEnabled(enabled: Boolean)
+  /** 设置是否使用旋转手势 */
   fun setRotateGesturesEnabled(enabled: Boolean)
+  /** 设置是否使用滚动手势 */
   fun setScrollGesturesEnabled(enabled: Boolean)
+  /** 设置是否使用缩放手势 */
   fun setZoomGesturesEnabled(enabled: Boolean)
+  /** 设置是否使用倾斜手势 */
   fun setSkewGesturesEnabled(enabled: Boolean)
+  /** 设置是否显示室内图（需要API key支持） */
   fun setIndoorViewEnabled(enabled: Boolean)
+  /** 设置是否显示路况 */
   fun setTrafficEnabled(enabled: Boolean)
+  /** 设置是否显示建筑物 */
   fun setBuildingsEnabled(enabled: Boolean)
+  /** 设置是否显示当前位置按钮（Android Only） */
   fun setMyLocationButtonEnabled(enabled: Boolean)
+  /** 设置是否开启定位 */
   fun setMyLocationEnabled(enabled: Boolean)
+  /** 设置定位模式 */
   fun setUserLocationType(type: UserLocationType)
+  /** 获取当前定位信息 */
   fun getUserLocation(): Location
+  /** 移动地图视野 */
   fun moveCamera(position: CameraPosition, duration: Long)
+  /** 添加标记点 */
   fun addMarker(options: MarkerOptions): String
+  /** 添加折线 */
   fun addPolyline(options: PolylineOptions): String
+  /** 暂停 */
   fun pause()
+  /** 恢复 */
   fun resume()
+  /** 停止 */
   fun stop()
+  /** 开始 */
   fun start()
+  /** 销毁 */
   fun destroy()
 
   companion object {
