@@ -45,7 +45,7 @@ class _TencentMapApi: NSObject, TencentMapApi {
   func setIndoorViewEnabled(enabled: Bool) throws {
     mapView.setIndoorEnabled(enabled)
   }
-  
+
   func setIndoorPickerEnabled(enabled: Bool) throws {
     mapView.indoorPicker = enabled
   }
@@ -71,7 +71,7 @@ class _TencentMapApi: NSObject, TencentMapApi {
       mapView.setUserTrackingMode(trackingMode, animated: false)
     }
   }
-  
+
   func getUserLocation() throws -> Location {
     return mapView.userLocation.toLocation
   }
