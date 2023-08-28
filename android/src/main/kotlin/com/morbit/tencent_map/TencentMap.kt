@@ -33,6 +33,7 @@ class TencentMap(val binding: FlutterPlugin.FlutterPluginBinding, context: Conte
     TencentMapApi.setUp(binding.binaryMessenger, mapApi)
     MarkerApi.setUp(binding.binaryMessenger, _MarkerApi(this))
     mapView.onResume()
+    mapView.map.setLocationSource(locationSource)
     mapView.map.setOnMapClickListener { mapHandler.onPress(it.toPosition()) {} }
     mapView.map.setOnMapLongClickListener { mapHandler.onLongPress(it.toPosition()) {} }
     mapView.map.setOnMapPoiClickListener { mapHandler.onTapPoi(it.toMapPoi()) {} }
@@ -62,6 +63,5 @@ class TencentMap(val binding: FlutterPlugin.FlutterPluginBinding, context: Conte
         mapHandler.onMarkerDragEnd(marker.id, marker.position.toPosition()) {}
       }
     })
-    mapView.map.setLocationSource(locationSource)
   }
 }
