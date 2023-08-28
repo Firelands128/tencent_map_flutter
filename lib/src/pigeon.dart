@@ -46,6 +46,9 @@ abstract class TencentMapApi {
   /// 设置是否显示室内图（需要API key支持）
   void setIndoorViewEnabled(bool enabled);
 
+  /// 设置是否显示室内图楼层控件
+  void setIndoorPickerEnabled(bool enabled);
+
   /// 设置是否显示路况
   void setTrafficEnabled(bool enabled);
 

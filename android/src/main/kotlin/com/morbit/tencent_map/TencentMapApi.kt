@@ -58,6 +58,10 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     mapView.map.setIndoorEnabled(enabled)
   }
 
+  override fun setIndoorPickerEnabled(enabled: Boolean) {
+    mapView.map.uiSettings.isIndoorLevelPickerEnabled = enabled
+  }
+
   override fun setTrafficEnabled(enabled: Boolean) {
     mapView.map.isTrafficEnabled = enabled
   }

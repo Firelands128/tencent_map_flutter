@@ -18,6 +18,7 @@ class TencentMap extends StatefulWidget {
     this.skewGesturesEnabled = true,
     this.trafficEnabled = false,
     this.indoorViewEnabled = false,
+    this.indoorPickerEnabled = false,
     this.buildingsEnabled = true,
     this.myLocationButtonEnabled = false,
     this.myLocationEnabled = false,
@@ -67,6 +68,9 @@ class TencentMap extends StatefulWidget {
   ///
   /// 室内图只有在缩放级别 [17， 22] 范围才生效，但是在18级之上（包含18级）才会有楼层边条显示。
   final bool indoorViewEnabled;
+
+  /// 是否显示室内图楼层控件
+  final bool indoorPickerEnabled;
 
   /// 是否显示 3D 建筑物
   final bool buildingsEnabled;
@@ -209,6 +213,9 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     }
     if (widget.indoorViewEnabled != old.indoorViewEnabled) {
       _api.setIndoorViewEnabled(widget.indoorViewEnabled);
+    }
+    if(widget.indoorPickerEnabled != old.indoorPickerEnabled) {
+      _api.setIndoorPickerEnabled(widget.indoorPickerEnabled);
     }
     if (widget.buildingsEnabled != old.buildingsEnabled) {
       _api.setBuildingsEnabled(widget.buildingsEnabled);

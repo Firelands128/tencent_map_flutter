@@ -439,6 +439,8 @@ protocol TencentMapApi {
   func setSkewGesturesEnabled(enabled: Bool) throws
   /// 设置是否显示室内图（需要API key支持）
   func setIndoorViewEnabled(enabled: Bool) throws
+  /// 设置是否显示室内图楼层控件
+  func setIndoorPickerEnabled(enabled: Bool) throws
   /// 设置是否显示路况
   func setTrafficEnabled(enabled: Bool) throws
   /// 设置是否显示建筑物
@@ -602,6 +604,22 @@ class TencentMapApiSetup {
       }
     } else {
       setIndoorViewEnabledChannel.setMessageHandler(nil)
+    }
+    /// 设置是否显示室内图楼层控件
+    let setIndoorPickerEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setIndoorPickerEnabled", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      setIndoorPickerEnabledChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let enabledArg = args[0] as! Bool
+        do {
+          try api.setIndoorPickerEnabled(enabled: enabledArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      setIndoorPickerEnabledChannel.setMessageHandler(nil)
     }
     /// 设置是否显示路况
     let setTrafficEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setTrafficEnabled", binaryMessenger: binaryMessenger, codec: codec)

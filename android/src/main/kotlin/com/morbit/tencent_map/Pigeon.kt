@@ -492,6 +492,8 @@ interface TencentMapApi {
   fun setSkewGesturesEnabled(enabled: Boolean)
   /** 设置是否显示室内图（需要API key支持） */
   fun setIndoorViewEnabled(enabled: Boolean)
+  /** 设置是否显示室内图楼层控件 */
+  fun setIndoorPickerEnabled(enabled: Boolean)
   /** 设置是否显示路况 */
   fun setTrafficEnabled(enabled: Boolean)
   /** 设置是否显示建筑物 */
@@ -671,6 +673,25 @@ interface TencentMapApi {
             var wrapped: List<Any?>
             try {
               api.setIndoorViewEnabled(enabledArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.setIndoorPickerEnabled", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val enabledArg = args[0] as Boolean
+            var wrapped: List<Any?>
+            try {
+              api.setIndoorPickerEnabled(enabledArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

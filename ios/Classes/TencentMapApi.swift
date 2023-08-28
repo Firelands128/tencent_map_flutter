@@ -45,6 +45,10 @@ class _TencentMapApi: NSObject, TencentMapApi {
   func setIndoorViewEnabled(enabled: Bool) throws {
     mapView.setIndoorEnabled(enabled)
   }
+  
+  func setIndoorPickerEnabled(enabled: Bool) throws {
+    mapView.indoorPicker = enabled
+  }
 
   func setTrafficEnabled(enabled: Bool) throws {
     mapView.showsTraffic = enabled
