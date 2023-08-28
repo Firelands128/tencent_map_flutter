@@ -1,7 +1,9 @@
 package com.morbit.tencent_map
 
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory
-import com.tencent.tencentmap.mapsdk.maps.TencentMap.*
+import com.tencent.tencentmap.mapsdk.maps.TencentMap.MAP_TYPE_DARK
+import com.tencent.tencentmap.mapsdk.maps.TencentMap.MAP_TYPE_NORMAL
+import com.tencent.tencentmap.mapsdk.maps.TencentMap.MAP_TYPE_SATELLITE
 
 class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
   private val mapView = tencentMap.view

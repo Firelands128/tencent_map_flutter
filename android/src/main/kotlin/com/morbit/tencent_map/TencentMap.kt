@@ -11,57 +11,57 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.platform.PlatformView
 
 class TencentMap(val binding: FlutterPlugin.FlutterPluginBinding, context: Context, args: HashMap<*, *>) :
-	PlatformView {
-	private val mapHandler = TencentMapHandler(binding.binaryMessenger)
-	private val mapView: BaseMapView
-	val locationSource = TencentLocationSource(context, mapHandler)
-	val markers = mutableMapOf<String, Marker>()
+  PlatformView {
+  private val mapHandler = TencentMapHandler(binding.binaryMessenger)
+  private val mapView: BaseMapView
+  val locationSource = TencentLocationSource(context, mapHandler)
+  val markers = mutableMapOf<String, Marker>()
 
-	override fun getView(): BaseMapView {
-		return mapView
-	}
+  override fun getView(): BaseMapView {
+    return mapView
+  }
 
-	override fun dispose() {}
+  override fun dispose() {}
 
-	init {
-		mapView = if (args["texture"] as Boolean) {
-			TextureMapView(context)
-		} else {
-			MapView(context)
-		}
-		val mapApi = _TencentMapApi(this)
-		TencentMapApi.setUp(binding.binaryMessenger, mapApi)
-		MarkerApi.setUp(binding.binaryMessenger, _MarkerApi(this))
-		mapView.onResume()
-		mapView.map.setOnMapClickListener { mapHandler.onPress(it.toPosition()) {} }
-		mapView.map.setOnMapLongClickListener { mapHandler.onLongPress(it.toPosition()) {} }
-		mapView.map.setOnMapPoiClickListener { mapHandler.onTapPoi(it.toMapPoi()) {} }
-		mapView.map.setOnCameraChangeListener(object : TencentMap.OnCameraChangeListener {
-			override fun onCameraChange(position: CameraPosition) {
-				mapHandler.onCameraMove(position.toCameraPosition()) {}
-			}
+  init {
+    mapView = if (args["texture"] as Boolean) {
+      TextureMapView(context)
+    } else {
+      MapView(context)
+    }
+    val mapApi = _TencentMapApi(this)
+    TencentMapApi.setUp(binding.binaryMessenger, mapApi)
+    MarkerApi.setUp(binding.binaryMessenger, _MarkerApi(this))
+    mapView.onResume()
+    mapView.map.setOnMapClickListener { mapHandler.onPress(it.toPosition()) {} }
+    mapView.map.setOnMapLongClickListener { mapHandler.onLongPress(it.toPosition()) {} }
+    mapView.map.setOnMapPoiClickListener { mapHandler.onTapPoi(it.toMapPoi()) {} }
+    mapView.map.setOnCameraChangeListener(object : TencentMap.OnCameraChangeListener {
+      override fun onCameraChange(position: CameraPosition) {
+        mapHandler.onCameraMove(position.toCameraPosition()) {}
+      }
 
-			override fun onCameraChangeFinished(position: CameraPosition) {
-				mapHandler.onCameraMoveEnd(position.toCameraPosition()) {}
-			}
-		})
-		mapView.map.setOnMarkerClickListener {
-			mapHandler.onTapMarker(it.id) {}
-			true
-		}
-		mapView.map.setOnMarkerDragListener(object : TencentMap.OnMarkerDragListener {
-			override fun onMarkerDragStart(marker: Marker) {
-				mapHandler.onMarkerDragStart(marker.id, marker.position.toPosition()) {}
-			}
+      override fun onCameraChangeFinished(position: CameraPosition) {
+        mapHandler.onCameraMoveEnd(position.toCameraPosition()) {}
+      }
+    })
+    mapView.map.setOnMarkerClickListener {
+      mapHandler.onTapMarker(it.id) {}
+      true
+    }
+    mapView.map.setOnMarkerDragListener(object : TencentMap.OnMarkerDragListener {
+      override fun onMarkerDragStart(marker: Marker) {
+        mapHandler.onMarkerDragStart(marker.id, marker.position.toPosition()) {}
+      }
 
-			override fun onMarkerDrag(marker: Marker) {
-				mapHandler.onMarkerDrag(marker.id, marker.position.toPosition()) {}
-			}
+      override fun onMarkerDrag(marker: Marker) {
+        mapHandler.onMarkerDrag(marker.id, marker.position.toPosition()) {}
+      }
 
-			override fun onMarkerDragEnd(marker: Marker) {
-				mapHandler.onMarkerDragEnd(marker.id, marker.position.toPosition()) {}
-			}
-		})
-		mapView.map.setLocationSource(locationSource)
-	}
+      override fun onMarkerDragEnd(marker: Marker) {
+        mapHandler.onMarkerDragEnd(marker.id, marker.position.toPosition()) {}
+      }
+    })
+    mapView.map.setLocationSource(locationSource)
+  }
 }
