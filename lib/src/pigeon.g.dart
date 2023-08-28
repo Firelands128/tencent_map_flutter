@@ -614,7 +614,7 @@ class TencentMapApi {
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setIndoorPickerEnabled', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-    await channel.send(<Object?>[arg_enabled]) as List<Object?>?;
+        await channel.send(<Object?>[arg_enabled]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

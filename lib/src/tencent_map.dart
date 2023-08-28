@@ -214,7 +214,7 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     if (widget.indoorViewEnabled != old.indoorViewEnabled) {
       _api.setIndoorViewEnabled(widget.indoorViewEnabled);
     }
-    if(widget.indoorPickerEnabled != old.indoorPickerEnabled) {
+    if (widget.indoorPickerEnabled != old.indoorPickerEnabled) {
       _api.setIndoorPickerEnabled(widget.indoorPickerEnabled);
     }
     if (widget.buildingsEnabled != old.buildingsEnabled) {
