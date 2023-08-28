@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tencent_map/tencent_map.dart';
 
-import 'pages/location.dart';
 import 'pages/add_remove_marker.dart';
 import 'pages/controls.dart';
 import 'pages/events.dart';
 import 'pages/flutter_marker.dart';
 import 'pages/layers.dart';
+import 'pages/location.dart';
 import 'pages/map_types.dart';
 import 'pages/move_camera.dart';
 
@@ -64,6 +64,7 @@ class _AppState extends State<App> {
 class Item extends StatelessWidget {
   /// 示例标题
   final String title;
+
   /// 示例创建器
   final Widget Function(BuildContext) builder;
 

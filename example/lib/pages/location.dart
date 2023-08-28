@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:tencent_map/tencent_map.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tencent_map/tencent_map.dart';
+
 import '../utils.dart';
 
 /// 定位页面
