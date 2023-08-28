@@ -14,7 +14,7 @@ class TencentMap(val binding: FlutterPlugin.FlutterPluginBinding, context: Conte
   PlatformView {
   private val mapHandler = TencentMapHandler(binding.binaryMessenger)
   private val mapView: BaseMapView
-  val locationSource = TencentLocationSource(context, mapHandler)
+  private val locationSource = TencentLocationSource(context, mapHandler)
   val markers = mutableMapOf<String, Marker>()
 
   override fun getView(): BaseMapView {
