@@ -40,6 +40,7 @@ class _State extends State<LayersPage> {
         mapType: context.isDark ? MapType.dark : MapType.normal,
         trafficEnabled: _state[traffic] ?? false,
         indoorViewEnabled: _state[indoor] ?? false,
+        indoorPickerEnabled: _state[indoor] ?? false,
         buildingsEnabled: _state[buildings] ?? false,
         onMapCreated: (controller) {
           controller.moveCamera(CameraPosition(zoom: 18));
