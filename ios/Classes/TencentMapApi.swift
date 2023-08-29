@@ -58,8 +58,8 @@ class _TencentMapApi: NSObject, TencentMapApi {
     mapView.showsBuildings = enabled
   }
 
-  func setMyLocationButtonEnabled(enabled: Bool) throws {
-    throw FlutterError(code: "505", message: "Not supported on iOS platform.", details: nil)
+  func setBuildings3dEnabled(enabled: Bool) throws {
+    mapView.shows3DBuildings = enabled
   }
 
   func setMyLocationEnabled(enabled: Bool) throws {

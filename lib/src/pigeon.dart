@@ -55,8 +55,8 @@ abstract class TencentMapApi {
   /// 设置是否显示建筑物
   void setBuildingsEnabled(bool enabled);
 
-  /// 设置是否显示当前位置按钮（Android Only）
-  void setMyLocationButtonEnabled(bool enabled);
+  /// 设置是否显示3D建筑物
+  void setBuildings3dEnabled(bool enabled);
 
   /// 设置是否开启定位
   void setMyLocationEnabled(bool enabled);

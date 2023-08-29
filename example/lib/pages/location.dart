@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tencent_map/tencent_map.dart';
@@ -48,7 +46,6 @@ class _LocationPageState extends State<LocationPage> {
         mapType: context.isDark ? MapType.dark : MapType.normal,
         androidTexture: true,
         myLocationEnabled: true,
-        myLocationButtonEnabled: !Platform.isIOS,
         userLocationType: UserLocationType.trackingLocationRotate,
         onLocation: (location) {
           // ignore: avoid_print

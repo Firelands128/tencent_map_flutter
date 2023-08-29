@@ -20,7 +20,7 @@ class TencentMap extends StatefulWidget {
     this.indoorViewEnabled = false,
     this.indoorPickerEnabled = false,
     this.buildingsEnabled = true,
-    this.myLocationButtonEnabled = false,
+    this.buildings3dEnabled = false,
     this.myLocationEnabled = false,
     this.userLocationType,
     this.mapType = MapType.normal,
@@ -72,11 +72,11 @@ class TencentMap extends StatefulWidget {
   /// 是否显示室内图楼层控件
   final bool indoorPickerEnabled;
 
-  /// 是否显示 3D 建筑物
+  /// 是否显示建筑物
   final bool buildingsEnabled;
 
-  /// 是否显示定位按钮
-  final bool myLocationButtonEnabled;
+  /// 是否显示3D建筑物
+  final bool buildings3dEnabled;
 
   /// 是否显示当前定位
   final bool myLocationEnabled;
@@ -220,8 +220,8 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     if (widget.buildingsEnabled != old.buildingsEnabled) {
       _api.setBuildingsEnabled(widget.buildingsEnabled);
     }
-    if (widget.myLocationButtonEnabled != old.myLocationButtonEnabled) {
-      _api.setMyLocationButtonEnabled(widget.myLocationButtonEnabled);
+    if (widget.buildings3dEnabled != old.buildings3dEnabled) {
+      _api.setBuildings3dEnabled(widget.buildings3dEnabled);
     }
     if (widget.myLocationEnabled != old.myLocationEnabled) {
       _api.setMyLocationEnabled(widget.myLocationEnabled);

@@ -15,10 +15,16 @@ class LayersPage extends StatefulWidget {
 class _State extends State<LayersPage> {
   static const traffic = '路况';
   static const indoor = '室内图';
-  static const buildings = '3D 建筑';
+  static const buildings = '建筑物';
+  static const buildings3d = '3D建筑物';
 
-  final _state = {traffic: true};
-  final _items = [traffic, indoor, buildings];
+  final _state = {
+    traffic: false,
+    indoor: false,
+    buildings: true,
+    buildings3d: true,
+  };
+  final _items = [traffic, indoor, buildings, buildings3d];
 
   @override
   build(context) {
@@ -42,6 +48,7 @@ class _State extends State<LayersPage> {
         indoorViewEnabled: _state[indoor] ?? false,
         indoorPickerEnabled: _state[indoor] ?? false,
         buildingsEnabled: _state[buildings] ?? false,
+        buildings3dEnabled: _state[buildings3d] ?? false,
         onMapCreated: (controller) {
           controller.moveCamera(CameraPosition(zoom: 18));
         },

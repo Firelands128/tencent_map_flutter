@@ -498,8 +498,8 @@ interface TencentMapApi {
   fun setTrafficEnabled(enabled: Boolean)
   /** 设置是否显示建筑物 */
   fun setBuildingsEnabled(enabled: Boolean)
-  /** 设置是否显示当前位置按钮（Android Only） */
-  fun setMyLocationButtonEnabled(enabled: Boolean)
+  /** 设置是否显示3D建筑物 */
+  fun setBuildings3dEnabled(enabled: Boolean)
   /** 设置是否开启定位 */
   fun setMyLocationEnabled(enabled: Boolean)
   /** 设置定位模式 */
@@ -741,14 +741,14 @@ interface TencentMapApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocationButtonEnabled", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.setBuildings3dEnabled", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val enabledArg = args[0] as Boolean
             var wrapped: List<Any?>
             try {
-              api.setMyLocationButtonEnabled(enabledArg)
+              api.setBuildings3dEnabled(enabledArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

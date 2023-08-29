@@ -445,8 +445,8 @@ protocol TencentMapApi {
   func setTrafficEnabled(enabled: Bool) throws
   /// 设置是否显示建筑物
   func setBuildingsEnabled(enabled: Bool) throws
-  /// 设置是否显示当前位置按钮（Android Only）
-  func setMyLocationButtonEnabled(enabled: Bool) throws
+  /// 设置是否显示3D建筑物
+  func setBuildings3dEnabled(enabled: Bool) throws
   /// 设置是否开启定位
   func setMyLocationEnabled(enabled: Bool) throws
   /// 设置定位模式
@@ -653,21 +653,21 @@ class TencentMapApiSetup {
     } else {
       setBuildingsEnabledChannel.setMessageHandler(nil)
     }
-    /// 设置是否显示当前位置按钮（Android Only）
-    let setMyLocationButtonEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocationButtonEnabled", binaryMessenger: binaryMessenger, codec: codec)
+    /// 设置是否显示3D建筑物
+    let setBuildings3dEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setBuildings3dEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
-      setMyLocationButtonEnabledChannel.setMessageHandler { message, reply in
+      setBuildings3dEnabledChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
         let enabledArg = args[0] as! Bool
         do {
-          try api.setMyLocationButtonEnabled(enabled: enabledArg)
+          try api.setBuildings3dEnabled(enabled: enabledArg)
           reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))
         }
       }
     } else {
-      setMyLocationButtonEnabledChannel.setMessageHandler(nil)
+      setBuildings3dEnabledChannel.setMessageHandler(nil)
     }
     /// 设置是否开启定位
     let setMyLocationEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocationEnabled", binaryMessenger: binaryMessenger, codec: codec)

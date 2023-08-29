@@ -677,10 +677,10 @@ class TencentMapApi {
     }
   }
 
-  /// 设置是否显示当前位置按钮（Android Only）
-  Future<void> setMyLocationButtonEnabled(bool arg_enabled) async {
+  /// 设置是否显示3D建筑物
+  Future<void> setBuildings3dEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.TencentMapApi.setMyLocationButtonEnabled', codec,
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.setBuildings3dEnabled', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_enabled]) as List<Object?>?;
