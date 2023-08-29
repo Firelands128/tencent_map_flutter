@@ -67,13 +67,22 @@ class _TencentMapApi: NSObject, TencentMapApi {
   }
 
   func setUserLocationType(type: UserLocationType) throws {
-    if let trackingMode = type.trackingMode {
-      mapView.setUserTrackingMode(trackingMode, animated: false)
+    if(mapView.showsUserLocation) {
+      if let trackingMode = type.trackingMode {
+        mapView.setUserTrackingMode(trackingMode, animated: false)
+      }
     }
   }
 
   func getUserLocation() throws -> Location {
-    return mapView.userLocation.toLocation
+    if(!mapView.showsUserLocation) {
+      throw FlutterError(code: "400", message: "Location feature is not enabled.", details: nil)
+    }
+    if (mapView.userLocation == nil) {
+      throw FlutterError(code: "500", message: "Failed to get user location.", details: nil)
+    } else {
+      return mapView.userLocation.toLocation
+    }
   }
 
   func moveCamera(position: CameraPosition, duration: Int64) throws {

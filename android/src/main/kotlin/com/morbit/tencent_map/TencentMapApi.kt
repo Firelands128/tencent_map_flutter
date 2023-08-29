@@ -85,11 +85,20 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
   }
 
   override fun setUserLocationType(type: UserLocationType) {
-    mapView.map.setMyLocationStyle(type.toMyLocationStyle())
+    if (mapView.map.isMyLocationEnabled) {
+      mapView.map.setMyLocationStyle(type.toMyLocationStyle())
+    }
   }
 
   override fun getUserLocation(): Location {
-    return mapView.map.myLocation.toLocation()
+    if (!mapView.map.isMyLocationEnabled) {
+      throw FlutterError(code = "400", message = "Location feature is not enabled.")
+    }
+    if (mapView.map.myLocation == null) {
+      throw FlutterError(code = "500", message = "Failed to get my location.")
+    } else {
+      return mapView.map.myLocation.toLocation()
+    }
   }
 
   override fun moveCamera(position: CameraPosition, duration: Long) {
