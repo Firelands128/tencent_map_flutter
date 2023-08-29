@@ -11,7 +11,7 @@ class TencentMap extends StatefulWidget {
     Key? key,
     this.androidTexture = false,
     this.onMapCreated,
-    this.compassEnabled = false,
+    this.compassEnabled = true,
     this.scaleControlsEnabled = true,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
@@ -22,7 +22,7 @@ class TencentMap extends StatefulWidget {
     this.buildingsEnabled = true,
     this.buildings3dEnabled = false,
     this.myLocationEnabled = false,
-    this.userLocationType,
+    this.userLocationType = UserLocationType.trackingLocationRotate,
     this.mapType = MapType.normal,
     this.onPress,
     this.onLongPress,
@@ -82,7 +82,7 @@ class TencentMap extends StatefulWidget {
   final bool myLocationEnabled;
 
   /// 定位样式
-  final UserLocationType? userLocationType;
+  final UserLocationType userLocationType;
 
   /// 地图创建完成事件回调函数
   ///
@@ -188,7 +188,7 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
   }
 
   @override
-  didUpdateWidget(old) {
+  void didUpdateWidget(old) {
     super.didUpdateWidget(old);
     if (widget.mapType != old.mapType) {
       _api.setMapType(widget.mapType);
@@ -226,15 +226,31 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     if (widget.myLocationEnabled != old.myLocationEnabled) {
       _api.setMyLocationEnabled(widget.myLocationEnabled);
     }
-    if (widget.userLocationType != old.userLocationType && widget.userLocationType != null) {
-      _api.setUserLocationType(widget.userLocationType!);
+    if (widget.userLocationType != old.userLocationType) {
+      _api.setUserLocationType(widget.userLocationType);
     }
   }
 
   _onPlatformViewCreated(int id) {
+    initMap();
     TencentMapHandler.setup(_TencentMapHandler(widget));
-    didUpdateWidget(const TencentMap());
     widget.onMapCreated?.call(TencentMapController(_api));
+  }
+
+  initMap() {
+    _api.setMapType(widget.mapType);
+    _api.setCompassEnabled(widget.compassEnabled);
+    _api.setScaleControlsEnabled(widget.scaleControlsEnabled);
+    _api.setSkewGesturesEnabled(widget.skewGesturesEnabled);
+    _api.setScrollGesturesEnabled(widget.scrollGesturesEnabled);
+    _api.setRotateGesturesEnabled(widget.rotateGesturesEnabled);
+    _api.setTrafficEnabled(widget.trafficEnabled);
+    _api.setIndoorViewEnabled(widget.indoorViewEnabled);
+    _api.setIndoorPickerEnabled(widget.indoorPickerEnabled);
+    _api.setBuildingsEnabled(widget.buildingsEnabled);
+    _api.setBuildings3dEnabled(widget.buildings3dEnabled);
+    _api.setMyLocationEnabled(widget.myLocationEnabled);
+    _api.setUserLocationType(widget.userLocationType);
   }
 }
 
