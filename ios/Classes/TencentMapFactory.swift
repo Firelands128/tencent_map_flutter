@@ -7,7 +7,11 @@ class TencentMapFactory: NSObject, FlutterPlatformViewFactory {
     self.registrar = registrar
   }
 
-  func create(withFrame _: CGRect, viewIdentifier _: Int64, arguments _: Any?) -> FlutterPlatformView {
-    TencentMap(registrar)
+  func create(withFrame _: CGRect, viewIdentifier _: Int64, arguments: Any?) -> FlutterPlatformView {
+    TencentMap(registrar, args: arguments as? [String: Any?])
+  }
+
+  func createArgsCodec() -> FlutterMessageCodec & NSObjectProtocol {
+    return FlutterStandardMessageCodec.sharedInstance()
   }
 }
