@@ -18,6 +18,10 @@ class _TencentMapApi: NSObject, TencentMapApi {
     ][type] ?? QMapType.standard
   }
 
+  func setMapStyle(index: Int64) throws {
+    mapView.setMapStyle(Int32(index))
+  }
+
   func setCompassEnabled(enabled: Bool) throws {
     mapView.showsCompass = enabled
   }

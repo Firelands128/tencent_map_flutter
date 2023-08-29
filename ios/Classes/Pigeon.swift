@@ -425,6 +425,8 @@ class TencentMapApiCodec: FlutterStandardMessageCodec {
 protocol TencentMapApi {
   /// 设置地图类型
   func setMapType(type: MapType) throws
+  /// 设置个性化地图样式，在官网绑定个性化地图样式，输入样式编号
+  func setMapStyle(index: Int64) throws
   /// 设置是否显示指南针
   func setCompassEnabled(enabled: Bool) throws
   /// 设置是否显示比例尺
@@ -492,6 +494,22 @@ class TencentMapApiSetup {
       }
     } else {
       setMapTypeChannel.setMessageHandler(nil)
+    }
+    /// 设置个性化地图样式，在官网绑定个性化地图样式，输入样式编号
+    let setMapStyleChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setMapStyle", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      setMapStyleChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let indexArg = args[0] is Int64 ? args[0] as! Int64 : Int64(args[0] as! Int32)
+        do {
+          try api.setMapStyle(index: indexArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      setMapStyleChannel.setMessageHandler(nil)
     }
     /// 设置是否显示指南针
     let setCompassEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setCompassEnabled", binaryMessenger: binaryMessenger, codec: codec)

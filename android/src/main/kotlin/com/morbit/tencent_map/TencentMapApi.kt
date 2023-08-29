@@ -16,6 +16,10 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     }
   }
 
+  override fun setMapStyle(index: Long) {
+    mapView.map.mapStyle = index.toInt()
+  }
+
   override fun pause() {
     mapView.onPause()
   }

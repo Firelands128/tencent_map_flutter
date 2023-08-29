@@ -10,7 +10,8 @@ class TencentMap extends StatefulWidget {
   const TencentMap({
     Key? key,
     this.androidTexture = false,
-    this.onMapCreated,
+    this.mapType = MapType.normal,
+    this.mapStyle,
     this.compassEnabled = true,
     this.scaleControlsEnabled = true,
     this.rotateGesturesEnabled = true,
@@ -23,7 +24,7 @@ class TencentMap extends StatefulWidget {
     this.buildings3dEnabled = false,
     this.myLocationEnabled = false,
     this.userLocationType = UserLocationType.trackingLocationRotate,
-    this.mapType = MapType.normal,
+    this.onMapCreated,
     this.onPress,
     this.onLongPress,
     this.onTapPoi,
@@ -45,6 +46,9 @@ class TencentMap extends StatefulWidget {
 
   /// 地图类型
   final MapType mapType;
+
+  /// 地图样式编号
+  final int? mapStyle;
 
   /// 是否显示指南针
   final bool compassEnabled;
@@ -193,6 +197,9 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     if (widget.mapType != old.mapType) {
       _api.setMapType(widget.mapType);
     }
+    if (widget.mapStyle != null && widget.mapStyle != old.mapStyle) {
+      _api.setMapStyle(widget.mapStyle!);
+    }
     if (widget.compassEnabled != old.compassEnabled) {
       _api.setCompassEnabled(widget.compassEnabled);
     }
@@ -239,6 +246,7 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
 
   initMap() {
     _api.setMapType(widget.mapType);
+    if (widget.mapStyle != null) _api.setMapStyle(widget.mapStyle!);
     _api.setCompassEnabled(widget.compassEnabled);
     _api.setScaleControlsEnabled(widget.scaleControlsEnabled);
     _api.setSkewGesturesEnabled(widget.skewGesturesEnabled);
