@@ -12,6 +12,7 @@ class TencentMap extends StatefulWidget {
     this.androidTexture = false,
     this.mapType = MapType.normal,
     this.mapStyle,
+    this.logoScale = 1.0,
     this.compassEnabled = true,
     this.scaleEnabled = true,
     this.scaleFadeEnabled = true,
@@ -50,6 +51,9 @@ class TencentMap extends StatefulWidget {
 
   /// 地图样式编号
   final int? mapStyle;
+
+  /// Logo大小
+  final double logoScale;
 
   /// 是否显示指南针
   final bool compassEnabled;
@@ -204,6 +208,9 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     if (widget.mapStyle != null && widget.mapStyle != old.mapStyle) {
       _api.setMapStyle(widget.mapStyle!);
     }
+    if (widget.logoScale != old.logoScale) {
+      _api.setLogoScale(widget.logoScale);
+    }
     if (widget.compassEnabled != old.compassEnabled) {
       _api.setCompassEnabled(widget.compassEnabled);
     }
@@ -254,6 +261,7 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
   initMap() {
     _api.setMapType(widget.mapType);
     if (widget.mapStyle != null) _api.setMapStyle(widget.mapStyle!);
+    _api.setLogoScale(widget.logoScale);
     _api.setCompassEnabled(widget.compassEnabled);
     _api.setScaleEnabled(widget.scaleEnabled);
     _api.setScaleFadeEnabled(widget.scaleFadeEnabled);
@@ -341,7 +349,6 @@ class TencentMapController {
   void moveCamera(CameraPosition position, [Duration? duration]) {
     _api.moveCamera(position, duration?.inMilliseconds ?? 0);
   }
-
 
   /// 移动地图视野到某个地图区域
   void moveCameraRegion(Region region, EdgePadding padding, [Duration? duration]) {
