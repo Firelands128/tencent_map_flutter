@@ -4,15 +4,15 @@ import 'package:tencent_map/tencent_map.dart';
 import '../utils.dart';
 
 /// 视野移动页面
-class MoveCameraPage extends StatefulWidget {
+class CameraMovePage extends StatefulWidget {
   /// 视野移动页面构造函数
-  const MoveCameraPage({Key? key}) : super(key: key);
+  const CameraMovePage({Key? key}) : super(key: key);
 
   @override
   createState() => _State();
 }
 
-class _State extends State<MoveCameraPage> {
+class _State extends State<CameraMovePage> {
   late TencentMapController controller;
   var animated = false;
   static final position1 = CameraPosition(
