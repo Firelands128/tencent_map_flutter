@@ -11,6 +11,7 @@ import 'pages/layers.dart';
 import 'pages/location.dart';
 import 'pages/map_style.dart';
 import 'pages/map_types.dart';
+import 'pages/restrict_map.dart';
 
 void main() {
   runApp(const App());
@@ -52,6 +53,7 @@ class _AppState extends State<App> {
           Item(MapStylePage.title, (_) => const MapStylePage()),
           Item(CameraMovePage.title, (_) => const CameraMovePage()),
           Item(CameraRegionMovePage.title, (_) => const CameraRegionMovePage()),
+          Item(RestrictMapPage.title, (_) => const RestrictMapPage()),
           Item(LayersPage.title, (_) => const LayersPage()),
           Item(ControlsPage.title, (_) => const ControlsPage()),
           Item(EventsPage.title, (_) => const EventsPage()),
