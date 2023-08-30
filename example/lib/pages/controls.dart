@@ -8,6 +8,9 @@ class ControlsPage extends StatefulWidget {
   /// 控件显示页面构造函数
   const ControlsPage({Key? key}) : super(key: key);
 
+  /// 控件显示页面标题
+  static const title = '控件：比例尺、指南针';
+
   @override
   State<ControlsPage> createState() => _ControlsPageState();
 }
@@ -37,7 +40,7 @@ class _ControlsPageState extends State<ControlsPage> {
       ),
     );
     return Scaffold(
-      appBar: AppBar(title: const Text('控件：比例尺、指南针')),
+      appBar: AppBar(title: const Text(ControlsPage.title)),
       body: TencentMap(
         androidTexture: true,
         mapType: context.isDark ? MapType.dark : MapType.normal,

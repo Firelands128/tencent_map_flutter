@@ -8,6 +8,9 @@ class LayersPage extends StatefulWidget {
   /// 图层显示页面构造函数
   const LayersPage({Key? key}) : super(key: key);
 
+  /// 图层显示页面标题
+  static const title = '图层：路况、室内图、3D 建筑';
+
   @override
   State<LayersPage> createState() => _LayersPageState();
 }
@@ -41,7 +44,7 @@ class _LayersPageState extends State<LayersPage> {
       ),
     );
     return Scaffold(
-      appBar: AppBar(title: const Text('图层：路况、室内图、3D 建筑')),
+      appBar: AppBar(title: const Text(LayersPage.title)),
       body: TencentMap(
         mapType: context.isDark ? MapType.dark : MapType.normal,
         trafficEnabled: _state[traffic] ?? false,

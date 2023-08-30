@@ -9,6 +9,9 @@ class LocationPage extends StatefulWidget {
   /// 定位页面构造函数
   const LocationPage({Key? key}) : super(key: key);
 
+  /// 定位页面标题
+  static const title = '定位';
+
   @override
   State<LocationPage> createState() => _LocationPageState();
 }
@@ -26,7 +29,7 @@ class _LocationPageState extends State<LocationPage> {
   build(context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('定位'),
+        title: const Text(LocationPage.title),
         actions: [
           TextButton(
             onPressed: () async {

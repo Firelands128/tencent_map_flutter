@@ -9,6 +9,9 @@ class FlutterMarkerPage extends StatefulWidget {
   /// 显示Flutter widget标记页面构造函数
   const FlutterMarkerPage({Key? key}) : super(key: key);
 
+  /// 显示Flutter widget标记页面标题
+  static const title = 'Flutter widget 标记';
+
   @override
   State<FlutterMarkerPage> createState() => _FlutterMarkerPageState();
 }
@@ -20,7 +23,7 @@ class _FlutterMarkerPageState extends State<FlutterMarkerPage> {
   @override
   build(context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Flutter widget 标记')),
+      appBar: AppBar(title: const Text(FlutterMarkerPage.title)),
       body: Stack(children: [
         Screenshot(
           controller: screenshot,

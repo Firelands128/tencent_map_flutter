@@ -8,6 +8,9 @@ class AddRemoveMarkerPage extends StatefulWidget {
   /// 添加、移除标记点页面构造函数
   const AddRemoveMarkerPage({Key? key}) : super(key: key);
 
+  /// 添加、移除标记点页面标题
+  static const title = '动态添加、移除标记';
+
   @override
   State<AddRemoveMarkerPage> createState() => _AddRemoveMarkerPageState();
 }
@@ -27,7 +30,7 @@ class _AddRemoveMarkerPageState extends State<AddRemoveMarkerPage> {
   @override
   build(context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('动态添加、移除标记')),
+      appBar: AppBar(title: const Text(AddRemoveMarkerPage.title)),
       body: TencentMap(
         mapType: context.isDark ? MapType.dark : MapType.normal,
         onMapCreated: (controller) => this.controller = controller,

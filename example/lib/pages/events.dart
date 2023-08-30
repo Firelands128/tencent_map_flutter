@@ -8,6 +8,9 @@ class EventsPage extends StatefulWidget {
   /// 地图事件回调页面构造函数
   const EventsPage({Key? key}) : super(key: key);
 
+  /// 地图事件回调页面标题
+  static const title = '地图事件回调';
+
   @override
   State<EventsPage> createState() => _EventsPageState();
 }
@@ -24,7 +27,7 @@ class _EventsPageState extends State<EventsPage> {
   @override
   build(context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('地图事件')),
+      appBar: AppBar(title: const Text(EventsPage.title)),
       body: TencentMap(
         mapType: context.isDark ? MapType.dark : MapType.normal,
         onPress: logger('onTap'),

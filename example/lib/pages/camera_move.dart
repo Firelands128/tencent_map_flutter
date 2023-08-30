@@ -8,6 +8,9 @@ class CameraMovePage extends StatefulWidget {
   /// 视野移动页面构造函数
   const CameraMovePage({Key? key}) : super(key: key);
 
+  /// 视野移动页面标题
+  static const title = '视野移动';
+
   @override
   State<CameraMovePage> createState() => _CameraMovePageState();
 }
@@ -33,7 +36,7 @@ class _CameraMovePageState extends State<CameraMovePage> {
     final duration = animated ? const Duration(seconds: 2) : null;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('视野移动'),
+        title: const Text(CameraMovePage.title),
         actions: [
           Row(children: [
             const Text('动画'),

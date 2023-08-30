@@ -7,6 +7,9 @@ class CameraRegionMovePage extends StatefulWidget {
   /// 视野范围移动页面构造函数
   const CameraRegionMovePage({super.key});
 
+  /// 视野范围移动页面标题
+  static const title = '视野范围设置';
+
   @override
   State<CameraRegionMovePage> createState() => _CameraRegionMovePageState();
 }
@@ -20,7 +23,7 @@ class _CameraRegionMovePageState extends State<CameraRegionMovePage> {
     final duration = animated ? const Duration(seconds: 2) : null;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('视野范围设置'),
+        title: const Text(CameraRegionMovePage.title),
         actions: [
           Row(children: [
             const Text('动画'),

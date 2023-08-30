@@ -7,6 +7,9 @@ class MapTypesPage extends StatefulWidget {
   /// 地图类型切换页面构造函数
   const MapTypesPage({Key? key}) : super(key: key);
 
+  /// 地图类型切换页面标题
+  static const title = '地图类型切换';
+
   @override
   State<MapTypesPage> createState() => _MapTypesPageState();
 }
@@ -23,7 +26,7 @@ class _MapTypesPageState extends State<MapTypesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('地图类型切换'),
+        title: const Text(MapTypesPage.title),
         actions: [
           CupertinoButton(
             onPressed: showOptions,
