@@ -16,20 +16,12 @@ class _MarkerApi(tencentMap: TencentMap) : MarkerApi {
     markers[id]?.position = position.toPosition()
   }
 
-  override fun setZIndex(id: String, zIndex: Long) {
-    markers[id]?.zIndex = zIndex.toInt()
-  }
-
-  override fun setAnchor(id: String, anchor: Anchor) {
-    markers[id]?.setAnchor(anchor.x.toFloat(), anchor.y.toFloat())
-  }
-
   override fun setIcon(id: String, icon: Bitmap) {
     icon.toBitmapDescriptor(binding)?.let { markers[id]?.setIcon(it) }
   }
 
-  override fun setDraggable(id: String, draggable: Boolean) {
-    markers[id]?.isDraggable = draggable
+  override fun setAnchor(id: String, anchor: Anchor) {
+    markers[id]?.setAnchor(anchor.x.toFloat(), anchor.y.toFloat())
   }
 
   override fun setAlpha(id: String, alpha: Double) {
@@ -38,5 +30,13 @@ class _MarkerApi(tencentMap: TencentMap) : MarkerApi {
 
   override fun setRotation(id: String, rotation: Double) {
     markers[id]?.rotation = rotation.toFloat()
+  }
+
+  override fun setZIndex(id: String, zIndex: Long) {
+    markers[id]?.zIndex = zIndex.toInt()
+  }
+
+  override fun setDraggable(id: String, draggable: Boolean) {
+    markers[id]?.isDraggable = draggable
   }
 }
