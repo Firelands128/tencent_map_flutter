@@ -18,9 +18,12 @@ class _CameraRegionMovePageState extends State<CameraRegionMovePage> {
   late TencentMapController controller;
   var animated = false;
 
+  Duration? get duration {
+    return animated ? const Duration(seconds: 2) : null;
+  }
+
   @override
   build(context) {
-    final duration = animated ? const Duration(seconds: 2) : null;
     return Scaffold(
       appBar: AppBar(
         title: const Text(CameraRegionMovePage.title),

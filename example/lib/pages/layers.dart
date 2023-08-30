@@ -29,20 +29,25 @@ class _LayersPageState extends State<LayersPage> {
   };
   final _items = [traffic, indoor, buildings, buildings3d];
 
+  List<Widget> get items {
+    return _items
+        .map(
+          (it) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(padding: const EdgeInsets.only(top: 16), child: Text(it)),
+              Switch(
+                value: _state[it] ?? false,
+                onChanged: (value) => setState(() => _state[it] = value),
+              ),
+            ],
+          ),
+        )
+        .toList();
+  }
+
   @override
   build(context) {
-    final items = _items.map(
-      (it) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(padding: const EdgeInsets.only(top: 16), child: Text(it)),
-          Switch(
-            value: _state[it] ?? false,
-            onChanged: (value) => setState(() => _state[it] = value),
-          ),
-        ],
-      ),
-    );
     return Scaffold(
       appBar: AppBar(title: const Text(LayersPage.title)),
       body: TencentMap(
@@ -58,7 +63,7 @@ class _LayersPageState extends State<LayersPage> {
       ),
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: items.toList(),
+        children: items,
       ),
     );
   }

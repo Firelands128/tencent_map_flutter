@@ -25,20 +25,24 @@ class _ControlsPageState extends State<ControlsPage> {
     compass: true,
   };
 
+  List<Widget> get items {
+    return _items.map(
+          (item) =>
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(padding: const EdgeInsets.only(top: 16), child: Text(item)),
+              Switch(
+                value: _state[item]!,
+                onChanged: (value) => setState(() => _state[item] = value),
+              ),
+            ],
+          ),
+    ).toList();
+  }
+
   @override
   build(context) {
-    final items = _items.map(
-      (item) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(padding: const EdgeInsets.only(top: 16), child: Text(item)),
-          Switch(
-            value: _state[item]!,
-            onChanged: (value) => setState(() => _state[item] = value),
-          ),
-        ],
-      ),
-    );
     return Scaffold(
       appBar: AppBar(title: const Text(ControlsPage.title)),
       body: TencentMap(
@@ -49,7 +53,7 @@ class _ControlsPageState extends State<ControlsPage> {
       ),
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: items.toList(),
+        children: items,
       ),
     );
   }
