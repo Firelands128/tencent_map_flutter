@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tencent_map/tencent_map.dart';
 
 import 'pages/add_remove_marker.dart';
+import 'pages/camera_region_move.dart';
 import 'pages/controls.dart';
 import 'pages/events.dart';
 import 'pages/flutter_marker.dart';
@@ -50,6 +51,7 @@ class _AppState extends State<App> {
           Item('地图类型切换', (_) => const MapTypesPage()),
           Item('地图样式切换', (_) => const MapStylePage()),
           Item('视野移动', (_) => const MoveCameraPage()),
+          Item('视野范围设置', (_) => const CameraRegionMovePage()),
           Item('图层：路况、室内图、3D 建筑', (_) => const LayersPage()),
           Item('控件：比例尺、指南针', (_) => const ControlsPage()),
           Item('地图事件回调', (_) => const EventsPage()),
