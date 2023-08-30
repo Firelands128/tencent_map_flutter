@@ -342,6 +342,11 @@ class TencentMapController {
     _api.moveCameraToRegionWithPosition(positions, padding, duration?.inMilliseconds ?? 0);
   }
 
+  /// 限制地图显示区域
+  void setRestrictRegion(Region region, RestrictRegionMode mode) {
+    _api.setRestrictRegion(region, mode);
+  }
+
   /// 添加标记
   Future<Marker> addMarker(MarkerOptions options) async {
     return Marker(await _api.addMarker(options));
