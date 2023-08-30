@@ -13,7 +13,7 @@ class TencentMap extends StatefulWidget {
     this.mapType = MapType.normal,
     this.mapStyle,
     this.compassEnabled = true,
-    this.scaleControlsEnabled = true,
+    this.scaleEnabled = true,
     this.scaleFadeEnabled = true,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
@@ -55,7 +55,7 @@ class TencentMap extends StatefulWidget {
   final bool compassEnabled;
 
   /// 是否显示比例尺控件
-  final bool scaleControlsEnabled;
+  final bool scaleEnabled;
 
   /// 是否淡出比例尺
   final bool scaleFadeEnabled;
@@ -207,8 +207,8 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     if (widget.compassEnabled != old.compassEnabled) {
       _api.setCompassEnabled(widget.compassEnabled);
     }
-    if (widget.scaleControlsEnabled != old.scaleControlsEnabled) {
-      _api.setScaleControlsEnabled(widget.scaleControlsEnabled);
+    if (widget.scaleEnabled != old.scaleEnabled) {
+      _api.setScaleEnabled(widget.scaleEnabled);
     }
     if (widget.scaleFadeEnabled != old.scaleFadeEnabled) {
       _api.setScaleFadeEnabled(widget.scaleFadeEnabled);
@@ -255,7 +255,7 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     _api.setMapType(widget.mapType);
     if (widget.mapStyle != null) _api.setMapStyle(widget.mapStyle!);
     _api.setCompassEnabled(widget.compassEnabled);
-    _api.setScaleControlsEnabled(widget.scaleControlsEnabled);
+    _api.setScaleEnabled(widget.scaleEnabled);
     _api.setScaleFadeEnabled(widget.scaleFadeEnabled);
     _api.setSkewGesturesEnabled(widget.skewGesturesEnabled);
     _api.setScrollGesturesEnabled(widget.scrollGesturesEnabled);

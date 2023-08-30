@@ -32,7 +32,7 @@ abstract class TencentMapApi {
   void setCompassEnabled(bool enabled);
 
   /// 设置是否显示比例尺
-  void setScaleControlsEnabled(bool enabled);
+  void setScaleEnabled(bool enabled);
 
   /// 设置比例尺是否淡出
   void setScaleFadeEnabled(bool enabled);

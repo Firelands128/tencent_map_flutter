@@ -515,7 +515,7 @@ protocol TencentMapApi {
   /// 设置是否显示指南针
   func setCompassEnabled(enabled: Bool) throws
   /// 设置是否显示比例尺
-  func setScaleControlsEnabled(enabled: Bool) throws
+  func setScaleEnabled(enabled: Bool) throws
   /// 设置比例尺是否淡出
   func setScaleFadeEnabled(enabled: Bool) throws
   /// 设置是否使用旋转手势
@@ -621,20 +621,20 @@ class TencentMapApiSetup {
       setCompassEnabledChannel.setMessageHandler(nil)
     }
     /// 设置是否显示比例尺
-    let setScaleControlsEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setScaleControlsEnabled", binaryMessenger: binaryMessenger, codec: codec)
+    let setScaleEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setScaleEnabled", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
-      setScaleControlsEnabledChannel.setMessageHandler { message, reply in
+      setScaleEnabledChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
         let enabledArg = args[0] as! Bool
         do {
-          try api.setScaleControlsEnabled(enabled: enabledArg)
+          try api.setScaleEnabled(enabled: enabledArg)
           reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))
         }
       }
     } else {
-      setScaleControlsEnabledChannel.setMessageHandler(nil)
+      setScaleEnabledChannel.setMessageHandler(nil)
     }
     /// 设置比例尺是否淡出
     let setScaleFadeEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setScaleFadeEnabled", binaryMessenger: binaryMessenger, codec: codec)

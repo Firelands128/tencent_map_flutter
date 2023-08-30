@@ -589,9 +589,9 @@ class TencentMapApi {
   }
 
   /// 设置是否显示比例尺
-  Future<void> setScaleControlsEnabled(bool arg_enabled) async {
+  Future<void> setScaleEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.TencentMapApi.setScaleControlsEnabled', codec,
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.setScaleEnabled', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_enabled]) as List<Object?>?;
@@ -617,7 +617,7 @@ class TencentMapApi {
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setScaleFadeEnabled', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-    await channel.send(<Object?>[arg_enabled]) as List<Object?>?;
+        await channel.send(<Object?>[arg_enabled]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

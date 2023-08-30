@@ -16,13 +16,13 @@ class ControlsPage extends StatefulWidget {
 }
 
 class _ControlsPageState extends State<ControlsPage> {
-  static const scaleControls = '比例尺';
+  static const scale = '比例尺';
   static const scaleFade = '比例尺淡出';
   static const compass = '指南针';
 
-  final _items = [scaleControls, scaleFade, compass];
+  final _items = [scale, scaleFade, compass];
   final _state = {
-    scaleControls: true,
+    scale: true,
     scaleFade: true,
     compass: true,
   };
@@ -50,7 +50,7 @@ class _ControlsPageState extends State<ControlsPage> {
       body: TencentMap(
         androidTexture: true,
         mapType: context.isDark ? MapType.dark : MapType.normal,
-        scaleControlsEnabled: _state[scaleControls]!,
+        scaleEnabled: _state[scale]!,
         scaleFadeEnabled: _state[scaleFade]!,
         compassEnabled: _state[compass]!,
       ),

@@ -81,7 +81,7 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     mapView.map.setBuilding3dEffectEnable(enabled)
   }
 
-  override fun setScaleControlsEnabled(enabled: Boolean) {
+  override fun setScaleEnabled(enabled: Boolean) {
     mapView.map.uiSettings.isScaleViewEnabled = enabled
   }
 

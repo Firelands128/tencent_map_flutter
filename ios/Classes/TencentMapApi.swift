@@ -26,7 +26,7 @@ class _TencentMapApi: NSObject, TencentMapApi {
     mapView.showsCompass = enabled
   }
 
-  func setScaleControlsEnabled(enabled: Bool) throws {
+  func setScaleEnabled(enabled: Bool) throws {
     mapView.showsScale = enabled
   }
   
