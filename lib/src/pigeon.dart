@@ -79,6 +79,9 @@ abstract class TencentMapApi {
   /// 移动地图视野到包含一组坐标点的某个地图区域
   void moveCameraToRegionWithPosition(List<Position?> positions, EdgePadding padding, int duration);
 
+  /// 限制地图显示区域
+  void setRestrictRegion(Region region, RestrictRegionMode mode);
+
   /// 添加标记点
   String addMarker(MarkerOptions options);
 
@@ -280,6 +283,15 @@ class EdgePadding {
 
   /// 左边缘宽度
   late double left;
+}
+
+/// 限制显示区域模式
+enum RestrictRegionMode {
+  /// 适配宽度
+  fitWidth,
+
+  /// 适配高度
+  fitHeight,
 }
 
 /// 标记点配置属性

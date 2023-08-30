@@ -30,6 +30,17 @@ extension EdgePadding {
   }
 }
 
+extension RestrictRegionMode {
+  var restrictMode: QMapLimitRectFitMode {
+    switch(self) {
+    case .fitWidth:
+      return QMapLimitRectFitMode.width
+    case .fitHeight:
+      return QMapLimitRectFitMode.height
+    }
+  }
+}
+
 extension MarkerOptions {
   var annotation: QPointAnnotation {
     let annotation = QPointAnnotation()

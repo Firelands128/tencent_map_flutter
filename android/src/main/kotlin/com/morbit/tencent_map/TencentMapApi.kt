@@ -151,6 +151,13 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     }
   }
 
+  override fun setRestrictRegion(region: Region, mode: RestrictRegionMode) {
+    mapView.map.setRestrictBounds(
+      region.toLatLngBounds(),
+      mode.toRestrictMode()
+    )
+  }
+
   override fun addMarker(options: MarkerOptions): String {
     val marker = mapView.map.addMarker(options.toMarkerOptions(tencentMap.binding))
     tencentMap.markers[marker.id] = marker

@@ -5,6 +5,7 @@ export 'src/pigeon.g.dart'
         Position,
         Region,
         EdgePadding,
+        RestrictRegionMode,
         MapType,
         CameraPosition,
         MarkerOptions,

@@ -108,6 +108,11 @@ class _TencentMapApi: NSObject, TencentMapApi {
     let region = QBoundingCoordinateRegionWithCoordinates(coordinatesPointer, UInt(coordinates.count))
     mapView.setRegion(region, animated: duration > 0)
   }
+  
+  func setRestrictRegion(region: Region, mode: RestrictRegionMode) throws {
+    mapView.setLimitMapRect(QMapRectForCoordinateRegion(region.region), mode: mode.restrictMode)
+  }
+  
 
   func addMarker(options: MarkerOptions) throws -> String {
     var id = UUID()

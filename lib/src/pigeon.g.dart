@@ -34,6 +34,14 @@ enum UserLocationType {
   trackingRotate,
 }
 
+/// 限制显示区域模式
+enum RestrictRegionMode {
+  /// 适配宽度
+  fitWidth,
+  /// 适配高度
+  fitHeight,
+}
+
 /// 点标记图标锚点
 class Anchor {
   Anchor({
@@ -937,6 +945,29 @@ class TencentMapApi {
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_positions, arg_padding, arg_duration]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  /// 限制地图显示区域
+  Future<void> setRestrictRegion(Region arg_region, RestrictRegionMode arg_mode) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.setRestrictRegion', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+    await channel.send(<Object?>[arg_region, arg_mode.index]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

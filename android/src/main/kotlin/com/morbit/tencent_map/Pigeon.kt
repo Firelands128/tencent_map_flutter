@@ -83,6 +83,20 @@ enum class UserLocationType(val raw: Int) {
   }
 }
 
+/** 限制显示区域模式 */
+enum class RestrictRegionMode(val raw: Int) {
+  /** 适配宽度 */
+  FITWIDTH(0),
+  /** 适配高度 */
+  FITHEIGHT(1);
+
+  companion object {
+    fun ofRaw(raw: Int): RestrictRegionMode? {
+      return values().firstOrNull { it.raw == raw }
+    }
+  }
+}
+
 /**
  * 点标记图标锚点
  *
@@ -595,6 +609,8 @@ interface TencentMapApi {
   fun moveCameraToRegion(region: Region, padding: EdgePadding, duration: Long)
   /** 移动地图视野到包含一组坐标点的某个地图区域 */
   fun moveCameraToRegionWithPosition(positions: List<Position?>, padding: EdgePadding, duration: Long)
+  /** 限制地图显示区域 */
+  fun setRestrictRegion(region: Region, mode: RestrictRegionMode)
   /** 添加标记点 */
   fun addMarker(options: MarkerOptions): String
   /** 添加折线 */
@@ -971,6 +987,26 @@ interface TencentMapApi {
             var wrapped: List<Any?>
             try {
               api.moveCameraToRegionWithPosition(positionsArg, paddingArg, durationArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.setRestrictRegion", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val regionArg = args[0] as Region
+            val modeArg = RestrictRegionMode.ofRaw(args[1] as Int)!!
+            var wrapped: List<Any?>
+            try {
+              api.setRestrictRegion(regionArg, modeArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

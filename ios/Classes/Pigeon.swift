@@ -60,6 +60,14 @@ enum UserLocationType: Int {
   case trackingRotate = 4
 }
 
+/// 限制显示区域模式
+enum RestrictRegionMode: Int {
+  /// 适配宽度
+  case fitWidth = 0
+  /// 适配高度
+  case fitHeight = 1
+}
+
 /// 点标记图标锚点
 ///
 /// Generated class from Pigeon that represents data sent in messages.
@@ -538,6 +546,8 @@ protocol TencentMapApi {
   func moveCameraToRegion(region: Region, padding: EdgePadding, duration: Int64) throws
   /// 移动地图视野到包含一组坐标点的某个地图区域
   func moveCameraToRegionWithPosition(positions: [Position?], padding: EdgePadding, duration: Int64) throws
+  /// 限制地图显示区域
+  func setRestrictRegion(region: Region, mode: RestrictRegionMode) throws
   /// 添加标记点
   func addMarker(options: MarkerOptions) throws -> String
   /// 添加折线
@@ -866,6 +876,23 @@ class TencentMapApiSetup {
       }
     } else {
       moveCameraToRegionWithPositionChannel.setMessageHandler(nil)
+    }
+    /// 限制地图显示区域
+    let setRestrictRegionChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setRestrictRegion", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      setRestrictRegionChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let regionArg = args[0] as! Region
+        let modeArg = RestrictRegionMode(rawValue: args[1] as! Int)!
+        do {
+          try api.setRestrictRegion(region: regionArg, mode: modeArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      setRestrictRegionChannel.setMessageHandler(nil)
     }
     /// 添加标记点
     let addMarkerChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.addMarker", binaryMessenger: binaryMessenger, codec: codec)

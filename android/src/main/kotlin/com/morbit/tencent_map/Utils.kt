@@ -5,6 +5,7 @@ import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptor
 import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng
 import com.tencent.tencentmap.mapsdk.maps.model.LatLngBounds
+import com.tencent.tencentmap.mapsdk.maps.model.RestrictBoundsFitMode
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 import android.location.Location as AndroidLocation
 import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition as TencentCameraPosition
@@ -68,6 +69,13 @@ fun UserLocationType.toMyLocationStyle(): TencentMyLocationStyle {
 
 fun Region.toLatLngBounds(): LatLngBounds {
   return LatLngBounds(LatLng(north, east), LatLng(south, west))
+}
+
+fun RestrictRegionMode.toRestrictMode(): RestrictBoundsFitMode {
+  return when(this) {
+    RestrictRegionMode.FITWIDTH -> RestrictBoundsFitMode.FIT_WIDTH
+    RestrictRegionMode.FITHEIGHT -> RestrictBoundsFitMode.FIT_HEIGHT
+  }
 }
 
 fun MarkerOptions.toMarkerOptions(binding: FlutterPluginBinding): TencentMarkerOptions {
