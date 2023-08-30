@@ -17,11 +17,13 @@ class ControlsPage extends StatefulWidget {
 
 class _ControlsPageState extends State<ControlsPage> {
   static const scaleControls = '比例尺';
+  static const scaleFade = '比例尺淡出';
   static const compass = '指南针';
 
-  final _items = [scaleControls, compass];
+  final _items = [scaleControls, scaleFade, compass];
   final _state = {
     scaleControls: true,
+    scaleFade: true,
     compass: true,
   };
 
@@ -49,6 +51,7 @@ class _ControlsPageState extends State<ControlsPage> {
         androidTexture: true,
         mapType: context.isDark ? MapType.dark : MapType.normal,
         scaleControlsEnabled: _state[scaleControls]!,
+        scaleFadeEnabled: _state[scaleFade]!,
         compassEnabled: _state[compass]!,
       ),
       bottomNavigationBar: Row(
