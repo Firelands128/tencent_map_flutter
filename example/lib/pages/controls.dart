@@ -9,10 +9,10 @@ class ControlsPage extends StatefulWidget {
   const ControlsPage({Key? key}) : super(key: key);
 
   @override
-  createState() => _State();
+  State<ControlsPage> createState() => _ControlsPageState();
 }
 
-class _State extends State<ControlsPage> {
+class _ControlsPageState extends State<ControlsPage> {
   static const scaleControls = '比例尺';
   static const compass = '指南针';
 

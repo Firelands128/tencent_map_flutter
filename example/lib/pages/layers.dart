@@ -9,10 +9,10 @@ class LayersPage extends StatefulWidget {
   const LayersPage({Key? key}) : super(key: key);
 
   @override
-  createState() => _State();
+  State<LayersPage> createState() => _LayersPageState();
 }
 
-class _State extends State<LayersPage> {
+class _LayersPageState extends State<LayersPage> {
   static const traffic = '路况';
   static const indoor = '室内图';
   static const buildings = '建筑物';

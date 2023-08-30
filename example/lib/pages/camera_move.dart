@@ -9,10 +9,10 @@ class CameraMovePage extends StatefulWidget {
   const CameraMovePage({Key? key}) : super(key: key);
 
   @override
-  createState() => _State();
+  State<CameraMovePage> createState() => _CameraMovePageState();
 }
 
-class _State extends State<CameraMovePage> {
+class _CameraMovePageState extends State<CameraMovePage> {
   late TencentMapController controller;
   var animated = false;
   static final position1 = CameraPosition(
