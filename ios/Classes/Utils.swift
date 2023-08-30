@@ -15,6 +15,21 @@ extension CLLocationCoordinate2D {
   }
 }
 
+extension Region {
+  var region: QCoordinateRegion {
+    return QCoordinateRegionMake(
+      CLLocationCoordinate2DMake((north + south) / 2, (east + west) / 2),
+      QCoordinateSpanMake(north - south, east - west)
+    )
+  }
+}
+
+extension EdgePadding {
+  var padding: UIEdgeInsets {
+    return UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
+  }
+}
+
 extension MarkerOptions {
   var annotation: QPointAnnotation {
     let annotation = QPointAnnotation()

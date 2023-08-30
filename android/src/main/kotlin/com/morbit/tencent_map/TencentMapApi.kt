@@ -4,6 +4,7 @@ import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory
 import com.tencent.tencentmap.mapsdk.maps.TencentMap.MAP_TYPE_DARK
 import com.tencent.tencentmap.mapsdk.maps.TencentMap.MAP_TYPE_NORMAL
 import com.tencent.tencentmap.mapsdk.maps.TencentMap.MAP_TYPE_SATELLITE
+import com.tencent.tencentmap.mapsdk.maps.model.LatLngBounds
 
 class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
   private val mapView = tencentMap.view
@@ -108,6 +109,40 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
   override fun moveCamera(position: CameraPosition, duration: Long) {
     val cameraPosition = position.toCameraPosition(mapView.map.cameraPosition)
     val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
+    if (duration > 0) {
+      mapView.map.stopAnimation()
+      mapView.map.animateCamera(cameraUpdate, duration, null)
+    } else {
+      mapView.map.moveCamera(cameraUpdate)
+    }
+  }
+
+  override fun moveCameraToRegion(region: Region, padding: EdgePadding, duration: Long) {
+    val latLngBounds = region.toLatLngBounds()
+    val cameraUpdate = CameraUpdateFactory.newLatLngBoundsRect(
+      latLngBounds,
+      padding.left.toInt(),
+      padding.right.toInt(),
+      padding.top.toInt(),
+      padding.bottom.toInt(),
+    )
+    if (duration > 0) {
+      mapView.map.stopAnimation()
+      mapView.map.animateCamera(cameraUpdate, duration, null)
+    } else {
+      mapView.map.moveCamera(cameraUpdate)
+    }
+  }
+
+  override fun moveCameraToRegionWithPosition(positions: List<Position?>, padding: EdgePadding, duration: Long) {
+    val latLngBounds = LatLngBounds.Builder().include(positions.filterNotNull().map { it.toPosition() }).build()
+    val cameraUpdate = CameraUpdateFactory.newLatLngBoundsRect(
+      latLngBounds,
+      padding.left.toInt(),
+      padding.right.toInt(),
+      padding.top.toInt(),
+      padding.bottom.toInt(),
+    )
     if (duration > 0) {
       mapView.map.stopAnimation()
       mapView.map.animateCamera(cameraUpdate, duration, null)

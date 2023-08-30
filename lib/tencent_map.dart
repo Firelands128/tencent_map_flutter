@@ -3,6 +3,8 @@ export 'src/pigeon.g.dart'
     show
         Anchor,
         Position,
+        Region,
+        EdgePadding,
         MapType,
         CameraPosition,
         MarkerOptions,

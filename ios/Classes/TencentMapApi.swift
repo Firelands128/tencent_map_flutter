@@ -97,6 +97,18 @@ class _TencentMapApi: NSObject, TencentMapApi {
     if let it = position.heading { mapView.setRotation(CGFloat(it), animated: animated) }
   }
 
+  func moveCameraToRegion(region: Region, padding: EdgePadding, duration: Int64) throws {
+    mapView.setRegion(region.region, edgePadding: padding.padding, animated: duration > 0)
+  }
+
+  func moveCameraToRegionWithPosition(positions: [Position?], padding: EdgePadding, duration: Int64) throws {
+    let coordinates = positions.filter { position in position != nil }.map { position in position!.coordinate }
+    let coordinatesPointer = UnsafeMutablePointer<CLLocationCoordinate2D>.allocate(capacity: coordinates.count)
+    coordinatesPointer.initialize(from: coordinates, count: coordinates.count)
+    let region = QBoundingCoordinateRegionWithCoordinates(coordinatesPointer, UInt(coordinates.count))
+    mapView.setRegion(region, animated: duration > 0)
+  }
+
   func addMarker(options: MarkerOptions) throws -> String {
     var id = UUID()
     while(tencentMap.hasKeyInMarkers(key: id)) {

@@ -3,6 +3,8 @@ package com.morbit.tencent_map
 import android.graphics.BitmapFactory
 import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptor
 import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory
+import com.tencent.tencentmap.mapsdk.maps.model.LatLng
+import com.tencent.tencentmap.mapsdk.maps.model.LatLngBounds
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 import android.location.Location as AndroidLocation
 import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition as TencentCameraPosition
@@ -62,6 +64,10 @@ fun UserLocationType.toMyLocationStyle(): TencentMyLocationStyle {
       style.myLocationType(it)
     }
   }
+}
+
+fun Region.toLatLngBounds(): LatLngBounds {
+  return LatLngBounds(LatLng(north, east), LatLng(south, west))
 }
 
 fun MarkerOptions.toMarkerOptions(binding: FlutterPluginBinding): TencentMarkerOptions {

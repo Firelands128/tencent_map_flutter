@@ -334,6 +334,14 @@ class TencentMapController {
     _api.moveCamera(position, duration?.inMilliseconds ?? 0);
   }
 
+  void moveCameraRegion(Region region, EdgePadding padding, [Duration? duration]) {
+    _api.moveCameraToRegion(region, padding, duration?.inMilliseconds ?? 0);
+  }
+
+  void moveCameraToRegionWithPosition(List<Position> positions, EdgePadding padding, [Duration? duration]) {
+    _api.moveCameraToRegionWithPosition(positions, padding, duration?.inMilliseconds ?? 0);
+  }
+
   /// 添加标记
   Future<Marker> addMarker(MarkerOptions options) async {
     return Marker(await _api.addMarker(options));

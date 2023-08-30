@@ -208,6 +208,78 @@ struct CameraPosition {
   }
 }
 
+/// 地图区域
+///
+/// Generated class from Pigeon that represents data sent in messages.
+struct Region {
+  /// 最北的纬度
+  var north: Double
+  /// 最东的经度
+  var east: Double
+  /// 最南的纬度
+  var south: Double
+  /// 最西的经度
+  var west: Double
+
+  static func fromList(_ list: [Any?]) -> Region? {
+    let north = list[0] as! Double
+    let east = list[1] as! Double
+    let south = list[2] as! Double
+    let west = list[3] as! Double
+
+    return Region(
+      north: north,
+      east: east,
+      south: south,
+      west: west
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      north,
+      east,
+      south,
+      west,
+    ]
+  }
+}
+
+/// 视野边缘宽度
+///
+/// Generated class from Pigeon that represents data sent in messages.
+struct EdgePadding {
+  /// 上边缘宽度
+  var top: Double
+  /// 右边缘宽度
+  var right: Double
+  /// 下边缘宽度
+  var bottom: Double
+  /// 左边缘宽度
+  var left: Double
+
+  static func fromList(_ list: [Any?]) -> EdgePadding? {
+    let top = list[0] as! Double
+    let right = list[1] as! Double
+    let bottom = list[2] as! Double
+    let left = list[3] as! Double
+
+    return EdgePadding(
+      top: top,
+      right: right,
+      bottom: bottom,
+      left: left
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      top,
+      right,
+      bottom,
+      left,
+    ]
+  }
+}
+
 /// 标记点配置属性
 ///
 /// Generated class from Pigeon that represents data sent in messages.
@@ -358,15 +430,17 @@ private class TencentMapApiCodecReader: FlutterStandardReader {
       case 130:
         return CameraPosition.fromList(self.readValue() as! [Any?])
       case 131:
-        return Location.fromList(self.readValue() as! [Any?])
+        return EdgePadding.fromList(self.readValue() as! [Any?])
       case 132:
-        return MarkerOptions.fromList(self.readValue() as! [Any?])
+        return Location.fromList(self.readValue() as! [Any?])
       case 133:
-        return PolylineOptions.fromList(self.readValue() as! [Any?])
+        return MarkerOptions.fromList(self.readValue() as! [Any?])
       case 134:
-        return Position.fromList(self.readValue() as! [Any?])
+        return PolylineOptions.fromList(self.readValue() as! [Any?])
       case 135:
         return Position.fromList(self.readValue() as! [Any?])
+      case 136:
+        return Region.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
     }
@@ -384,20 +458,23 @@ private class TencentMapApiCodecWriter: FlutterStandardWriter {
     } else if let value = value as? CameraPosition {
       super.writeByte(130)
       super.writeValue(value.toList())
-    } else if let value = value as? Location {
+    } else if let value = value as? EdgePadding {
       super.writeByte(131)
       super.writeValue(value.toList())
-    } else if let value = value as? MarkerOptions {
+    } else if let value = value as? Location {
       super.writeByte(132)
       super.writeValue(value.toList())
-    } else if let value = value as? PolylineOptions {
+    } else if let value = value as? MarkerOptions {
       super.writeByte(133)
       super.writeValue(value.toList())
-    } else if let value = value as? Position {
+    } else if let value = value as? PolylineOptions {
       super.writeByte(134)
       super.writeValue(value.toList())
     } else if let value = value as? Position {
       super.writeByte(135)
+      super.writeValue(value.toList())
+    } else if let value = value as? Region {
+      super.writeByte(136)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)
@@ -457,6 +534,10 @@ protocol TencentMapApi {
   func getUserLocation() throws -> Location
   /// 移动地图视野
   func moveCamera(position: CameraPosition, duration: Int64) throws
+  /// 移动地图视野到某个地图区域
+  func moveCameraToRegion(region: Region, padding: EdgePadding, duration: Int64) throws
+  /// 移动地图视野到包含一组坐标点的某个地图区域
+  func moveCameraToRegionWithPosition(positions: [Position?], padding: EdgePadding, duration: Int64) throws
   /// 添加标记点
   func addMarker(options: MarkerOptions) throws -> String
   /// 添加折线
@@ -749,6 +830,42 @@ class TencentMapApiSetup {
       }
     } else {
       moveCameraChannel.setMessageHandler(nil)
+    }
+    /// 移动地图视野到某个地图区域
+    let moveCameraToRegionChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.moveCameraToRegion", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      moveCameraToRegionChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let regionArg = args[0] as! Region
+        let paddingArg = args[1] as! EdgePadding
+        let durationArg = args[2] is Int64 ? args[2] as! Int64 : Int64(args[2] as! Int32)
+        do {
+          try api.moveCameraToRegion(region: regionArg, padding: paddingArg, duration: durationArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      moveCameraToRegionChannel.setMessageHandler(nil)
+    }
+    /// 移动地图视野到包含一组坐标点的某个地图区域
+    let moveCameraToRegionWithPositionChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.moveCameraToRegionWithPosition", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      moveCameraToRegionWithPositionChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let positionsArg = args[0] as! [Position?]
+        let paddingArg = args[1] as! EdgePadding
+        let durationArg = args[2] is Int64 ? args[2] as! Int64 : Int64(args[2] as! Int32)
+        do {
+          try api.moveCameraToRegionWithPosition(positions: positionsArg, padding: paddingArg, duration: durationArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      moveCameraToRegionWithPositionChannel.setMessageHandler(nil)
     }
     /// 添加标记点
     let addMarkerChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.addMarker", binaryMessenger: binaryMessenger, codec: codec)

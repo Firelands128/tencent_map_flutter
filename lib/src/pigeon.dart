@@ -73,6 +73,12 @@ abstract class TencentMapApi {
   /// 移动地图视野
   void moveCamera(CameraPosition position, int duration);
 
+  /// 移动地图视野到某个地图区域
+  void moveCameraToRegion(Region region, EdgePadding padding, int duration);
+
+  /// 移动地图视野到包含一组坐标点的某个地图区域
+  void moveCameraToRegionWithPosition(List<Position?> positions, EdgePadding padding, int duration);
+
   /// 添加标记点
   String addMarker(MarkerOptions options);
 
@@ -244,6 +250,36 @@ class CameraPosition {
 
   /// 地图视野的缩放级别
   double? zoom;
+}
+
+/// 地图区域
+class Region {
+  /// 最北的纬度
+  late double north;
+
+  /// 最东的经度
+  late double east;
+
+  /// 最南的纬度
+  late double south;
+
+  /// 最西的经度
+  late double west;
+}
+
+/// 视野边缘宽度
+class EdgePadding {
+  /// 上边缘宽度
+  late double top;
+
+  /// 右边缘宽度
+  late double right;
+
+  /// 下边缘宽度
+  late double bottom;
+
+  /// 左边缘宽度
+  late double left;
 }
 
 /// 标记点配置属性

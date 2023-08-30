@@ -238,6 +238,78 @@ data class CameraPosition (
 }
 
 /**
+ * 地图区域
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class Region (
+  /** 最北的纬度 */
+  val north: Double,
+  /** 最东的经度 */
+  val east: Double,
+  /** 最南的纬度 */
+  val south: Double,
+  /** 最西的经度 */
+  val west: Double
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): Region {
+      val north = list[0] as Double
+      val east = list[1] as Double
+      val south = list[2] as Double
+      val west = list[3] as Double
+      return Region(north, east, south, west)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      north,
+      east,
+      south,
+      west,
+    )
+  }
+}
+
+/**
+ * 视野边缘宽度
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class EdgePadding (
+  /** 上边缘宽度 */
+  val top: Double,
+  /** 右边缘宽度 */
+  val right: Double,
+  /** 下边缘宽度 */
+  val bottom: Double,
+  /** 左边缘宽度 */
+  val left: Double
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): EdgePadding {
+      val top = list[0] as Double
+      val right = list[1] as Double
+      val bottom = list[2] as Double
+      val left = list[3] as Double
+      return EdgePadding(top, right, bottom, left)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      top,
+      right,
+      bottom,
+      left,
+    )
+  }
+}
+
+/**
  * 标记点配置属性
  *
  * Generated class from Pigeon that represents data sent in messages.
@@ -405,27 +477,32 @@ private object TencentMapApiCodec : StandardMessageCodec() {
       }
       131.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Location.fromList(it)
+          EdgePadding.fromList(it)
         }
       }
       132.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MarkerOptions.fromList(it)
+          Location.fromList(it)
         }
       }
       133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          PolylineOptions.fromList(it)
+          MarkerOptions.fromList(it)
         }
       }
       134.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Position.fromList(it)
+          PolylineOptions.fromList(it)
         }
       }
       135.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           Position.fromList(it)
+        }
+      }
+      136.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          Region.fromList(it)
         }
       }
       else -> super.readValueOfType(type, buffer)
@@ -445,24 +522,28 @@ private object TencentMapApiCodec : StandardMessageCodec() {
         stream.write(130)
         writeValue(stream, value.toList())
       }
-      is Location -> {
+      is EdgePadding -> {
         stream.write(131)
         writeValue(stream, value.toList())
       }
-      is MarkerOptions -> {
+      is Location -> {
         stream.write(132)
         writeValue(stream, value.toList())
       }
-      is PolylineOptions -> {
+      is MarkerOptions -> {
         stream.write(133)
         writeValue(stream, value.toList())
       }
-      is Position -> {
+      is PolylineOptions -> {
         stream.write(134)
         writeValue(stream, value.toList())
       }
       is Position -> {
         stream.write(135)
+        writeValue(stream, value.toList())
+      }
+      is Region -> {
+        stream.write(136)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -510,6 +591,10 @@ interface TencentMapApi {
   fun getUserLocation(): Location
   /** 移动地图视野 */
   fun moveCamera(position: CameraPosition, duration: Long)
+  /** 移动地图视野到某个地图区域 */
+  fun moveCameraToRegion(region: Region, padding: EdgePadding, duration: Long)
+  /** 移动地图视野到包含一组坐标点的某个地图区域 */
+  fun moveCameraToRegionWithPosition(positions: List<Position?>, padding: EdgePadding, duration: Long)
   /** 添加标记点 */
   fun addMarker(options: MarkerOptions): String
   /** 添加折线 */
@@ -844,6 +929,48 @@ interface TencentMapApi {
             var wrapped: List<Any?>
             try {
               api.moveCamera(positionArg, durationArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.moveCameraToRegion", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val regionArg = args[0] as Region
+            val paddingArg = args[1] as EdgePadding
+            val durationArg = args[2].let { if (it is Int) it.toLong() else it as Long }
+            var wrapped: List<Any?>
+            try {
+              api.moveCameraToRegion(regionArg, paddingArg, durationArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.moveCameraToRegionWithPosition", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val positionsArg = args[0] as List<Position?>
+            val paddingArg = args[1] as EdgePadding
+            val durationArg = args[2].let { if (it is Int) it.toLong() else it as Long }
+            var wrapped: List<Any?>
+            try {
+              api.moveCameraToRegionWithPosition(positionsArg, paddingArg, durationArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

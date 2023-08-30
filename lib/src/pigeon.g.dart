@@ -199,6 +199,88 @@ class CameraPosition {
   }
 }
 
+/// 地图区域
+class Region {
+  Region({
+    required this.north,
+    required this.east,
+    required this.south,
+    required this.west,
+  });
+
+  /// 最北的纬度
+  double north;
+
+  /// 最东的经度
+  double east;
+
+  /// 最南的纬度
+  double south;
+
+  /// 最西的经度
+  double west;
+
+  Object encode() {
+    return <Object?>[
+      north,
+      east,
+      south,
+      west,
+    ];
+  }
+
+  static Region decode(Object result) {
+    result as List<Object?>;
+    return Region(
+      north: result[0]! as double,
+      east: result[1]! as double,
+      south: result[2]! as double,
+      west: result[3]! as double,
+    );
+  }
+}
+
+/// 视野边缘宽度
+class EdgePadding {
+  EdgePadding({
+    required this.top,
+    required this.right,
+    required this.bottom,
+    required this.left,
+  });
+
+  /// 上边缘宽度
+  double top;
+
+  /// 右边缘宽度
+  double right;
+
+  /// 下边缘宽度
+  double bottom;
+
+  /// 左边缘宽度
+  double left;
+
+  Object encode() {
+    return <Object?>[
+      top,
+      right,
+      bottom,
+      left,
+    ];
+  }
+
+  static EdgePadding decode(Object result) {
+    result as List<Object?>;
+    return EdgePadding(
+      top: result[0]! as double,
+      right: result[1]! as double,
+      bottom: result[2]! as double,
+      left: result[3]! as double,
+    );
+  }
+}
+
 /// 标记点配置属性
 class MarkerOptions {
   MarkerOptions({
@@ -368,20 +450,23 @@ class _TencentMapApiCodec extends StandardMessageCodec {
     } else if (value is CameraPosition) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
-    } else if (value is Location) {
+    } else if (value is EdgePadding) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
-    } else if (value is MarkerOptions) {
+    } else if (value is Location) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    } else if (value is PolylineOptions) {
+    } else if (value is MarkerOptions) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
-    } else if (value is Position) {
+    } else if (value is PolylineOptions) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
     } else if (value is Position) {
       buffer.putUint8(135);
+      writeValue(buffer, value.encode());
+    } else if (value is Region) {
+      buffer.putUint8(136);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -398,15 +483,17 @@ class _TencentMapApiCodec extends StandardMessageCodec {
       case 130: 
         return CameraPosition.decode(readValue(buffer)!);
       case 131: 
-        return Location.decode(readValue(buffer)!);
+        return EdgePadding.decode(readValue(buffer)!);
       case 132: 
-        return MarkerOptions.decode(readValue(buffer)!);
+        return Location.decode(readValue(buffer)!);
       case 133: 
-        return PolylineOptions.decode(readValue(buffer)!);
+        return MarkerOptions.decode(readValue(buffer)!);
       case 134: 
-        return Position.decode(readValue(buffer)!);
+        return PolylineOptions.decode(readValue(buffer)!);
       case 135: 
         return Position.decode(readValue(buffer)!);
+      case 136: 
+        return Region.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -453,7 +540,7 @@ class TencentMapApi {
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setMapStyle', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-    await channel.send(<Object?>[arg_index]) as List<Object?>?;
+        await channel.send(<Object?>[arg_index]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -804,6 +891,52 @@ class TencentMapApi {
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_position, arg_duration]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  /// 移动地图视野到某个地图区域
+  Future<void> moveCameraToRegion(Region arg_region, EdgePadding arg_padding, int arg_duration) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.moveCameraToRegion', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_region, arg_padding, arg_duration]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  /// 移动地图视野到包含一组坐标点的某个地图区域
+  Future<void> moveCameraToRegionWithPosition(List<Position?> arg_positions, EdgePadding arg_padding, int arg_duration) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.moveCameraToRegionWithPosition', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_positions, arg_padding, arg_duration]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
