@@ -579,6 +579,8 @@ interface TencentMapApi {
   fun setCompassEnabled(enabled: Boolean)
   /** 设置是否显示比例尺 */
   fun setScaleControlsEnabled(enabled: Boolean)
+  /** 设置比例尺是否淡出 */
+  fun setScaleFadeEnabled(enabled: Boolean)
   /** 设置是否使用旋转手势 */
   fun setRotateGesturesEnabled(enabled: Boolean)
   /** 设置是否使用滚动手势 */
@@ -700,6 +702,25 @@ interface TencentMapApi {
             var wrapped: List<Any?>
             try {
               api.setScaleControlsEnabled(enabledArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.setScaleFadeEnabled", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val enabledArg = args[0] as Boolean
+            var wrapped: List<Any?>
+            try {
+              api.setScaleFadeEnabled(enabledArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

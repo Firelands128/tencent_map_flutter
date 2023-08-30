@@ -85,6 +85,10 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     mapView.map.uiSettings.isScaleViewEnabled = enabled
   }
 
+  override fun setScaleFadeEnabled(enabled: Boolean) {
+    mapView.map.uiSettings.setScaleViewFadeEnable(enabled)
+  }
+
   override fun setMyLocationEnabled(enabled: Boolean) {
     mapView.map.isMyLocationEnabled = enabled
   }

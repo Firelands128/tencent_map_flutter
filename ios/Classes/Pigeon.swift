@@ -516,6 +516,8 @@ protocol TencentMapApi {
   func setCompassEnabled(enabled: Bool) throws
   /// 设置是否显示比例尺
   func setScaleControlsEnabled(enabled: Bool) throws
+  /// 设置比例尺是否淡出
+  func setScaleFadeEnabled(enabled: Bool) throws
   /// 设置是否使用旋转手势
   func setRotateGesturesEnabled(enabled: Bool) throws
   /// 设置是否使用滚动手势
@@ -633,6 +635,22 @@ class TencentMapApiSetup {
       }
     } else {
       setScaleControlsEnabledChannel.setMessageHandler(nil)
+    }
+    /// 设置比例尺是否淡出
+    let setScaleFadeEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setScaleFadeEnabled", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      setScaleFadeEnabledChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let enabledArg = args[0] as! Bool
+        do {
+          try api.setScaleFadeEnabled(enabled: enabledArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      setScaleFadeEnabledChannel.setMessageHandler(nil)
     }
     /// 设置是否使用旋转手势
     let setRotateGesturesEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setRotateGesturesEnabled", binaryMessenger: binaryMessenger, codec: codec)

@@ -611,6 +611,29 @@ class TencentMapApi {
     }
   }
 
+  /// 设置比例尺是否淡出
+  Future<void> setScaleFadeEnabled(bool arg_enabled) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.setScaleFadeEnabled', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+    await channel.send(<Object?>[arg_enabled]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
   /// 设置是否使用旋转手势
   Future<void> setRotateGesturesEnabled(bool arg_enabled) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -967,7 +990,7 @@ class TencentMapApi {
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setRestrictRegion', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-    await channel.send(<Object?>[arg_region, arg_mode.index]) as List<Object?>?;
+        await channel.send(<Object?>[arg_region, arg_mode.index]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

@@ -34,6 +34,9 @@ abstract class TencentMapApi {
   /// 设置是否显示比例尺
   void setScaleControlsEnabled(bool enabled);
 
+  /// 设置比例尺是否淡出
+  void setScaleFadeEnabled(bool enabled);
+
   /// 设置是否使用旋转手势
   void setRotateGesturesEnabled(bool enabled);
 

@@ -29,6 +29,10 @@ class _TencentMapApi: NSObject, TencentMapApi {
   func setScaleControlsEnabled(enabled: Bool) throws {
     mapView.showsScale = enabled
   }
+  
+  func setScaleFadeEnabled(enabled: Bool) throws {
+    mapView.setScaleFadeEnable(enabled)
+  }
 
   func setRotateGesturesEnabled(enabled: Bool) throws {
     mapView.isRotateEnabled = enabled
