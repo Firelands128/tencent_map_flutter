@@ -512,6 +512,8 @@ protocol TencentMapApi {
   func setMapType(type: MapType) throws
   /// 设置个性化地图样式，在官网绑定个性化地图样式，输入样式编号
   func setMapStyle(index: Int64) throws
+  /// 设置Logo大小
+  func setLogoScale(scale: Double) throws
   /// 设置是否显示指南针
   func setCompassEnabled(enabled: Bool) throws
   /// 设置是否显示比例尺
@@ -603,6 +605,22 @@ class TencentMapApiSetup {
       }
     } else {
       setMapStyleChannel.setMessageHandler(nil)
+    }
+    /// 设置Logo大小
+    let setLogoScaleChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setLogoScale", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      setLogoScaleChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let scaleArg = args[0] as! Double
+        do {
+          try api.setLogoScale(scale: scaleArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      setLogoScaleChannel.setMessageHandler(nil)
     }
     /// 设置是否显示指南针
     let setCompassEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setCompassEnabled", binaryMessenger: binaryMessenger, codec: codec)

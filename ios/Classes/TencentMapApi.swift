@@ -21,6 +21,10 @@ class _TencentMapApi: NSObject, TencentMapApi {
   func setMapStyle(index: Int64) throws {
     mapView.setMapStyle(Int32(index))
   }
+  
+  func setLogoScale(scale: Double) throws {
+    mapView.setLogoScale(scale)
+  }
 
   func setCompassEnabled(enabled: Bool) throws {
     mapView.showsCompass = enabled

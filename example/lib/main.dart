@@ -9,6 +9,7 @@ import 'pages/events.dart';
 import 'pages/flutter_marker.dart';
 import 'pages/layers.dart';
 import 'pages/location.dart';
+import 'pages/logo_scale.dart';
 import 'pages/map_style.dart';
 import 'pages/map_types.dart';
 import 'pages/restrict_map.dart';
@@ -56,6 +57,7 @@ class _AppState extends State<App> {
           Item(RestrictMapPage.title, (_) => const RestrictMapPage()),
           Item(LayersPage.title, (_) => const LayersPage()),
           Item(ControlsPage.title, (_) => const ControlsPage()),
+          Item(LogoScalePage.title, (_) => const LogoScalePage()),
           Item(EventsPage.title, (_) => const EventsPage()),
           Item(LocationPage.title, (_) => const LocationPage()),
           Item(AddRemoveMarkerPage.title, (_) => const AddRemoveMarkerPage()),

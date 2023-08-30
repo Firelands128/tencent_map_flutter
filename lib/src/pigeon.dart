@@ -28,6 +28,9 @@ abstract class TencentMapApi {
   /// 设置个性化地图样式，在官网绑定个性化地图样式，输入样式编号
   void setMapStyle(int index);
 
+  /// 设置Logo大小
+  void setLogoScale(double scale);
+
   /// 设置是否显示指南针
   void setCompassEnabled(bool enabled);
 

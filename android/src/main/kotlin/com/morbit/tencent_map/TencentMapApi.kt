@@ -21,6 +21,10 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     mapView.map.mapStyle = index.toInt()
   }
 
+  override fun setLogoScale(scale: Double) {
+    mapView.map.uiSettings.setLogoScale(scale.toFloat())
+  }
+
   override fun pause() {
     mapView.onPause()
   }
