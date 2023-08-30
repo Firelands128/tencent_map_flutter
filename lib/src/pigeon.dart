@@ -123,7 +123,7 @@ abstract class MarkerApi {
   void setIcon(String id, Bitmap icon);
 
   /// 更新标记点的锚点
-  void setAnchor(String id, double x, double y);
+  void setAnchor(String id, Anchor anchor);
 
   /// 更新标记点的透明度
   void setAlpha(String id, double alpha);

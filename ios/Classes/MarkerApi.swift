@@ -50,13 +50,13 @@ class _MarkerApi: NSObject, MarkerApi {
     }
   }
 
-  func setAnchor(id: String, x: Double, y: Double) throws {
+  func setAnchor(id: String, anchor: Anchor) throws {
     if let uuid = UUID(uuidString: id) {
       var annotation = tencentMap.markers[uuid]
       if (annotation != nil) {
         tencentMap.mapView.removeAnnotation(annotation)
         var marker = annotation?.marker
-        marker?.anchor = Anchor(x: x, y: y)
+        marker?.anchor = anchor
         annotation = marker?.annotation
         tencentMap.mapView.addAnnotation(annotation)
       }

@@ -1228,7 +1228,7 @@ interface MarkerApi {
   /** 更新标记点的图标 */
   fun setIcon(id: String, icon: Bitmap)
   /** 更新标记点的锚点 */
-  fun setAnchor(id: String, x: Double, y: Double)
+  fun setAnchor(id: String, anchor: Anchor)
   /** 更新标记点的透明度 */
   fun setAlpha(id: String, alpha: Double)
   /** 更新标记点的旋转角度 */
@@ -1311,11 +1311,10 @@ interface MarkerApi {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val idArg = args[0] as String
-            val xArg = args[1] as Double
-            val yArg = args[2] as Double
+            val anchorArg = args[1] as Anchor
             var wrapped: List<Any?>
             try {
-              api.setAnchor(idArg, xArg, yArg)
+              api.setAnchor(idArg, anchorArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

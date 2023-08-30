@@ -19,7 +19,7 @@ class Marker {
   void setIcon(Bitmap icon) => _api.setIcon(id, icon);
 
   /// 更新标记点的锚点
-  void setAnchor(double x, double y) => _api.setAnchor(id, x, y);
+  void setAnchor(Anchor anchor) => _api.setAnchor(id, anchor);
 
   /// 更新标记点的透明度
   void setAlpha(double alpha) => _api.setAlpha(id, alpha);

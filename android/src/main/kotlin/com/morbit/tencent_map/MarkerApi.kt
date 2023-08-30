@@ -20,8 +20,8 @@ class _MarkerApi(tencentMap: TencentMap) : MarkerApi {
     markers[id]?.zIndex = zIndex.toInt()
   }
 
-  override fun setAnchor(id: String, x: Double, y: Double) {
-    markers[id]?.setAnchor(x.toFloat(), y.toFloat())
+  override fun setAnchor(id: String, anchor: Anchor) {
+    markers[id]?.setAnchor(anchor.x.toFloat(), anchor.y.toFloat())
   }
 
   override fun setIcon(id: String, icon: Bitmap) {

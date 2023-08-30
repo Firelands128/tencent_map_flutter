@@ -1311,12 +1311,12 @@ class MarkerApi {
   }
 
   /// 更新标记点的锚点
-  Future<void> setAnchor(String arg_id, double arg_x, double arg_y) async {
+  Future<void> setAnchor(String arg_id, Anchor arg_anchor) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.MarkerApi.setAnchor', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_x, arg_y]) as List<Object?>?;
+        await channel.send(<Object?>[arg_id, arg_anchor]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

@@ -1086,7 +1086,7 @@ protocol MarkerApi {
   /// 更新标记点的图标
   func setIcon(id: String, icon: Bitmap) throws
   /// 更新标记点的锚点
-  func setAnchor(id: String, x: Double, y: Double) throws
+  func setAnchor(id: String, anchor: Anchor) throws
   /// 更新标记点的透明度
   func setAlpha(id: String, alpha: Double) throws
   /// 更新标记点的旋转角度
@@ -1159,10 +1159,9 @@ class MarkerApiSetup {
       setAnchorChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
         let idArg = args[0] as! String
-        let xArg = args[1] as! Double
-        let yArg = args[2] as! Double
+        let anchorArg = args[1] as! Anchor
         do {
-          try api.setAnchor(id: idArg, x: xArg, y: yArg)
+          try api.setAnchor(id: idArg, anchor: anchorArg)
           reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))
