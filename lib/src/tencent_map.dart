@@ -334,10 +334,13 @@ class TencentMapController {
     _api.moveCamera(position, duration?.inMilliseconds ?? 0);
   }
 
+
+  /// 移动地图视野到某个地图区域
   void moveCameraRegion(Region region, EdgePadding padding, [Duration? duration]) {
     _api.moveCameraToRegion(region, padding, duration?.inMilliseconds ?? 0);
   }
 
+  /// 移动地图视野到包含一组坐标点的某个地图区域
   void moveCameraToRegionWithPosition(List<Position> positions, EdgePadding padding, [Duration? duration]) {
     _api.moveCameraToRegionWithPosition(positions, padding, duration?.inMilliseconds ?? 0);
   }
