@@ -40,31 +40,34 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: const ColorScheme.light(),
-      ),
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        colorScheme: const ColorScheme.dark(),
-      ),
-      home: Scaffold(
-        body: ListView(children: [
-          Item(MapTypesPage.title, (_) => const MapTypesPage()),
-          Item(MapStylePage.title, (_) => const MapStylePage()),
-          Item(CameraMovePage.title, (_) => const CameraMovePage()),
-          Item(CameraRegionMovePage.title, (_) => const CameraRegionMovePage()),
-          Item(RestrictMapPage.title, (_) => const RestrictMapPage()),
-          Item(LayersPage.title, (_) => const LayersPage()),
-          Item(ControlsPage.title, (_) => const ControlsPage()),
-          Item(LogoScalePage.title, (_) => const LogoScalePage()),
-          Item(ControlsPositionPage.title, (_) => const ControlsPositionPage()),
-          Item(EventsPage.title, (_) => const EventsPage()),
-          Item(LocationPage.title, (_) => const LocationPage()),
-          Item(AddRemoveMarkerPage.title, (_) => const AddRemoveMarkerPage()),
-          Item(FlutterMarkerPage.title, (_) => const FlutterMarkerPage()),
-        ]),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: MaterialApp(
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: const ColorScheme.light(),
+        ),
+        darkTheme: ThemeData(
+          useMaterial3: true,
+          colorScheme: const ColorScheme.dark(),
+        ),
+        home: Scaffold(
+          body: ListView(children: [
+            Item(MapTypesPage.title, (_) => const MapTypesPage()),
+            Item(MapStylePage.title, (_) => const MapStylePage()),
+            Item(CameraMovePage.title, (_) => const CameraMovePage()),
+            Item(CameraRegionMovePage.title, (_) => const CameraRegionMovePage()),
+            Item(RestrictMapPage.title, (_) => const RestrictMapPage()),
+            Item(LayersPage.title, (_) => const LayersPage()),
+            Item(ControlsPage.title, (_) => const ControlsPage()),
+            Item(LogoScalePage.title, (_) => const LogoScalePage()),
+            Item(ControlsPositionPage.title, (_) => const ControlsPositionPage()),
+            Item(EventsPage.title, (_) => const EventsPage()),
+            Item(LocationPage.title, (_) => const LocationPage()),
+            Item(AddRemoveMarkerPage.title, (_) => const AddRemoveMarkerPage()),
+            Item(FlutterMarkerPage.title, (_) => const FlutterMarkerPage()),
+          ]),
+        ),
       ),
     );
   }
