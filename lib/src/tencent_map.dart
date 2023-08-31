@@ -13,6 +13,11 @@ class TencentMap extends StatefulWidget {
     this.mapType = MapType.normal,
     this.mapStyle,
     this.logoScale = 1.0,
+    this.logoAnchor = UIControlAnchor.bottomRight,
+    this.logoOffset,
+    this.scaleAnchor = UIControlAnchor.bottomLeft,
+    this.scaleOffset,
+    this.compassOffset,
     this.compassEnabled = true,
     this.scaleEnabled = true,
     this.scaleFadeEnabled = true,
@@ -54,6 +59,21 @@ class TencentMap extends StatefulWidget {
 
   /// Logo大小
   final double logoScale;
+
+  /// Logo控件位置锚点
+  final UIControlAnchor logoAnchor;
+
+  /// Logo控件位置偏移
+  final UIControlOffset? logoOffset;
+
+  /// 比例尺控件位置锚点
+  final UIControlAnchor scaleAnchor;
+
+  /// 比例尺控件位置偏移
+  final UIControlOffset? scaleOffset;
+
+  /// 指南针控件位置偏移
+  final UIControlOffset? compassOffset;
 
   /// 是否显示指南针
   final bool compassEnabled;
@@ -149,6 +169,7 @@ class TencentMap extends StatefulWidget {
 
 class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
   static final _api = TencentMapApi();
+  static final defaultUIControlOffset = UIControlOffset(x: 0, y: 0);
 
   @override
   void initState() {
@@ -211,6 +232,21 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     if (widget.logoScale != old.logoScale) {
       _api.setLogoScale(widget.logoScale);
     }
+    if (widget.logoAnchor != old.logoAnchor) {
+      _api.setLogoPosition(widget.logoAnchor, widget.logoOffset ?? defaultUIControlOffset);
+    }
+    if (widget.logoOffset != null && widget.logoOffset != old.logoOffset) {
+      _api.setLogoPosition(widget.logoAnchor, widget.logoOffset!);
+    }
+    if (widget.scaleAnchor != old.scaleAnchor) {
+      _api.setScalePosition(widget.scaleAnchor, widget.scaleOffset ?? defaultUIControlOffset);
+    }
+    if (widget.scaleOffset != null && widget.scaleOffset != old.scaleOffset) {
+      _api.setScalePosition(widget.scaleAnchor, widget.scaleOffset!);
+    }
+    if (widget.compassOffset != null && widget.compassOffset != old.compassOffset) {
+      _api.setCompassOffset(widget.compassOffset!);
+    }
     if (widget.compassEnabled != old.compassEnabled) {
       _api.setCompassEnabled(widget.compassEnabled);
     }
@@ -262,6 +298,9 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     _api.setMapType(widget.mapType);
     if (widget.mapStyle != null) _api.setMapStyle(widget.mapStyle!);
     _api.setLogoScale(widget.logoScale);
+    _api.setLogoPosition(widget.logoAnchor, widget.logoOffset ?? defaultUIControlOffset);
+    _api.setScalePosition(widget.logoAnchor, widget.logoOffset ?? defaultUIControlOffset);
+    _api.setCompassOffset(widget.compassOffset ?? defaultUIControlOffset);
     _api.setCompassEnabled(widget.compassEnabled);
     _api.setScaleEnabled(widget.scaleEnabled);
     _api.setScaleFadeEnabled(widget.scaleFadeEnabled);
