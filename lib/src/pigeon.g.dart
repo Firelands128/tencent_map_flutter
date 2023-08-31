@@ -18,6 +18,14 @@ enum MapType {
   dark,
 }
 
+/// UI控件位置锚点
+enum UIControlAnchor {
+  bottomLeft,
+  bottomRight,
+  topLeft,
+  topRight,
+}
+
 /// 定位模式
 ///
 /// 在地图的各种应用场景中，用户对定位点展示时也希望地图能跟随定位点旋转、移动等多种行为
@@ -40,6 +48,35 @@ enum RestrictRegionMode {
   fitWidth,
   /// 适配高度
   fitHeight,
+}
+
+/// UI控件位置偏移
+class UIControlOffset {
+  UIControlOffset({
+    required this.x,
+    required this.y,
+  });
+
+  /// X轴方向的位置偏移
+  double x;
+
+  /// Y轴方向的位置偏移
+  double y;
+
+  Object encode() {
+    return <Object?>[
+      x,
+      y,
+    ];
+  }
+
+  static UIControlOffset decode(Object result) {
+    result as List<Object?>;
+    return UIControlOffset(
+      x: result[0]! as double,
+      y: result[1]! as double,
+    );
+  }
 }
 
 /// 点标记图标锚点
@@ -476,6 +513,9 @@ class _TencentMapApiCodec extends StandardMessageCodec {
     } else if (value is Region) {
       buffer.putUint8(136);
       writeValue(buffer, value.encode());
+    } else if (value is UIControlOffset) {
+      buffer.putUint8(137);
+      writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
     }
@@ -502,6 +542,8 @@ class _TencentMapApiCodec extends StandardMessageCodec {
         return Position.decode(readValue(buffer)!);
       case 136: 
         return Region.decode(readValue(buffer)!);
+      case 137: 
+        return UIControlOffset.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -572,6 +614,75 @@ class TencentMapApi {
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_scale]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  /// 设置LOGO的位置
+  Future<void> setLogoPosition(UIControlAnchor arg_anchor, UIControlOffset arg_offset) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.setLogoPosition', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_anchor.index, arg_offset]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  /// 设置比例尺的位置
+  Future<void> setScalePosition(UIControlAnchor arg_anchor, UIControlOffset arg_offset) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.setScalePosition', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_anchor.index, arg_offset]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  /// 设置指南针的位置偏移
+  Future<void> setCompassOffset(UIControlOffset arg_offset) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.setCompassOffset', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_offset]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -1206,11 +1317,14 @@ class _MarkerApiCodec extends StandardMessageCodec {
   const _MarkerApiCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is Bitmap) {
+    if (value is Anchor) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else if (value is Position) {
+    } else if (value is Bitmap) {
       buffer.putUint8(129);
+      writeValue(buffer, value.encode());
+    } else if (value is Position) {
+      buffer.putUint8(130);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -1221,8 +1335,10 @@ class _MarkerApiCodec extends StandardMessageCodec {
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
       case 128: 
-        return Bitmap.decode(readValue(buffer)!);
+        return Anchor.decode(readValue(buffer)!);
       case 129: 
+        return Bitmap.decode(readValue(buffer)!);
+      case 130: 
         return Position.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);

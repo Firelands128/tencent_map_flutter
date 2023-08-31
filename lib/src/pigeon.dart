@@ -31,6 +31,15 @@ abstract class TencentMapApi {
   /// 设置Logo大小
   void setLogoScale(double scale);
 
+  /// 设置LOGO的位置
+  void setLogoPosition(UIControlAnchor anchor, UIControlOffset offset);
+
+  /// 设置比例尺的位置（iOS不支持改变位置锚点，仅支持改变位置偏移）
+  void setScalePosition(UIControlAnchor anchor, UIControlOffset offset);
+
+  /// 设置指南针的位置偏移
+  void setCompassOffset(UIControlOffset offset);
+
   /// 设置是否显示指南针
   void setCompassEnabled(bool enabled);
 
@@ -185,6 +194,30 @@ enum MapType {
 
   /// 暗色地图
   dark,
+}
+
+/// UI控件位置锚点
+enum UIControlAnchor {
+  // 左下角
+  bottomLeft,
+
+  // 右下角
+  bottomRight,
+
+  // 左上角
+  topLeft,
+
+  // 右上角
+  topRight,
+}
+
+/// UI控件位置偏移
+class UIControlOffset {
+  /// X轴方向的位置偏移
+  late double x;
+
+  /// Y轴方向的位置偏移
+  late double y;
 }
 
 /// 定位模式

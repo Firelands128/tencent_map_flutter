@@ -59,6 +59,20 @@ enum class MapType(val raw: Int) {
   }
 }
 
+/** UI控件位置锚点 */
+enum class UIControlAnchor(val raw: Int) {
+  BOTTOMLEFT(0),
+  BOTTOMRIGHT(1),
+  TOPLEFT(2),
+  TOPRIGHT(3);
+
+  companion object {
+    fun ofRaw(raw: Int): UIControlAnchor? {
+      return values().firstOrNull { it.raw == raw }
+    }
+  }
+}
+
 /**
  * 定位模式
  *
@@ -94,6 +108,34 @@ enum class RestrictRegionMode(val raw: Int) {
     fun ofRaw(raw: Int): RestrictRegionMode? {
       return values().firstOrNull { it.raw == raw }
     }
+  }
+}
+
+/**
+ * UI控件位置偏移
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class UIControlOffset (
+  /** X轴方向的位置偏移 */
+  val x: Double,
+  /** Y轴方向的位置偏移 */
+  val y: Double
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): UIControlOffset {
+      val x = list[0] as Double
+      val y = list[1] as Double
+      return UIControlOffset(x, y)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      x,
+      y,
+    )
   }
 }
 
@@ -519,6 +561,11 @@ private object TencentMapApiCodec : StandardMessageCodec() {
           Region.fromList(it)
         }
       }
+      137.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          UIControlOffset.fromList(it)
+        }
+      }
       else -> super.readValueOfType(type, buffer)
     }
   }
@@ -560,6 +607,10 @@ private object TencentMapApiCodec : StandardMessageCodec() {
         stream.write(136)
         writeValue(stream, value.toList())
       }
+      is UIControlOffset -> {
+        stream.write(137)
+        writeValue(stream, value.toList())
+      }
       else -> super.writeValue(stream, value)
     }
   }
@@ -577,6 +628,12 @@ interface TencentMapApi {
   fun setMapStyle(index: Long)
   /** 设置Logo大小 */
   fun setLogoScale(scale: Double)
+  /** 设置LOGO的位置 */
+  fun setLogoPosition(anchor: UIControlAnchor, offset: UIControlOffset)
+  /** 设置比例尺的位置 */
+  fun setScalePosition(anchor: UIControlAnchor, offset: UIControlOffset)
+  /** 设置指南针的位置偏移 */
+  fun setCompassOffset(offset: UIControlOffset)
   /** 设置是否显示指南针 */
   fun setCompassEnabled(enabled: Boolean)
   /** 设置是否显示比例尺 */
@@ -685,6 +742,65 @@ interface TencentMapApi {
             var wrapped: List<Any?>
             try {
               api.setLogoScale(scaleArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.setLogoPosition", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val anchorArg = UIControlAnchor.ofRaw(args[0] as Int)!!
+            val offsetArg = args[1] as UIControlOffset
+            var wrapped: List<Any?>
+            try {
+              api.setLogoPosition(anchorArg, offsetArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.setScalePosition", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val anchorArg = UIControlAnchor.ofRaw(args[0] as Int)!!
+            val offsetArg = args[1] as UIControlOffset
+            var wrapped: List<Any?>
+            try {
+              api.setScalePosition(anchorArg, offsetArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.setCompassOffset", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val offsetArg = args[0] as UIControlOffset
+            var wrapped: List<Any?>
+            try {
+              api.setCompassOffset(offsetArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
@@ -1189,10 +1305,15 @@ private object MarkerApiCodec : StandardMessageCodec() {
     return when (type) {
       128.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Bitmap.fromList(it)
+          Anchor.fromList(it)
         }
       }
       129.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          Bitmap.fromList(it)
+        }
+      }
+      130.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           Position.fromList(it)
         }
@@ -1202,12 +1323,16 @@ private object MarkerApiCodec : StandardMessageCodec() {
   }
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
     when (value) {
-      is Bitmap -> {
+      is Anchor -> {
         stream.write(128)
         writeValue(stream, value.toList())
       }
-      is Position -> {
+      is Bitmap -> {
         stream.write(129)
+        writeValue(stream, value.toList())
+      }
+      is Position -> {
+        stream.write(130)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)

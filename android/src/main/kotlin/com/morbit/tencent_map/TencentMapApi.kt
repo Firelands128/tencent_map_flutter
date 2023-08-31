@@ -25,6 +25,30 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     mapView.map.uiSettings.setLogoScale(scale.toFloat())
   }
 
+  override fun setLogoPosition(anchor: UIControlAnchor, offset: UIControlOffset) {
+    mapView.map.uiSettings.setLogoPosition(
+      anchor.toAnchor(),
+      intArrayOf(offset.y.toInt(), offset.x.toInt())
+    )
+  }
+
+  override fun setScalePosition(anchor: UIControlAnchor, offset: UIControlOffset) {
+    mapView.map.uiSettings.setScaleViewPositionWithMargin(
+      anchor.toAnchor(),
+      offset.y.toInt(),
+      offset.y.toInt(),
+      offset.x.toInt(),
+      offset.x.toInt()
+    )
+  }
+
+  override fun setCompassOffset(offset: UIControlOffset) {
+    mapView.map.uiSettings.setCompassExtraPadding(
+      offset.x.toInt(),
+      offset.y.toInt()
+    )
+  }
+
   override fun pause() {
     mapView.onPause()
   }

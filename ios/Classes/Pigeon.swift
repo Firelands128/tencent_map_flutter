@@ -44,6 +44,14 @@ enum MapType: Int {
   case dark = 2
 }
 
+/// UI控件位置锚点
+enum UIControlAnchor: Int {
+  case bottomLeft = 0
+  case bottomRight = 1
+  case topLeft = 2
+  case topRight = 3
+}
+
 /// 定位模式
 ///
 /// 在地图的各种应用场景中，用户对定位点展示时也希望地图能跟随定位点旋转、移动等多种行为
@@ -66,6 +74,32 @@ enum RestrictRegionMode: Int {
   case fitWidth = 0
   /// 适配高度
   case fitHeight = 1
+}
+
+/// UI控件位置偏移
+///
+/// Generated class from Pigeon that represents data sent in messages.
+struct UIControlOffset {
+  /// X轴方向的位置偏移
+  var x: Double
+  /// Y轴方向的位置偏移
+  var y: Double
+
+  static func fromList(_ list: [Any?]) -> UIControlOffset? {
+    let x = list[0] as! Double
+    let y = list[1] as! Double
+
+    return UIControlOffset(
+      x: x,
+      y: y
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      x,
+      y,
+    ]
+  }
 }
 
 /// 点标记图标锚点
@@ -449,6 +483,8 @@ private class TencentMapApiCodecReader: FlutterStandardReader {
         return Position.fromList(self.readValue() as! [Any?])
       case 136:
         return Region.fromList(self.readValue() as! [Any?])
+      case 137:
+        return UIControlOffset.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
     }
@@ -484,6 +520,9 @@ private class TencentMapApiCodecWriter: FlutterStandardWriter {
     } else if let value = value as? Region {
       super.writeByte(136)
       super.writeValue(value.toList())
+    } else if let value = value as? UIControlOffset {
+      super.writeByte(137)
+      super.writeValue(value.toList())
     } else {
       super.writeValue(value)
     }
@@ -514,6 +553,12 @@ protocol TencentMapApi {
   func setMapStyle(index: Int64) throws
   /// 设置Logo大小
   func setLogoScale(scale: Double) throws
+  /// 设置LOGO的位置
+  func setLogoPosition(anchor: UIControlAnchor, offset: UIControlOffset) throws
+  /// 设置比例尺的位置
+  func setScalePosition(anchor: UIControlAnchor, offset: UIControlOffset) throws
+  /// 设置指南针的位置偏移
+  func setCompassOffset(offset: UIControlOffset) throws
   /// 设置是否显示指南针
   func setCompassEnabled(enabled: Bool) throws
   /// 设置是否显示比例尺
@@ -621,6 +666,56 @@ class TencentMapApiSetup {
       }
     } else {
       setLogoScaleChannel.setMessageHandler(nil)
+    }
+    /// 设置LOGO的位置
+    let setLogoPositionChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setLogoPosition", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      setLogoPositionChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let anchorArg = UIControlAnchor(rawValue: args[0] as! Int)!
+        let offsetArg = args[1] as! UIControlOffset
+        do {
+          try api.setLogoPosition(anchor: anchorArg, offset: offsetArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      setLogoPositionChannel.setMessageHandler(nil)
+    }
+    /// 设置比例尺的位置
+    let setScalePositionChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setScalePosition", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      setScalePositionChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let anchorArg = UIControlAnchor(rawValue: args[0] as! Int)!
+        let offsetArg = args[1] as! UIControlOffset
+        do {
+          try api.setScalePosition(anchor: anchorArg, offset: offsetArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      setScalePositionChannel.setMessageHandler(nil)
+    }
+    /// 设置指南针的位置偏移
+    let setCompassOffsetChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setCompassOffset", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      setCompassOffsetChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let offsetArg = args[0] as! UIControlOffset
+        do {
+          try api.setCompassOffset(offset: offsetArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      setCompassOffsetChannel.setMessageHandler(nil)
     }
     /// 设置是否显示指南针
     let setCompassEnabledChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setCompassEnabled", binaryMessenger: binaryMessenger, codec: codec)
@@ -1038,8 +1133,10 @@ private class MarkerApiCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
       case 128:
-        return Bitmap.fromList(self.readValue() as! [Any?])
+        return Anchor.fromList(self.readValue() as! [Any?])
       case 129:
+        return Bitmap.fromList(self.readValue() as! [Any?])
+      case 130:
         return Position.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
@@ -1049,11 +1146,14 @@ private class MarkerApiCodecReader: FlutterStandardReader {
 
 private class MarkerApiCodecWriter: FlutterStandardWriter {
   override func writeValue(_ value: Any) {
-    if let value = value as? Bitmap {
+    if let value = value as? Anchor {
       super.writeByte(128)
       super.writeValue(value.toList())
-    } else if let value = value as? Position {
+    } else if let value = value as? Bitmap {
       super.writeByte(129)
+      super.writeValue(value.toList())
+    } else if let value = value as? Position {
+      super.writeByte(130)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)

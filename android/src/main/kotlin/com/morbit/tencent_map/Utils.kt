@@ -72,9 +72,18 @@ fun Region.toLatLngBounds(): LatLngBounds {
 }
 
 fun RestrictRegionMode.toRestrictMode(): RestrictBoundsFitMode {
-  return when(this) {
+  return when (this) {
     RestrictRegionMode.FITWIDTH -> RestrictBoundsFitMode.FIT_WIDTH
     RestrictRegionMode.FITHEIGHT -> RestrictBoundsFitMode.FIT_HEIGHT
+  }
+}
+
+fun UIControlAnchor.toAnchor(): Int {
+  return when (this) {
+    UIControlAnchor.BOTTOMLEFT -> 0
+    UIControlAnchor.BOTTOMRIGHT -> 1
+    UIControlAnchor.TOPLEFT -> 3
+    UIControlAnchor.TOPRIGHT -> 2
   }
 }
 

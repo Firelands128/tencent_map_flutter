@@ -21,9 +21,21 @@ class _TencentMapApi: NSObject, TencentMapApi {
   func setMapStyle(index: Int64) throws {
     mapView.setMapStyle(Int32(index))
   }
-  
+
   func setLogoScale(scale: Double) throws {
     mapView.setLogoScale(scale)
+  }
+
+  func setLogoPosition(anchor: UIControlAnchor, offset: UIControlOffset) throws {
+    mapView.setLogoMargin(offset.offset, anchor: anchor.anchor)
+  }
+
+  func setScalePosition(anchor: UIControlAnchor, offset: UIControlOffset) throws {
+    mapView.setScaleOffset(CGPointMake(offset.x, -offset.y))
+  }
+
+  func setCompassOffset(offset: UIControlOffset) throws {
+    mapView.setCompassOffset(offset.offset)
   }
 
   func setCompassEnabled(enabled: Bool) throws {
@@ -33,7 +45,7 @@ class _TencentMapApi: NSObject, TencentMapApi {
   func setScaleEnabled(enabled: Bool) throws {
     mapView.showsScale = enabled
   }
-  
+
   func setScaleFadeEnabled(enabled: Bool) throws {
     mapView.setScaleFadeEnable(enabled)
   }
@@ -116,11 +128,11 @@ class _TencentMapApi: NSObject, TencentMapApi {
     let region = QBoundingCoordinateRegionWithCoordinates(coordinatesPointer, UInt(coordinates.count))
     mapView.setRegion(region, animated: duration > 0)
   }
-  
+
   func setRestrictRegion(region: Region, mode: RestrictRegionMode) throws {
     mapView.setLimitMapRect(QMapRectForCoordinateRegion(region.region), mode: mode.restrictMode)
   }
-  
+
 
   func addMarker(options: MarkerOptions) throws -> String {
     var id = UUID()

@@ -41,6 +41,27 @@ extension RestrictRegionMode {
   }
 }
 
+extension UIControlAnchor {
+  var anchor: QMapLogoAnchor {
+    switch(self) {
+    case .bottomLeft:
+      return QMapLogoAnchor.leftBottom
+    case .bottomRight:
+      return QMapLogoAnchor.rightBottom
+    case .topLeft:
+      return QMapLogoAnchor.leftTop
+    case .topRight:
+      return QMapLogoAnchor.rightTop
+    }
+  }
+}
+
+extension UIControlOffset {
+  var offset: CGPoint {
+    return CGPoint(x: x, y: y)
+  }
+}
+
 extension MarkerOptions {
   var annotation: QPointAnnotation {
     let annotation = QPointAnnotation()
