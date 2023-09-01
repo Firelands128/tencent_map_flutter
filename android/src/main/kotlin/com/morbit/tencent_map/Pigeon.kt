@@ -422,30 +422,6 @@ data class MarkerOptions (
 }
 
 /**
- * 折线配置属性
- *
- * Generated class from Pigeon that represents data sent in messages.
- */
-data class PolylineOptions (
-  /** 折线中拐点位置的列表 */
-  val points: List<Position?>? = null
-
-) {
-  companion object {
-    @Suppress("UNCHECKED_CAST")
-    fun fromList(list: List<Any?>): PolylineOptions {
-      val points = list[0] as List<Position?>?
-      return PolylineOptions(points)
-    }
-  }
-  fun toList(): List<Any?> {
-    return listOf<Any?>(
-      points,
-    )
-  }
-}
-
-/**
  * 图片信息
  *
  * Generated class from Pigeon that represents data sent in messages.
@@ -548,20 +524,15 @@ private object TencentMapApiCodec : StandardMessageCodec() {
       }
       134.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          PolylineOptions.fromList(it)
+          Position.fromList(it)
         }
       }
       135.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Position.fromList(it)
-        }
-      }
-      136.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
           Region.fromList(it)
         }
       }
-      137.toByte() -> {
+      136.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           UIControlOffset.fromList(it)
         }
@@ -595,20 +566,16 @@ private object TencentMapApiCodec : StandardMessageCodec() {
         stream.write(133)
         writeValue(stream, value.toList())
       }
-      is PolylineOptions -> {
+      is Position -> {
         stream.write(134)
         writeValue(stream, value.toList())
       }
-      is Position -> {
+      is Region -> {
         stream.write(135)
         writeValue(stream, value.toList())
       }
-      is Region -> {
-        stream.write(136)
-        writeValue(stream, value.toList())
-      }
       is UIControlOffset -> {
-        stream.write(137)
+        stream.write(136)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -630,7 +597,7 @@ interface TencentMapApi {
   fun setLogoScale(scale: Double)
   /** 设置LOGO的位置 */
   fun setLogoPosition(anchor: UIControlAnchor, offset: UIControlOffset)
-  /** 设置比例尺的位置 */
+  /** 设置比例尺的位置（iOS不支持改变位置锚点，仅支持改变位置偏移） */
   fun setScalePosition(anchor: UIControlAnchor, offset: UIControlOffset)
   /** 设置指南针的位置偏移 */
   fun setCompassOffset(offset: UIControlOffset)
@@ -674,8 +641,6 @@ interface TencentMapApi {
   fun setRestrictRegion(region: Region, mode: RestrictRegionMode)
   /** 添加标记点 */
   fun addMarker(options: MarkerOptions): String
-  /** 添加折线 */
-  fun addPolyline(options: PolylineOptions): String
   /** 开始 */
   fun start()
   /** 暂停 */
@@ -1184,24 +1149,6 @@ interface TencentMapApi {
             var wrapped: List<Any?>
             try {
               wrapped = listOf<Any?>(api.addMarker(optionsArg))
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.addPolyline", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            val args = message as List<Any?>
-            val optionsArg = args[0] as PolylineOptions
-            var wrapped: List<Any?>
-            try {
-              wrapped = listOf<Any?>(api.addPolyline(optionsArg))
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
             }

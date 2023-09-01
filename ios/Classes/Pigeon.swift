@@ -384,27 +384,6 @@ struct MarkerOptions {
   }
 }
 
-/// 折线配置属性
-///
-/// Generated class from Pigeon that represents data sent in messages.
-struct PolylineOptions {
-  /// 折线中拐点位置的列表
-  var points: [Position?]? = nil
-
-  static func fromList(_ list: [Any?]) -> PolylineOptions? {
-    let points: [Position?]? = nilOrValue(list[0])
-
-    return PolylineOptions(
-      points: points
-    )
-  }
-  func toList() -> [Any?] {
-    return [
-      points,
-    ]
-  }
-}
-
 /// 图片信息
 ///
 /// Generated class from Pigeon that represents data sent in messages.
@@ -478,12 +457,10 @@ private class TencentMapApiCodecReader: FlutterStandardReader {
       case 133:
         return MarkerOptions.fromList(self.readValue() as! [Any?])
       case 134:
-        return PolylineOptions.fromList(self.readValue() as! [Any?])
-      case 135:
         return Position.fromList(self.readValue() as! [Any?])
-      case 136:
+      case 135:
         return Region.fromList(self.readValue() as! [Any?])
-      case 137:
+      case 136:
         return UIControlOffset.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
@@ -511,17 +488,14 @@ private class TencentMapApiCodecWriter: FlutterStandardWriter {
     } else if let value = value as? MarkerOptions {
       super.writeByte(133)
       super.writeValue(value.toList())
-    } else if let value = value as? PolylineOptions {
+    } else if let value = value as? Position {
       super.writeByte(134)
       super.writeValue(value.toList())
-    } else if let value = value as? Position {
+    } else if let value = value as? Region {
       super.writeByte(135)
       super.writeValue(value.toList())
-    } else if let value = value as? Region {
-      super.writeByte(136)
-      super.writeValue(value.toList())
     } else if let value = value as? UIControlOffset {
-      super.writeByte(137)
+      super.writeByte(136)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)
@@ -555,7 +529,7 @@ protocol TencentMapApi {
   func setLogoScale(scale: Double) throws
   /// 设置LOGO的位置
   func setLogoPosition(anchor: UIControlAnchor, offset: UIControlOffset) throws
-  /// 设置比例尺的位置
+  /// 设置比例尺的位置（iOS不支持改变位置锚点，仅支持改变位置偏移）
   func setScalePosition(anchor: UIControlAnchor, offset: UIControlOffset) throws
   /// 设置指南针的位置偏移
   func setCompassOffset(offset: UIControlOffset) throws
@@ -599,8 +573,6 @@ protocol TencentMapApi {
   func setRestrictRegion(region: Region, mode: RestrictRegionMode) throws
   /// 添加标记点
   func addMarker(options: MarkerOptions) throws -> String
-  /// 添加折线
-  func addPolyline(options: PolylineOptions) throws -> String
   /// 开始
   func start() throws
   /// 暂停
@@ -684,7 +656,7 @@ class TencentMapApiSetup {
     } else {
       setLogoPositionChannel.setMessageHandler(nil)
     }
-    /// 设置比例尺的位置
+    /// 设置比例尺的位置（iOS不支持改变位置锚点，仅支持改变位置偏移）
     let setScalePositionChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.setScalePosition", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       setScalePositionChannel.setMessageHandler { message, reply in
@@ -1040,22 +1012,6 @@ class TencentMapApiSetup {
       }
     } else {
       addMarkerChannel.setMessageHandler(nil)
-    }
-    /// 添加折线
-    let addPolylineChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.addPolyline", binaryMessenger: binaryMessenger, codec: codec)
-    if let api = api {
-      addPolylineChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let optionsArg = args[0] as! PolylineOptions
-        do {
-          let result = try api.addPolyline(options: optionsArg)
-          reply(wrapResult(result))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      addPolylineChannel.setMessageHandler(nil)
     }
     /// 开始
     let startChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.start", binaryMessenger: binaryMessenger, codec: codec)

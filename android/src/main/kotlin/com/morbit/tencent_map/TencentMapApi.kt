@@ -195,8 +195,4 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     tencentMap.markers[marker.id] = marker
     return marker.id
   }
-
-  override fun addPolyline(options: PolylineOptions): String {
-    TODO("Not yet implemented")
-  }
 }

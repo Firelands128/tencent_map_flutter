@@ -100,9 +100,6 @@ abstract class TencentMapApi {
   /// 添加标记点
   String addMarker(MarkerOptions options);
 
-  /// 添加折线
-  String addPolyline(PolylineOptions options);
-
   /// 开始
   void start();
 
@@ -358,12 +355,6 @@ class MarkerOptions {
 
   /// 标记点的锚点
   Anchor? anchor;
-}
-
-/// 折线配置属性
-class PolylineOptions {
-  /// 折线中拐点位置的列表
-  List<Position?>? points;
 }
 
 /// 图片信息

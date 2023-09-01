@@ -395,29 +395,6 @@ class MarkerOptions {
   }
 }
 
-/// 折线配置属性
-class PolylineOptions {
-  PolylineOptions({
-    this.points,
-  });
-
-  /// 折线中拐点位置的列表
-  List<Position?>? points;
-
-  Object encode() {
-    return <Object?>[
-      points,
-    ];
-  }
-
-  static PolylineOptions decode(Object result) {
-    result as List<Object?>;
-    return PolylineOptions(
-      points: (result[0] as List<Object?>?)?.cast<Position?>(),
-    );
-  }
-}
-
 /// 图片信息
 class Bitmap {
   Bitmap({
@@ -504,17 +481,14 @@ class _TencentMapApiCodec extends StandardMessageCodec {
     } else if (value is MarkerOptions) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
-    } else if (value is PolylineOptions) {
+    } else if (value is Position) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
-    } else if (value is Position) {
+    } else if (value is Region) {
       buffer.putUint8(135);
       writeValue(buffer, value.encode());
-    } else if (value is Region) {
-      buffer.putUint8(136);
-      writeValue(buffer, value.encode());
     } else if (value is UIControlOffset) {
-      buffer.putUint8(137);
+      buffer.putUint8(136);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -537,12 +511,10 @@ class _TencentMapApiCodec extends StandardMessageCodec {
       case 133: 
         return MarkerOptions.decode(readValue(buffer)!);
       case 134: 
-        return PolylineOptions.decode(readValue(buffer)!);
-      case 135: 
         return Position.decode(readValue(buffer)!);
-      case 136: 
+      case 135: 
         return Region.decode(readValue(buffer)!);
-      case 137: 
+      case 136: 
         return UIControlOffset.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -653,7 +625,7 @@ class TencentMapApi {
     }
   }
 
-  /// 设置比例尺的位置
+  /// 设置比例尺的位置（iOS不支持改变位置锚点，仅支持改变位置偏移）
   Future<void> setScalePosition(UIControlAnchor arg_anchor, UIControlOffset arg_offset) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.setScalePosition', codec,
@@ -1145,34 +1117,6 @@ class TencentMapApi {
   Future<String> addMarker(MarkerOptions arg_options) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.addMarker', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_options]) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else if (replyList[0] == null) {
-      throw PlatformException(
-        code: 'null-error',
-        message: 'Host platform returned null value for non-null return value.',
-      );
-    } else {
-      return (replyList[0] as String?)!;
-    }
-  }
-
-  /// 添加折线
-  Future<String> addPolyline(PolylineOptions arg_options) async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.TencentMapApi.addPolyline', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_options]) as List<Object?>?;

@@ -145,10 +145,6 @@ class _TencentMapApi: NSObject, TencentMapApi {
     return id.uuidString
   }
 
-  func addPolyline(options: PolylineOptions) throws -> String {
-    return ""
-  }
-
   func pause() throws { }
 
   func resume() throws { }
