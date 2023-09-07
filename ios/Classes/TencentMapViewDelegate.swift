@@ -20,6 +20,10 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
     mapHandler = TencentMapHandler(binaryMessenger: registrar.messenger())
   }
 
+  func mapView(_ mapView: QMapView!, scaleViewChanged unitLength: CGFloat) {
+    mapHandler.onScaleViewChanged(unit: unitLength, completion: { })
+  }
+
   func mapView(_ mapView: QMapView, didTapAt coordinate: CLLocationCoordinate2D) {
     mapHandler.onPress(position: coordinate.position, completion: { })
   }
@@ -108,5 +112,9 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
 
   func mapView(_ mapView: QMapView!, didUpdate userLocation: QUserLocation!, fromHeading: Bool) {
     mapHandler.onLocation(location: userLocation.toLocation, completion: { })
+  }
+  
+  func mapView(_ mapView: QMapView!, didTapMyLocation location: CLLocationCoordinate2D) {
+    mapHandler.onUserLocationClick(position: location.position, completion: { })
   }
 }

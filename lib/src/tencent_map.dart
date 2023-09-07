@@ -32,6 +32,7 @@ class TencentMap extends StatefulWidget {
     this.myLocationEnabled = false,
     this.userLocationType = UserLocationType.trackingLocationRotate,
     this.onMapCreated,
+    this.onScaleViewChanged,
     this.onPress,
     this.onLongPress,
     this.onTapPoi,
@@ -43,6 +44,7 @@ class TencentMap extends StatefulWidget {
     this.onMarkerDrag,
     this.onMarkerDragEnd,
     this.onLocation,
+    this.onUserLocationClick,
   }) : super(key: key);
 
   /// android 是否使用 TextureMapView
@@ -121,6 +123,9 @@ class TencentMap extends StatefulWidget {
   /// 可以使用参数 [TencentMapController] 调用地图方法
   final void Function(TencentMapController)? onMapCreated;
 
+  /// 当地图比例尺变化时触发该回调，方法会传入单位长度信息，单位为米
+  final void Function(double)? onScaleViewChanged;
+
   /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
   final void Function(Position)? onPress;
 
@@ -153,6 +158,9 @@ class TencentMap extends StatefulWidget {
 
   /// 当前位置改变时触发该回调（Android Only）
   final void Function(Location)? onLocation;
+
+  /// 当点击地图上的定位标会触发该回调
+  final void Function(Position)? onUserLocationClick;
 
   @override
   createState() => _TencentMapState();
@@ -323,6 +331,11 @@ class _TencentMapHandler extends TencentMapHandler {
   _TencentMapHandler(this.tencentMap);
 
   @override
+  void onScaleViewChanged(double unit) {
+    tencentMap.onScaleViewChanged?.call(unit);
+  }
+
+  @override
   void onPress(Position position) {
     tencentMap.onPress?.call(position);
   }
@@ -375,6 +388,11 @@ class _TencentMapHandler extends TencentMapHandler {
   @override
   void onLocation(Location location) {
     tencentMap.onLocation?.call(location);
+  }
+
+  @override
+  void onUserLocationClick(Position position) {
+    tencentMap.onUserLocationClick?.call(position);
   }
 }
 

@@ -1358,6 +1358,13 @@ class TencentMapHandler {
   var codec: FlutterStandardMessageCodec {
     return TencentMapHandlerCodec.shared
   }
+  /// 当地图比例尺变化时触发该回调，方法会传入单位长度信息，单位为米
+  func onScaleViewChanged(unit unitArg: Double, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onScaleViewChanged", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([unitArg] as [Any?]) { _ in
+      completion()
+    }
+  }
   /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
   func onPress(position positionArg: Position, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onPress", binaryMessenger: binaryMessenger, codec: codec)
@@ -1432,6 +1439,13 @@ class TencentMapHandler {
   func onLocation(location locationArg: Location, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation", binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage([locationArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  /// 当点击地图上的定位标会触发该回调
+  func onUserLocationClick(position positionArg: Position, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapHandler.onUserLocationClick", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([positionArg] as [Any?]) { _ in
       completion()
     }
   }

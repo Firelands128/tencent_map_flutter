@@ -1528,6 +1528,9 @@ class _TencentMapHandlerCodec extends StandardMessageCodec {
 abstract class TencentMapHandler {
   static const MessageCodec<Object?> codec = _TencentMapHandlerCodec();
 
+  /// 当地图比例尺变化时触发该回调，方法会传入单位长度信息，单位为米
+  void onScaleViewChanged(double unit);
+
   /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
   void onPress(Position position);
 
@@ -1561,7 +1564,29 @@ abstract class TencentMapHandler {
   /// 当前位置改变时触发该回调（Android Only）
   void onLocation(Location location);
 
+  /// 当点击地图上的定位标会触发该回调
+  void onUserLocationClick(Position position);
+
   static void setup(TencentMapHandler? api, {BinaryMessenger? binaryMessenger}) {
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.tencent_map.TencentMapHandler.onScaleViewChanged', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onScaleViewChanged was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final double? arg_unit = (args[0] as double?);
+          assert(arg_unit != null,
+              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onScaleViewChanged was null, expected non-null double.');
+          api.onScaleViewChanged(arg_unit!);
+          return;
+        });
+      }
+    }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
           'dev.flutter.pigeon.tencent_map.TencentMapHandler.onPress', codec,
@@ -1776,6 +1801,25 @@ abstract class TencentMapHandler {
           assert(arg_location != null,
               'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onLocation was null, expected non-null Location.');
           api.onLocation(arg_location!);
+          return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.tencent_map.TencentMapHandler.onUserLocationClick', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onUserLocationClick was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final Position? arg_position = (args[0] as Position?);
+          assert(arg_position != null,
+              'Argument for dev.flutter.pigeon.tencent_map.TencentMapHandler.onUserLocationClick was null, expected non-null Position.');
+          api.onUserLocationClick(arg_position!);
           return;
         });
       }
