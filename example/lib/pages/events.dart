@@ -30,18 +30,15 @@ class _EventsPageState extends State<EventsPage> {
       appBar: AppBar(title: const Text(EventsPage.title)),
       body: TencentMap(
         mapType: context.isDark ? MapType.dark : MapType.normal,
-        onPress: logger('onTap'),
-        onLongPress: logger('onLongPress'),
-        onTapPoi: logger('onTapPoi'),
-        onCameraMoveStart: logger("onCameraMoveStart"),
-        onCameraMove: logger("onCameraMove"),
-        onCameraMoveEnd: logger("onCameraMoveEnd"),
+        onScaleViewChanged: (unit) => print("onScaleViewChanged: ${unit.toString()}"),
+        onPress: (position) => print("onTap: ${position.encode().toString()}"),
+        onLongPress: (position) => print("onLongPress: ${position.encode().toString()}"),
+        onTapPoi: (poi) => print("onTapPoi: ${poi.encode().toString()}"),
+        onCameraMoveStart: (cameraPosition) => print("onCameraMoveStart: ${cameraPosition.encode().toString()}"),
+        onCameraMove: (cameraPosition) => print("onCameraMove: ${cameraPosition.encode().toString()}"),
+        onCameraMoveEnd: (cameraPosition) => print("onCameraMoveEnd: ${cameraPosition.encode().toString()}"),
+        onUserLocationClick: (position) => print("onUserLocationClick: ${position.encode().toString()}"),
       ),
     );
-  }
-
-  logger(String name) {
-    // ignore: avoid_print
-    return (dynamic data) => print('$name: ${data.encode()}');
   }
 }
