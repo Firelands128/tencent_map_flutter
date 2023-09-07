@@ -37,6 +37,14 @@ class TencentMap(val binding: FlutterPlugin.FlutterPluginBinding, context: Conte
     mapView.map.setOnMapClickListener { mapHandler.onPress(it.toPosition()) {} }
     mapView.map.setOnMapLongClickListener { mapHandler.onLongPress(it.toPosition()) {} }
     mapView.map.setOnMapPoiClickListener { mapHandler.onTapPoi(it.toMapPoi()) {} }
+    mapView.map.setOnMyLocationChangeListener {
+      val pigeonLocation = Location(
+        Position(it.latitude, it.longitude),
+        it.bearing.toDouble(),
+        it.accuracy.toDouble()
+      )
+      mapHandler.onLocation(pigeonLocation) {}
+    }
     mapView.map.setOnCameraChangeListener(object : TencentMap.OnCameraChangeListener {
       override fun onCameraChange(position: CameraPosition) {
         mapHandler.onCameraMove(position.toCameraPosition()) {}

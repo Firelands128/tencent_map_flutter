@@ -86,13 +86,6 @@ class TencentLocationSource(
       // 将位置信息返回给地图
       locationChangedListener?.onLocationChanged(location)
     }
-
-    val pigeonLocation = Location(
-      Position(tencentLocation.latitude, tencentLocation.longitude),
-      tencentLocation.bearing.toDouble(),
-      tencentLocation.accuracy.toDouble()
-    )
-    mapHandler.onLocation(pigeonLocation) {}
   }
 
   override fun onStatusUpdate(p0: String?, p1: Int, p2: String?) {}
