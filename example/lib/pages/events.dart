@@ -25,7 +25,7 @@ class _EventsPageState extends State<EventsPage> {
   }
 
   @override
-  build(context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text(EventsPage.title)),
       body: TencentMap(

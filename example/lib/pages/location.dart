@@ -26,7 +26,7 @@ class _LocationPageState extends State<LocationPage> {
   }
 
   @override
-  build(context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(LocationPage.title),

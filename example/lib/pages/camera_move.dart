@@ -32,7 +32,7 @@ class _CameraMovePageState extends State<CameraMovePage> {
   );
 
   @override
-  build(context) {
+  Widget build(BuildContext context) {
     final duration = animated ? const Duration(seconds: 2) : null;
     return Scaffold(
       appBar: AppBar(

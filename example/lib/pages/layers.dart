@@ -47,7 +47,7 @@ class _LayersPageState extends State<LayersPage> {
   }
 
   @override
-  build(context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text(LayersPage.title)),
       body: TencentMap(

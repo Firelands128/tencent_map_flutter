@@ -28,7 +28,7 @@ class _AddRemoveMarkerPageState extends State<AddRemoveMarkerPage> {
   }
 
   @override
-  build(context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text(AddRemoveMarkerPage.title)),
       body: TencentMap(

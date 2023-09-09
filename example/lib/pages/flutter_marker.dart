@@ -21,7 +21,7 @@ class _FlutterMarkerPageState extends State<FlutterMarkerPage> {
   final screenshot = ScreenshotController();
 
   @override
-  build(context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text(FlutterMarkerPage.title)),
       body: Stack(children: [

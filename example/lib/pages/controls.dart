@@ -44,7 +44,7 @@ class _ControlsPageState extends State<ControlsPage> {
   }
 
   @override
-  build(context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text(ControlsPage.title)),
       body: TencentMap(

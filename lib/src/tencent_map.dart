@@ -209,7 +209,7 @@ class _TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
   }
 
   @override
-  build(context) {
+  Widget build(BuildContext context) {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return AndroidView(

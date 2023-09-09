@@ -23,7 +23,7 @@ class _CameraRegionMovePageState extends State<CameraRegionMovePage> {
   }
 
   @override
-  build(context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(CameraRegionMovePage.title),
