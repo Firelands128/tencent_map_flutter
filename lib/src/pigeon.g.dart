@@ -435,13 +435,13 @@ class TencentMapSdkApi {
 
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
-  /// 初始化地图SDK，显示地图前必须调用
-  Future<void> initSdk(String? arg_iosApiKey, bool arg_agreePrivacy) async {
+  /// 同意隐私协议，显示地图前必须调用
+  Future<void> agreePrivacy(bool arg_agreePrivacy) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.TencentMapSdkApi.initSdk', codec,
+        'dev.flutter.pigeon.tencent_map.TencentMapSdkApi.agreePrivacy', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_iosApiKey, arg_agreePrivacy]) as List<Object?>?;
+        await channel.send(<Object?>[arg_agreePrivacy]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

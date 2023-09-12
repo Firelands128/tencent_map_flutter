@@ -32,10 +32,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    TencentMap.init(
-      agreePrivacy: true,
-      iosApiKey: 'TOCBZ-IY266-74KSP-MTWNM-PBYAT-LWB3O',
-    );
+    TencentMap.init(agreePrivacy: true);
   }
 
   @override

@@ -15,8 +15,8 @@ import 'package:pigeon/pigeon.dart';
 /// 地图SDK接口
 @HostApi()
 abstract class TencentMapSdkApi {
-  /// 初始化地图SDK，显示地图前必须调用
-  void initSdk(String? iosApiKey, bool agreePrivacy);
+  /// 同意隐私协议，显示地图前必须调用
+  void agreePrivacy(bool agreePrivacy);
 }
 
 /// 地图操作接口

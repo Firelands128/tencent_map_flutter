@@ -413,8 +413,8 @@ struct Bitmap {
 ///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol TencentMapSdkApi {
-  /// 初始化地图SDK，显示地图前必须调用
-  func initSdk(iosApiKey: String?, agreePrivacy: Bool) throws
+  /// 同意隐私协议，显示地图前必须调用
+  func agreePrivacy(agreePrivacy: Bool) throws
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -422,22 +422,21 @@ class TencentMapSdkApiSetup {
   /// The codec used by TencentMapSdkApi.
   /// Sets up an instance of `TencentMapSdkApi` to handle messages through the `binaryMessenger`.
   static func setUp(binaryMessenger: FlutterBinaryMessenger, api: TencentMapSdkApi?) {
-    /// 初始化地图SDK，显示地图前必须调用
-    let initSdkChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapSdkApi.initSdk", binaryMessenger: binaryMessenger)
+    /// 同意隐私协议，显示地图前必须调用
+    let agreePrivacyChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapSdkApi.agreePrivacy", binaryMessenger: binaryMessenger)
     if let api = api {
-      initSdkChannel.setMessageHandler { message, reply in
+      agreePrivacyChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
-        let iosApiKeyArg: String? = nilOrValue(args[0])
-        let agreePrivacyArg = args[1] as! Bool
+        let agreePrivacyArg = args[0] as! Bool
         do {
-          try api.initSdk(iosApiKey: iosApiKeyArg, agreePrivacy: agreePrivacyArg)
+          try api.agreePrivacy(agreePrivacy: agreePrivacyArg)
           reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))
         }
       }
     } else {
-      initSdkChannel.setMessageHandler(nil)
+      agreePrivacyChannel.setMessageHandler(nil)
     }
   }
 }

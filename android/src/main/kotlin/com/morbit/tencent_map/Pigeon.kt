@@ -454,8 +454,8 @@ data class Bitmap (
  * Generated interface from Pigeon that represents a handler of messages from Flutter.
  */
 interface TencentMapSdkApi {
-  /** 初始化地图SDK，显示地图前必须调用 */
-  fun initSdk(iosApiKey: String?, agreePrivacy: Boolean)
+  /** 同意隐私协议，显示地图前必须调用 */
+  fun agreePrivacy(agreePrivacy: Boolean)
 
   companion object {
     /** The codec used by TencentMapSdkApi. */
@@ -466,15 +466,14 @@ interface TencentMapSdkApi {
     @Suppress("UNCHECKED_CAST")
     fun setUp(binaryMessenger: BinaryMessenger, api: TencentMapSdkApi?) {
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapSdkApi.initSdk", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapSdkApi.agreePrivacy", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
-            val iosApiKeyArg = args[0] as String?
-            val agreePrivacyArg = args[1] as Boolean
+            val agreePrivacyArg = args[0] as Boolean
             var wrapped: List<Any?>
             try {
-              api.initSdk(iosApiKeyArg, agreePrivacyArg)
+              api.agreePrivacy(agreePrivacyArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

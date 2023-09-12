@@ -1,10 +1,7 @@
 import QMapKit
 
 class _TencentMapSdkApi: NSObject, TencentMapSdkApi {
-  func initSdk(iosApiKey: String?, agreePrivacy: Bool) throws {
-    if iosApiKey != nil {
-      QMapServices.shared().apiKey = iosApiKey!
-    }
+  func agreePrivacy(agreePrivacy: Bool) throws {
     QMapServices.shared().setPrivacyAgreement(agreePrivacy)
   }
 }

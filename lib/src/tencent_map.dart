@@ -170,8 +170,8 @@ class TencentMap extends StatefulWidget {
   /// 初始化 SDK，显示地图前必须调用
   ///
   /// 请确保用户同意腾讯地图 SDK 隐私协议并设置 [agreePrivacy] = true
-  static Future<void> init({String? iosApiKey, bool agreePrivacy = false}) {
-    return _sdkApi.initSdk(iosApiKey, agreePrivacy);
+  static Future<void> init({bool agreePrivacy = false}) {
+    return _sdkApi.agreePrivacy(agreePrivacy);
   }
 }
 
