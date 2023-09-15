@@ -134,15 +134,27 @@ class _TencentMapApi: NSObject, TencentMapApi {
   }
 
 
-  func addMarker(options: MarkerOptions) throws -> String {
-    var id = UUID()
-    while(tencentMap.hasKeyInMarkers(key: id)) {
-      id = UUID()
-    }
-    let annotation = options.annotation
-    tencentMap.markers[id] = annotation
+  func addMarker(marker: Marker) throws {
+    let annotation = marker.annotation
+    tencentMap.markers[marker.id] = annotation
     mapView.addAnnotation(annotation)
-    return id.uuidString
+  }
+
+  func removeMarker(id: String) throws {
+    if let annotation = tencentMap.markers[id] {
+      tencentMap.mapView.removeAnnotation(annotation)
+      tencentMap.markers.removeValue(forKey: id)
+    }
+  }
+
+  func updateMarker(markerId: String, options: MarkerUpdateOptions) throws {
+    if var annotation = tencentMap.markers[markerId] {
+      tencentMap.mapView.removeAnnotation(annotation)
+      var marker = annotation.marker(markerId: markerId)
+      marker = marker.update(options)
+      annotation = marker.annotation
+      tencentMap.mapView.addAnnotation(annotation)
+    }
   }
 
   func pause() throws { }

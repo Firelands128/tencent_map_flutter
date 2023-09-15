@@ -15,7 +15,7 @@ import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions as TencentMarkerOp
 import com.tencent.tencentmap.mapsdk.maps.model.MyLocationStyle as TencentMyLocationStyle
 
 fun Position.toPosition(): TencentLatLng {
-  return TencentLatLng(latitude ?: 0.0, longitude ?: 0.0)
+  return TencentLatLng(latitude, longitude)
 }
 
 fun TencentLatLng.toPosition(): Position {
@@ -61,7 +61,7 @@ fun UserLocationType.toMyLocationStyle(): TencentMyLocationStyle {
       UserLocationType.TRACKINGLOCATIONROTATECENTER -> TencentMyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE
       UserLocationType.TRACKINGROTATE -> TencentMyLocationStyle.LOCATION_TYPE_MAP_ROTATE_NO_CENTER
       else -> null
-    }?.let { it ->
+    }?.let {
       style.myLocationType(it)
     }
   }
@@ -87,12 +87,11 @@ fun UIControlAnchor.toAnchor(): Int {
   }
 }
 
-fun MarkerOptions.toMarkerOptions(binding: FlutterPluginBinding): TencentMarkerOptions {
+fun Marker.toMarkerOptions(binding: FlutterPluginBinding): TencentMarkerOptions {
   return TencentMarkerOptions(position.toPosition()).let { options ->
     icon?.toBitmapDescriptor(binding)?.let { options.icon(it) }
     rotation?.toFloat()?.let { options.rotation(it) }
     alpha?.toFloat()?.let { options.alpha(it) }
-    flat?.let { options.flat(it) }
     anchor?.let { options.anchor(it.x.toFloat(), it.y.toFloat()) }
     draggable?.let { options.draggable(it) }
     zIndex?.let { options.zIndex(it.toFloat()) }

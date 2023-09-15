@@ -327,17 +327,20 @@ class EdgePadding {
 }
 
 /// 标记点配置属性
-class MarkerOptions {
-  MarkerOptions({
+class Marker {
+  Marker({
+    required this.id,
     required this.position,
     this.alpha,
     this.rotation,
     this.zIndex,
-    this.flat,
     this.draggable,
     this.icon,
     this.anchor,
   });
+
+  /// 标记点ID
+  String id;
 
   /// 标记点的位置
   Position position;
@@ -351,8 +354,69 @@ class MarkerOptions {
   /// 标记点的Z轴显示顺序
   int? zIndex;
 
-  /// 标记点是否支持3D悬浮（Android Only)
-  bool? flat;
+  /// 标记点是否支持拖动
+  bool? draggable;
+
+  /// 标记点的图标信息
+  Bitmap? icon;
+
+  /// 标记点的锚点
+  Anchor? anchor;
+
+  Object encode() {
+    return <Object?>[
+      id,
+      position.encode(),
+      alpha,
+      rotation,
+      zIndex,
+      draggable,
+      icon?.encode(),
+      anchor?.encode(),
+    ];
+  }
+
+  static Marker decode(Object result) {
+    result as List<Object?>;
+    return Marker(
+      id: result[0]! as String,
+      position: Position.decode(result[1]! as List<Object?>),
+      alpha: result[2] as double?,
+      rotation: result[3] as double?,
+      zIndex: result[4] as int?,
+      draggable: result[5] as bool?,
+      icon: result[6] != null
+          ? Bitmap.decode(result[6]! as List<Object?>)
+          : null,
+      anchor: result[7] != null
+          ? Anchor.decode(result[7]! as List<Object?>)
+          : null,
+    );
+  }
+}
+
+class MarkerUpdateOptions {
+  MarkerUpdateOptions({
+    this.position,
+    this.alpha,
+    this.rotation,
+    this.zIndex,
+    this.draggable,
+    this.icon,
+    this.anchor,
+  });
+
+  /// 标记点的位置
+  Position? position;
+
+  /// 标记点的透明度
+  double? alpha;
+
+  /// 标记点的旋转角度
+  double? rotation;
+
+  /// 标记点的Z轴显示顺序
+  int? zIndex;
 
   /// 标记点是否支持拖动
   bool? draggable;
@@ -365,31 +429,31 @@ class MarkerOptions {
 
   Object encode() {
     return <Object?>[
-      position.encode(),
+      position?.encode(),
       alpha,
       rotation,
       zIndex,
-      flat,
       draggable,
       icon?.encode(),
       anchor?.encode(),
     ];
   }
 
-  static MarkerOptions decode(Object result) {
+  static MarkerUpdateOptions decode(Object result) {
     result as List<Object?>;
-    return MarkerOptions(
-      position: Position.decode(result[0]! as List<Object?>),
+    return MarkerUpdateOptions(
+      position: result[0] != null
+          ? Position.decode(result[0]! as List<Object?>)
+          : null,
       alpha: result[1] as double?,
       rotation: result[2] as double?,
       zIndex: result[3] as int?,
-      flat: result[4] as bool?,
-      draggable: result[5] as bool?,
-      icon: result[6] != null
-          ? Bitmap.decode(result[6]! as List<Object?>)
+      draggable: result[4] as bool?,
+      icon: result[5] != null
+          ? Bitmap.decode(result[5]! as List<Object?>)
           : null,
-      anchor: result[7] != null
-          ? Anchor.decode(result[7]! as List<Object?>)
+      anchor: result[6] != null
+          ? Anchor.decode(result[6]! as List<Object?>)
           : null,
     );
   }
@@ -478,17 +542,20 @@ class _TencentMapApiCodec extends StandardMessageCodec {
     } else if (value is Location) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    } else if (value is MarkerOptions) {
+    } else if (value is Marker) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
-    } else if (value is Position) {
+    } else if (value is MarkerUpdateOptions) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
-    } else if (value is Region) {
+    } else if (value is Position) {
       buffer.putUint8(135);
       writeValue(buffer, value.encode());
-    } else if (value is UIControlOffset) {
+    } else if (value is Region) {
       buffer.putUint8(136);
+      writeValue(buffer, value.encode());
+    } else if (value is UIControlOffset) {
+      buffer.putUint8(137);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -509,12 +576,14 @@ class _TencentMapApiCodec extends StandardMessageCodec {
       case 132: 
         return Location.decode(readValue(buffer)!);
       case 133: 
-        return MarkerOptions.decode(readValue(buffer)!);
+        return Marker.decode(readValue(buffer)!);
       case 134: 
-        return Position.decode(readValue(buffer)!);
+        return MarkerUpdateOptions.decode(readValue(buffer)!);
       case 135: 
-        return Region.decode(readValue(buffer)!);
+        return Position.decode(readValue(buffer)!);
       case 136: 
+        return Region.decode(readValue(buffer)!);
+      case 137: 
         return UIControlOffset.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -1114,12 +1183,12 @@ class TencentMapApi {
   }
 
   /// 添加标记点
-  Future<String> addMarker(MarkerOptions arg_options) async {
+  Future<void> addMarker(Marker arg_marker) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.tencent_map.TencentMapApi.addMarker', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_options]) as List<Object?>?;
+        await channel.send(<Object?>[arg_marker]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -1131,13 +1200,54 @@ class TencentMapApi {
         message: replyList[1] as String?,
         details: replyList[2],
       );
-    } else if (replyList[0] == null) {
+    } else {
+      return;
+    }
+  }
+
+  /// 移除标记点
+  Future<void> removeMarker(String arg_id) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.removeMarker', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_id]) as List<Object?>?;
+    if (replyList == null) {
       throw PlatformException(
-        code: 'null-error',
-        message: 'Host platform returned null value for non-null return value.',
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
       );
     } else {
-      return (replyList[0] as String?)!;
+      return;
+    }
+  }
+
+  /// 更新标记点
+  Future<void> updateMarker(String arg_markerId, MarkerUpdateOptions arg_options) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.tencent_map.TencentMapApi.updateMarker', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_markerId, arg_options]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
     }
   }
 
@@ -1240,235 +1350,6 @@ class TencentMapApi {
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else {
-      return;
-    }
-  }
-}
-
-class _MarkerApiCodec extends StandardMessageCodec {
-  const _MarkerApiCodec();
-  @override
-  void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is Anchor) {
-      buffer.putUint8(128);
-      writeValue(buffer, value.encode());
-    } else if (value is Bitmap) {
-      buffer.putUint8(129);
-      writeValue(buffer, value.encode());
-    } else if (value is Position) {
-      buffer.putUint8(130);
-      writeValue(buffer, value.encode());
-    } else {
-      super.writeValue(buffer, value);
-    }
-  }
-
-  @override
-  Object? readValueOfType(int type, ReadBuffer buffer) {
-    switch (type) {
-      case 128: 
-        return Anchor.decode(readValue(buffer)!);
-      case 129: 
-        return Bitmap.decode(readValue(buffer)!);
-      case 130: 
-        return Position.decode(readValue(buffer)!);
-      default:
-        return super.readValueOfType(type, buffer);
-    }
-  }
-}
-
-/// 标记点操作接口
-class MarkerApi {
-  /// Constructor for [MarkerApi].  The [binaryMessenger] named argument is
-  /// available for dependency injection.  If it is left null, the default
-  /// BinaryMessenger will be used which routes to the host platform.
-  MarkerApi({BinaryMessenger? binaryMessenger})
-      : _binaryMessenger = binaryMessenger;
-  final BinaryMessenger? _binaryMessenger;
-
-  static const MessageCodec<Object?> codec = _MarkerApiCodec();
-
-  /// 移除标记点
-  Future<void> remove(String arg_id) async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.MarkerApi.remove', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id]) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else {
-      return;
-    }
-  }
-
-  /// 更新标记点的位置
-  Future<void> setPosition(String arg_id, Position arg_position) async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.MarkerApi.setPosition', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_position]) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else {
-      return;
-    }
-  }
-
-  /// 更新标记点的图标
-  Future<void> setIcon(String arg_id, Bitmap arg_icon) async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.MarkerApi.setIcon', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_icon]) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else {
-      return;
-    }
-  }
-
-  /// 更新标记点的锚点
-  Future<void> setAnchor(String arg_id, Anchor arg_anchor) async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.MarkerApi.setAnchor', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_anchor]) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else {
-      return;
-    }
-  }
-
-  /// 更新标记点的透明度
-  Future<void> setAlpha(String arg_id, double arg_alpha) async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.MarkerApi.setAlpha', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_alpha]) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else {
-      return;
-    }
-  }
-
-  /// 更新标记点的旋转角度
-  Future<void> setRotation(String arg_id, double arg_rotation) async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.MarkerApi.setRotation', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_rotation]) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else {
-      return;
-    }
-  }
-
-  /// 更新标记点的Z轴显示顺序
-  Future<void> setZIndex(String arg_id, int arg_zIndex) async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.MarkerApi.setZIndex', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_zIndex]) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else {
-      return;
-    }
-  }
-
-  /// 更新标记点的是否可拖拽属性值
-  Future<void> setDraggable(String arg_id, bool arg_draggable) async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.tencent_map.MarkerApi.setDraggable', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_id, arg_draggable]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

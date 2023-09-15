@@ -98,7 +98,13 @@ abstract class TencentMapApi {
   void setRestrictRegion(Region region, RestrictRegionMode mode);
 
   /// 添加标记点
-  String addMarker(MarkerOptions options);
+  void addMarker(Marker marker);
+
+  /// 移除标记点
+  void removeMarker(String id);
+
+  /// 更新标记点
+  void updateMarker(String markerId, MarkerUpdateOptions options);
 
   /// 开始
   void start();
@@ -114,34 +120,6 @@ abstract class TencentMapApi {
 
   /// 销毁
   void destroy();
-}
-
-/// 标记点操作接口
-@HostApi()
-abstract class MarkerApi {
-  /// 移除标记点
-  void remove(String id);
-
-  /// 更新标记点的位置
-  void setPosition(String id, Position position);
-
-  /// 更新标记点的图标
-  void setIcon(String id, Bitmap icon);
-
-  /// 更新标记点的锚点
-  void setAnchor(String id, Anchor anchor);
-
-  /// 更新标记点的透明度
-  void setAlpha(String id, double alpha);
-
-  /// 更新标记点的旋转角度
-  void setRotation(String id, double rotation);
-
-  /// 更新标记点的Z轴显示顺序
-  void setZIndex(String id, int zIndex);
-
-  /// 更新标记点的是否可拖拽属性值
-  void setDraggable(String id, bool draggable);
 }
 
 /// 地图状态事件回调处理器
@@ -337,7 +315,10 @@ enum RestrictRegionMode {
 }
 
 /// 标记点配置属性
-class MarkerOptions {
+class Marker {
+  /// 标记点ID
+  late String id;
+
   /// 标记点的位置
   late Position position;
 
@@ -350,8 +331,28 @@ class MarkerOptions {
   /// 标记点的Z轴显示顺序
   int? zIndex;
 
-  /// 标记点是否支持3D悬浮（Android Only)
-  bool? flat;
+  /// 标记点是否支持拖动
+  bool? draggable;
+
+  /// 标记点的图标信息
+  Bitmap? icon;
+
+  /// 标记点的锚点
+  Anchor? anchor;
+}
+
+class MarkerUpdateOptions {
+  /// 标记点的位置
+  Position? position;
+
+  /// 标记点的透明度
+  double? alpha;
+
+  /// 标记点的旋转角度
+  double? rotation;
+
+  /// 标记点的Z轴显示顺序
+  int? zIndex;
 
   /// 标记点是否支持拖动
   bool? draggable;

@@ -62,7 +62,19 @@ extension UIControlOffset {
   }
 }
 
-extension MarkerOptions {
+extension Marker {
+  func update(_ options: MarkerUpdateOptions) -> Marker {
+    return Marker(
+      id: self.id,
+      position: options.position ?? self.position,
+      alpha: options.alpha ?? self.alpha,
+      rotation: options.rotation ?? self.rotation,
+      zIndex: options.zIndex ?? self.zIndex,
+      draggable: options.draggable ?? self.draggable,
+      icon: options.icon ?? self.icon,
+      anchor: options.anchor ?? self.anchor
+    )
+  }
   var annotation: QPointAnnotation {
     let annotation = QPointAnnotation()
     annotation.coordinate = position.coordinate
@@ -112,7 +124,7 @@ extension MarkerOptions {
 }
 
 extension QPointAnnotation {
-  var marker: MarkerOptions {
+  func marker(markerId: String) -> Marker {
     let position = coordinate.position
     var alpha: Double? = nil
     var rotation: Double? = nil
@@ -166,7 +178,8 @@ extension QPointAnnotation {
         }
       }
     }
-    return MarkerOptions(
+    return Marker(
+      id: markerId,
       position: position,
       alpha: alpha,
       rotation: rotation,

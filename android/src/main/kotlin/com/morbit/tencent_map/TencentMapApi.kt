@@ -190,9 +190,42 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     )
   }
 
-  override fun addMarker(options: MarkerOptions): String {
-    val marker = mapView.map.addMarker(options.toMarkerOptions(tencentMap.binding))
-    tencentMap.markers[marker.id] = marker
-    return marker.id
+  override fun addMarker(marker: Marker) {
+    val tencentMarker = mapView.map.addMarker(marker.toMarkerOptions(tencentMap.binding))
+    tencentMap.markers[marker.id] = tencentMarker
+    tencentMap.tencentMapMarkerIdToDartMarkerId[tencentMarker.id] = marker.id
+  }
+
+  override fun removeMarker(id: String) {
+    val marker = tencentMap.markers[id]
+    if (marker != null) {
+      marker.remove()
+      tencentMap.markers.remove(id)
+      tencentMap.tencentMapMarkerIdToDartMarkerId.remove(marker.id)
+    }
+  }
+
+  override fun updateMarker(markerId: String, options: MarkerUpdateOptions) {
+    if (options.position != null) {
+      tencentMap.markers[markerId]?.position = options.position.toPosition()
+    }
+    if (options.alpha != null) {
+      tencentMap.markers[markerId]?.alpha = options.alpha.toFloat()
+    }
+    if (options.rotation != null) {
+      tencentMap.markers[markerId]?.rotation = options.rotation.toFloat()
+    }
+    if (options.zIndex != null) {
+      tencentMap.markers[markerId]?.zIndex = options.zIndex.toInt()
+    }
+    if (options.draggable != null) {
+      tencentMap.markers[markerId]?.isDraggable = options.draggable
+    }
+    if (options.icon != null) {
+      options.icon.toBitmapDescriptor(tencentMap.binding)?.let { tencentMap.markers[markerId]?.setIcon(it) }
+    }
+    if (options.anchor != null) {
+      tencentMap.markers[markerId]?.setAnchor(options.anchor.x.toFloat(), options.anchor.y.toFloat())
+    }
   }
 }

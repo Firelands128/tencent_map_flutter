@@ -48,8 +48,7 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
     if let annotation = view.annotation as? QPointAnnotation {
       let position = annotation.coordinate.position
       if let userData = annotation.userData as? [String: Any?] {
-        if let uuid = userData["id"] as? UUID {
-          let markerId = uuid.uuidString
+        if let markerId = userData["id"] as? String {
           if(newState == QAnnotationViewDragStateStarting) {
             mapHandler.onMarkerDragStart(markerId: markerId, position: position, completion: { })
           } else if(newState == QAnnotationViewDragStateDragging) {

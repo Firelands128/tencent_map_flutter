@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'marker.dart';
 import 'pigeon.g.dart';
 
 /// 腾讯地图
@@ -423,8 +422,16 @@ class TencentMapController {
   }
 
   /// 添加标记
-  Future<Marker> addMarker(MarkerOptions options) async {
-    return Marker(await _api.addMarker(options));
+  void addMarker(Marker marker) {
+    _api.addMarker(marker);
+  }
+
+  void removeMarker(String markerId) {
+    _api.removeMarker(markerId);
+  }
+
+  void updateMarker(String markerId, MarkerUpdateOptions options) {
+    _api.updateMarker(markerId, options);
   }
 
   /// 销毁地图

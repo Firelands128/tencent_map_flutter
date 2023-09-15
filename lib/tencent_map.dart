@@ -1,4 +1,3 @@
-export 'src/marker.dart';
 export 'src/pigeon.g.dart'
     show
         Anchor,
@@ -10,7 +9,8 @@ export 'src/pigeon.g.dart'
         UIControlOffset,
         MapType,
         CameraPosition,
-        MarkerOptions,
+        Marker,
+        MarkerUpdateOptions,
         Bitmap,
         Location,
         UserLocationType;

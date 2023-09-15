@@ -325,7 +325,9 @@ struct EdgePadding {
 /// 标记点配置属性
 ///
 /// Generated class from Pigeon that represents data sent in messages.
-struct MarkerOptions {
+struct Marker {
+  /// 标记点ID
+  var id: String
   /// 标记点的位置
   var position: Position
   /// 标记点的透明度
@@ -334,8 +336,6 @@ struct MarkerOptions {
   var rotation: Double? = nil
   /// 标记点的Z轴显示顺序
   var zIndex: Int64? = nil
-  /// 标记点是否支持3D悬浮（Android Only)
-  var flat: Bool? = nil
   /// 标记点是否支持拖动
   var draggable: Bool? = nil
   /// 标记点的图标信息
@@ -343,12 +343,12 @@ struct MarkerOptions {
   /// 标记点的锚点
   var anchor: Anchor? = nil
 
-  static func fromList(_ list: [Any?]) -> MarkerOptions? {
-    let position = Position.fromList(list[0] as! [Any?])!
-    let alpha: Double? = nilOrValue(list[1])
-    let rotation: Double? = nilOrValue(list[2])
-    let zIndex: Int64? = list[3] is NSNull ? nil : (list[3] is Int64? ? list[3] as! Int64? : Int64(list[3] as! Int32))
-    let flat: Bool? = nilOrValue(list[4])
+  static func fromList(_ list: [Any?]) -> Marker? {
+    let id = list[0] as! String
+    let position = Position.fromList(list[1] as! [Any?])!
+    let alpha: Double? = nilOrValue(list[2])
+    let rotation: Double? = nilOrValue(list[3])
+    let zIndex: Int64? = list[4] is NSNull ? nil : (list[4] is Int64? ? list[4] as! Int64? : Int64(list[4] as! Int32))
     let draggable: Bool? = nilOrValue(list[5])
     var icon: Bitmap? = nil
     if let iconList: [Any?] = nilOrValue(list[6]) {
@@ -359,12 +359,12 @@ struct MarkerOptions {
       anchor = Anchor.fromList(anchorList)
     }
 
-    return MarkerOptions(
+    return Marker(
+      id: id,
       position: position,
       alpha: alpha,
       rotation: rotation,
       zIndex: zIndex,
-      flat: flat,
       draggable: draggable,
       icon: icon,
       anchor: anchor
@@ -372,11 +372,69 @@ struct MarkerOptions {
   }
   func toList() -> [Any?] {
     return [
+      id,
       position.toList(),
       alpha,
       rotation,
       zIndex,
-      flat,
+      draggable,
+      icon?.toList(),
+      anchor?.toList(),
+    ]
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct MarkerUpdateOptions {
+  /// 标记点的位置
+  var position: Position? = nil
+  /// 标记点的透明度
+  var alpha: Double? = nil
+  /// 标记点的旋转角度
+  var rotation: Double? = nil
+  /// 标记点的Z轴显示顺序
+  var zIndex: Int64? = nil
+  /// 标记点是否支持拖动
+  var draggable: Bool? = nil
+  /// 标记点的图标信息
+  var icon: Bitmap? = nil
+  /// 标记点的锚点
+  var anchor: Anchor? = nil
+
+  static func fromList(_ list: [Any?]) -> MarkerUpdateOptions? {
+    var position: Position? = nil
+    if let positionList: [Any?] = nilOrValue(list[0]) {
+      position = Position.fromList(positionList)
+    }
+    let alpha: Double? = nilOrValue(list[1])
+    let rotation: Double? = nilOrValue(list[2])
+    let zIndex: Int64? = list[3] is NSNull ? nil : (list[3] is Int64? ? list[3] as! Int64? : Int64(list[3] as! Int32))
+    let draggable: Bool? = nilOrValue(list[4])
+    var icon: Bitmap? = nil
+    if let iconList: [Any?] = nilOrValue(list[5]) {
+      icon = Bitmap.fromList(iconList)
+    }
+    var anchor: Anchor? = nil
+    if let anchorList: [Any?] = nilOrValue(list[6]) {
+      anchor = Anchor.fromList(anchorList)
+    }
+
+    return MarkerUpdateOptions(
+      position: position,
+      alpha: alpha,
+      rotation: rotation,
+      zIndex: zIndex,
+      draggable: draggable,
+      icon: icon,
+      anchor: anchor
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      position?.toList(),
+      alpha,
+      rotation,
+      zIndex,
       draggable,
       icon?.toList(),
       anchor?.toList(),
@@ -454,12 +512,14 @@ private class TencentMapApiCodecReader: FlutterStandardReader {
       case 132:
         return Location.fromList(self.readValue() as! [Any?])
       case 133:
-        return MarkerOptions.fromList(self.readValue() as! [Any?])
+        return Marker.fromList(self.readValue() as! [Any?])
       case 134:
-        return Position.fromList(self.readValue() as! [Any?])
+        return MarkerUpdateOptions.fromList(self.readValue() as! [Any?])
       case 135:
-        return Region.fromList(self.readValue() as! [Any?])
+        return Position.fromList(self.readValue() as! [Any?])
       case 136:
+        return Region.fromList(self.readValue() as! [Any?])
+      case 137:
         return UIControlOffset.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
@@ -484,17 +544,20 @@ private class TencentMapApiCodecWriter: FlutterStandardWriter {
     } else if let value = value as? Location {
       super.writeByte(132)
       super.writeValue(value.toList())
-    } else if let value = value as? MarkerOptions {
+    } else if let value = value as? Marker {
       super.writeByte(133)
       super.writeValue(value.toList())
-    } else if let value = value as? Position {
+    } else if let value = value as? MarkerUpdateOptions {
       super.writeByte(134)
       super.writeValue(value.toList())
-    } else if let value = value as? Region {
+    } else if let value = value as? Position {
       super.writeByte(135)
       super.writeValue(value.toList())
-    } else if let value = value as? UIControlOffset {
+    } else if let value = value as? Region {
       super.writeByte(136)
+      super.writeValue(value.toList())
+    } else if let value = value as? UIControlOffset {
+      super.writeByte(137)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)
@@ -571,7 +634,11 @@ protocol TencentMapApi {
   /// 限制地图显示区域
   func setRestrictRegion(region: Region, mode: RestrictRegionMode) throws
   /// 添加标记点
-  func addMarker(options: MarkerOptions) throws -> String
+  func addMarker(marker: Marker) throws
+  /// 移除标记点
+  func removeMarker(id: String) throws
+  /// 更新标记点
+  func updateMarker(markerId: String, options: MarkerUpdateOptions) throws
   /// 开始
   func start() throws
   /// 暂停
@@ -1001,16 +1068,49 @@ class TencentMapApiSetup {
     if let api = api {
       addMarkerChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
-        let optionsArg = args[0] as! MarkerOptions
+        let markerArg = args[0] as! Marker
         do {
-          let result = try api.addMarker(options: optionsArg)
-          reply(wrapResult(result))
+          try api.addMarker(marker: markerArg)
+          reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))
         }
       }
     } else {
       addMarkerChannel.setMessageHandler(nil)
+    }
+    /// 移除标记点
+    let removeMarkerChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.removeMarker", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      removeMarkerChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let idArg = args[0] as! String
+        do {
+          try api.removeMarker(id: idArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      removeMarkerChannel.setMessageHandler(nil)
+    }
+    /// 更新标记点
+    let updateMarkerChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.updateMarker", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      updateMarkerChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let markerIdArg = args[0] as! String
+        let optionsArg = args[1] as! MarkerUpdateOptions
+        do {
+          try api.updateMarker(markerId: markerIdArg, options: optionsArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      updateMarkerChannel.setMessageHandler(nil)
     }
     /// 开始
     let startChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.TencentMapApi.start", binaryMessenger: binaryMessenger, codec: codec)
@@ -1081,217 +1181,6 @@ class TencentMapApiSetup {
       }
     } else {
       destroyChannel.setMessageHandler(nil)
-    }
-  }
-}
-private class MarkerApiCodecReader: FlutterStandardReader {
-  override func readValue(ofType type: UInt8) -> Any? {
-    switch type {
-      case 128:
-        return Anchor.fromList(self.readValue() as! [Any?])
-      case 129:
-        return Bitmap.fromList(self.readValue() as! [Any?])
-      case 130:
-        return Position.fromList(self.readValue() as! [Any?])
-      default:
-        return super.readValue(ofType: type)
-    }
-  }
-}
-
-private class MarkerApiCodecWriter: FlutterStandardWriter {
-  override func writeValue(_ value: Any) {
-    if let value = value as? Anchor {
-      super.writeByte(128)
-      super.writeValue(value.toList())
-    } else if let value = value as? Bitmap {
-      super.writeByte(129)
-      super.writeValue(value.toList())
-    } else if let value = value as? Position {
-      super.writeByte(130)
-      super.writeValue(value.toList())
-    } else {
-      super.writeValue(value)
-    }
-  }
-}
-
-private class MarkerApiCodecReaderWriter: FlutterStandardReaderWriter {
-  override func reader(with data: Data) -> FlutterStandardReader {
-    return MarkerApiCodecReader(data: data)
-  }
-
-  override func writer(with data: NSMutableData) -> FlutterStandardWriter {
-    return MarkerApiCodecWriter(data: data)
-  }
-}
-
-class MarkerApiCodec: FlutterStandardMessageCodec {
-  static let shared = MarkerApiCodec(readerWriter: MarkerApiCodecReaderWriter())
-}
-
-/// 标记点操作接口
-///
-/// Generated protocol from Pigeon that represents a handler of messages from Flutter.
-protocol MarkerApi {
-  /// 移除标记点
-  func remove(id: String) throws
-  /// 更新标记点的位置
-  func setPosition(id: String, position: Position) throws
-  /// 更新标记点的图标
-  func setIcon(id: String, icon: Bitmap) throws
-  /// 更新标记点的锚点
-  func setAnchor(id: String, anchor: Anchor) throws
-  /// 更新标记点的透明度
-  func setAlpha(id: String, alpha: Double) throws
-  /// 更新标记点的旋转角度
-  func setRotation(id: String, rotation: Double) throws
-  /// 更新标记点的Z轴显示顺序
-  func setZIndex(id: String, zIndex: Int64) throws
-  /// 更新标记点的是否可拖拽属性值
-  func setDraggable(id: String, draggable: Bool) throws
-}
-
-/// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
-class MarkerApiSetup {
-  /// The codec used by MarkerApi.
-  static var codec: FlutterStandardMessageCodec { MarkerApiCodec.shared }
-  /// Sets up an instance of `MarkerApi` to handle messages through the `binaryMessenger`.
-  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: MarkerApi?) {
-    /// 移除标记点
-    let removeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.remove", binaryMessenger: binaryMessenger, codec: codec)
-    if let api = api {
-      removeChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let idArg = args[0] as! String
-        do {
-          try api.remove(id: idArg)
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      removeChannel.setMessageHandler(nil)
-    }
-    /// 更新标记点的位置
-    let setPositionChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setPosition", binaryMessenger: binaryMessenger, codec: codec)
-    if let api = api {
-      setPositionChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let idArg = args[0] as! String
-        let positionArg = args[1] as! Position
-        do {
-          try api.setPosition(id: idArg, position: positionArg)
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      setPositionChannel.setMessageHandler(nil)
-    }
-    /// 更新标记点的图标
-    let setIconChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setIcon", binaryMessenger: binaryMessenger, codec: codec)
-    if let api = api {
-      setIconChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let idArg = args[0] as! String
-        let iconArg = args[1] as! Bitmap
-        do {
-          try api.setIcon(id: idArg, icon: iconArg)
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      setIconChannel.setMessageHandler(nil)
-    }
-    /// 更新标记点的锚点
-    let setAnchorChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setAnchor", binaryMessenger: binaryMessenger, codec: codec)
-    if let api = api {
-      setAnchorChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let idArg = args[0] as! String
-        let anchorArg = args[1] as! Anchor
-        do {
-          try api.setAnchor(id: idArg, anchor: anchorArg)
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      setAnchorChannel.setMessageHandler(nil)
-    }
-    /// 更新标记点的透明度
-    let setAlphaChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setAlpha", binaryMessenger: binaryMessenger, codec: codec)
-    if let api = api {
-      setAlphaChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let idArg = args[0] as! String
-        let alphaArg = args[1] as! Double
-        do {
-          try api.setAlpha(id: idArg, alpha: alphaArg)
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      setAlphaChannel.setMessageHandler(nil)
-    }
-    /// 更新标记点的旋转角度
-    let setRotationChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setRotation", binaryMessenger: binaryMessenger, codec: codec)
-    if let api = api {
-      setRotationChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let idArg = args[0] as! String
-        let rotationArg = args[1] as! Double
-        do {
-          try api.setRotation(id: idArg, rotation: rotationArg)
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      setRotationChannel.setMessageHandler(nil)
-    }
-    /// 更新标记点的Z轴显示顺序
-    let setZIndexChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setZIndex", binaryMessenger: binaryMessenger, codec: codec)
-    if let api = api {
-      setZIndexChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let idArg = args[0] as! String
-        let zIndexArg = args[1] is Int64 ? args[1] as! Int64 : Int64(args[1] as! Int32)
-        do {
-          try api.setZIndex(id: idArg, zIndex: zIndexArg)
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      setZIndexChannel.setMessageHandler(nil)
-    }
-    /// 更新标记点的是否可拖拽属性值
-    let setDraggableChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.tencent_map.MarkerApi.setDraggable", binaryMessenger: binaryMessenger, codec: codec)
-    if let api = api {
-      setDraggableChannel.setMessageHandler { message, reply in
-        let args = message as! [Any?]
-        let idArg = args[0] as! String
-        let draggableArg = args[1] as! Bool
-        do {
-          try api.setDraggable(id: idArg, draggable: draggableArg)
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      setDraggableChannel.setMessageHandler(nil)
     }
   }
 }

@@ -51,8 +51,12 @@ class _FlutterMarkerPageState extends State<FlutterMarkerPage> {
     final position = Position(latitude: 39.909, longitude: 116.397);
     controller.moveCamera(CameraPosition(position: position));
     final image = await screenshot.capture();
-    await controller.addMarker(
-      MarkerOptions(position: position, icon: Bitmap(bytes: image)),
+    controller.addMarker(
+      Marker(
+        id: "flutter_marker_id",
+        position: position,
+        icon: Bitmap(bytes: image),
+      ),
     );
   }
 }

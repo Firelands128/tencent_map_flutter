@@ -18,6 +18,7 @@ class AddRemoveMarkerPage extends StatefulWidget {
 class _AddRemoveMarkerPageState extends State<AddRemoveMarkerPage> {
   late TencentMapController controller;
   final markers = <String, Marker>{};
+  int _markerIdCounter = 1;
 
   @override
   void initState() {
@@ -44,19 +45,20 @@ class _AddRemoveMarkerPageState extends State<AddRemoveMarkerPage> {
   }
 
   void onTap(Position position) async {
-    final marker = await controller.addMarker(
-      MarkerOptions(
-        position: position,
-        icon: Bitmap(asset: 'images/marker.png'),
-        anchor: Anchor(x: 0.5, y: 1),
-        draggable: true,
-      ),
+    final String markerId = 'marker_id_${_markerIdCounter++}';
+    final marker = Marker(
+      id: markerId,
+      position: position,
+      icon: Bitmap(asset: 'images/marker.png'),
+      anchor: Anchor(x: 0.5, y: 1),
+      draggable: true,
     );
-    markers[marker.id] = marker;
+    markers[markerId] = marker;
+    controller.addMarker(marker);
   }
 
   void onTapMarker(String markerId) {
-    markers[markerId]?.remove();
+    controller.removeMarker(markerId);
     markers.remove(markerId);
   }
 }

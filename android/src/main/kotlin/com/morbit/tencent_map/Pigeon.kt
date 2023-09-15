@@ -370,7 +370,9 @@ data class EdgePadding (
  *
  * Generated class from Pigeon that represents data sent in messages.
  */
-data class MarkerOptions (
+data class Marker (
+  /** 标记点ID */
+  val id: String,
   /** 标记点的位置 */
   val position: Position,
   /** 标记点的透明度 */
@@ -379,8 +381,6 @@ data class MarkerOptions (
   val rotation: Double? = null,
   /** 标记点的Z轴显示顺序 */
   val zIndex: Long? = null,
-  /** 标记点是否支持3D悬浮（Android Only) */
-  val flat: Boolean? = null,
   /** 标记点是否支持拖动 */
   val draggable: Boolean? = null,
   /** 标记点的图标信息 */
@@ -391,12 +391,12 @@ data class MarkerOptions (
 ) {
   companion object {
     @Suppress("UNCHECKED_CAST")
-    fun fromList(list: List<Any?>): MarkerOptions {
-      val position = Position.fromList(list[0] as List<Any?>)
-      val alpha = list[1] as Double?
-      val rotation = list[2] as Double?
-      val zIndex = list[3].let { if (it is Int) it.toLong() else it as Long? }
-      val flat = list[4] as Boolean?
+    fun fromList(list: List<Any?>): Marker {
+      val id = list[0] as String
+      val position = Position.fromList(list[1] as List<Any?>)
+      val alpha = list[2] as Double?
+      val rotation = list[3] as Double?
+      val zIndex = list[4].let { if (it is Int) it.toLong() else it as Long? }
       val draggable = list[5] as Boolean?
       val icon: Bitmap? = (list[6] as List<Any?>?)?.let {
         Bitmap.fromList(it)
@@ -404,16 +404,66 @@ data class MarkerOptions (
       val anchor: Anchor? = (list[7] as List<Any?>?)?.let {
         Anchor.fromList(it)
       }
-      return MarkerOptions(position, alpha, rotation, zIndex, flat, draggable, icon, anchor)
+      return Marker(id, position, alpha, rotation, zIndex, draggable, icon, anchor)
     }
   }
   fun toList(): List<Any?> {
     return listOf<Any?>(
+      id,
       position.toList(),
       alpha,
       rotation,
       zIndex,
-      flat,
+      draggable,
+      icon?.toList(),
+      anchor?.toList(),
+    )
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class MarkerUpdateOptions (
+  /** 标记点的位置 */
+  val position: Position? = null,
+  /** 标记点的透明度 */
+  val alpha: Double? = null,
+  /** 标记点的旋转角度 */
+  val rotation: Double? = null,
+  /** 标记点的Z轴显示顺序 */
+  val zIndex: Long? = null,
+  /** 标记点是否支持拖动 */
+  val draggable: Boolean? = null,
+  /** 标记点的图标信息 */
+  val icon: Bitmap? = null,
+  /** 标记点的锚点 */
+  val anchor: Anchor? = null
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): MarkerUpdateOptions {
+      val position: Position? = (list[0] as List<Any?>?)?.let {
+        Position.fromList(it)
+      }
+      val alpha = list[1] as Double?
+      val rotation = list[2] as Double?
+      val zIndex = list[3].let { if (it is Int) it.toLong() else it as Long? }
+      val draggable = list[4] as Boolean?
+      val icon: Bitmap? = (list[5] as List<Any?>?)?.let {
+        Bitmap.fromList(it)
+      }
+      val anchor: Anchor? = (list[6] as List<Any?>?)?.let {
+        Anchor.fromList(it)
+      }
+      return MarkerUpdateOptions(position, alpha, rotation, zIndex, draggable, icon, anchor)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      position?.toList(),
+      alpha,
+      rotation,
+      zIndex,
       draggable,
       icon?.toList(),
       anchor?.toList(),
@@ -518,20 +568,25 @@ private object TencentMapApiCodec : StandardMessageCodec() {
       }
       133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MarkerOptions.fromList(it)
+          Marker.fromList(it)
         }
       }
       134.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Position.fromList(it)
+          MarkerUpdateOptions.fromList(it)
         }
       }
       135.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Region.fromList(it)
+          Position.fromList(it)
         }
       }
       136.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          Region.fromList(it)
+        }
+      }
+      137.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           UIControlOffset.fromList(it)
         }
@@ -561,20 +616,24 @@ private object TencentMapApiCodec : StandardMessageCodec() {
         stream.write(132)
         writeValue(stream, value.toList())
       }
-      is MarkerOptions -> {
+      is Marker -> {
         stream.write(133)
         writeValue(stream, value.toList())
       }
-      is Position -> {
+      is MarkerUpdateOptions -> {
         stream.write(134)
         writeValue(stream, value.toList())
       }
-      is Region -> {
+      is Position -> {
         stream.write(135)
         writeValue(stream, value.toList())
       }
-      is UIControlOffset -> {
+      is Region -> {
         stream.write(136)
+        writeValue(stream, value.toList())
+      }
+      is UIControlOffset -> {
+        stream.write(137)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -639,7 +698,11 @@ interface TencentMapApi {
   /** 限制地图显示区域 */
   fun setRestrictRegion(region: Region, mode: RestrictRegionMode)
   /** 添加标记点 */
-  fun addMarker(options: MarkerOptions): String
+  fun addMarker(marker: Marker)
+  /** 移除标记点 */
+  fun removeMarker(id: String)
+  /** 更新标记点 */
+  fun updateMarker(markerId: String, options: MarkerUpdateOptions)
   /** 开始 */
   fun start()
   /** 暂停 */
@@ -1144,10 +1207,50 @@ interface TencentMapApi {
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
-            val optionsArg = args[0] as MarkerOptions
+            val markerArg = args[0] as Marker
             var wrapped: List<Any?>
             try {
-              wrapped = listOf<Any?>(api.addMarker(optionsArg))
+              api.addMarker(markerArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.removeMarker", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val idArg = args[0] as String
+            var wrapped: List<Any?>
+            try {
+              api.removeMarker(idArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.TencentMapApi.updateMarker", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val markerIdArg = args[0] as String
+            val optionsArg = args[1] as MarkerUpdateOptions
+            var wrapped: List<Any?>
+            try {
+              api.updateMarker(markerIdArg, optionsArg)
+              wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
             }
@@ -1232,240 +1335,6 @@ interface TencentMapApi {
             var wrapped: List<Any?>
             try {
               api.destroy()
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-    }
-  }
-}
-@Suppress("UNCHECKED_CAST")
-private object MarkerApiCodec : StandardMessageCodec() {
-  override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
-    return when (type) {
-      128.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
-          Anchor.fromList(it)
-        }
-      }
-      129.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
-          Bitmap.fromList(it)
-        }
-      }
-      130.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
-          Position.fromList(it)
-        }
-      }
-      else -> super.readValueOfType(type, buffer)
-    }
-  }
-  override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
-    when (value) {
-      is Anchor -> {
-        stream.write(128)
-        writeValue(stream, value.toList())
-      }
-      is Bitmap -> {
-        stream.write(129)
-        writeValue(stream, value.toList())
-      }
-      is Position -> {
-        stream.write(130)
-        writeValue(stream, value.toList())
-      }
-      else -> super.writeValue(stream, value)
-    }
-  }
-}
-
-/**
- * 标记点操作接口
- *
- * Generated interface from Pigeon that represents a handler of messages from Flutter.
- */
-interface MarkerApi {
-  /** 移除标记点 */
-  fun remove(id: String)
-  /** 更新标记点的位置 */
-  fun setPosition(id: String, position: Position)
-  /** 更新标记点的图标 */
-  fun setIcon(id: String, icon: Bitmap)
-  /** 更新标记点的锚点 */
-  fun setAnchor(id: String, anchor: Anchor)
-  /** 更新标记点的透明度 */
-  fun setAlpha(id: String, alpha: Double)
-  /** 更新标记点的旋转角度 */
-  fun setRotation(id: String, rotation: Double)
-  /** 更新标记点的Z轴显示顺序 */
-  fun setZIndex(id: String, zIndex: Long)
-  /** 更新标记点的是否可拖拽属性值 */
-  fun setDraggable(id: String, draggable: Boolean)
-
-  companion object {
-    /** The codec used by MarkerApi. */
-    val codec: MessageCodec<Any?> by lazy {
-      MarkerApiCodec
-    }
-    /** Sets up an instance of `MarkerApi` to handle messages through the `binaryMessenger`. */
-    @Suppress("UNCHECKED_CAST")
-    fun setUp(binaryMessenger: BinaryMessenger, api: MarkerApi?) {
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.remove", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            val args = message as List<Any?>
-            val idArg = args[0] as String
-            var wrapped: List<Any?>
-            try {
-              api.remove(idArg)
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setPosition", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            val args = message as List<Any?>
-            val idArg = args[0] as String
-            val positionArg = args[1] as Position
-            var wrapped: List<Any?>
-            try {
-              api.setPosition(idArg, positionArg)
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setIcon", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            val args = message as List<Any?>
-            val idArg = args[0] as String
-            val iconArg = args[1] as Bitmap
-            var wrapped: List<Any?>
-            try {
-              api.setIcon(idArg, iconArg)
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setAnchor", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            val args = message as List<Any?>
-            val idArg = args[0] as String
-            val anchorArg = args[1] as Anchor
-            var wrapped: List<Any?>
-            try {
-              api.setAnchor(idArg, anchorArg)
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setAlpha", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            val args = message as List<Any?>
-            val idArg = args[0] as String
-            val alphaArg = args[1] as Double
-            var wrapped: List<Any?>
-            try {
-              api.setAlpha(idArg, alphaArg)
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setRotation", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            val args = message as List<Any?>
-            val idArg = args[0] as String
-            val rotationArg = args[1] as Double
-            var wrapped: List<Any?>
-            try {
-              api.setRotation(idArg, rotationArg)
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setZIndex", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            val args = message as List<Any?>
-            val idArg = args[0] as String
-            val zIndexArg = args[1].let { if (it is Int) it.toLong() else it as Long }
-            var wrapped: List<Any?>
-            try {
-              api.setZIndex(idArg, zIndexArg)
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.tencent_map.MarkerApi.setDraggable", codec)
-        if (api != null) {
-          channel.setMessageHandler { message, reply ->
-            val args = message as List<Any?>
-            val idArg = args[0] as String
-            val draggableArg = args[1] as Boolean
-            var wrapped: List<Any?>
-            try {
-              api.setDraggable(idArg, draggableArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
