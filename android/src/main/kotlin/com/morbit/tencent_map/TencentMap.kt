@@ -10,9 +10,9 @@ import io.flutter.plugin.platform.PlatformView
 
 class TencentMap(val binding: FlutterPlugin.FlutterPluginBinding, context: Context, args: HashMap<*, *>) :
   PlatformView {
-  val mapHandler = TencentMapHandler(binding.binaryMessenger)
   private val mapView: BaseMapView
-  private val locationSource = TencentLocationSource(context, mapHandler)
+  private val locationSource = TencentLocationSource(context)
+  val mapHandler = TencentMapHandler(binding.binaryMessenger)
   val markers = mutableMapOf<String, Marker>()
   val tencentMapMarkerIdToDartMarkerId = mutableMapOf<String, String>()
 

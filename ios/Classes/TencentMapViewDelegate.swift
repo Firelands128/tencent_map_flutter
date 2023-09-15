@@ -112,7 +112,7 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
   func mapView(_ mapView: QMapView!, didUpdate userLocation: QUserLocation!, fromHeading: Bool) {
     mapHandler.onLocation(location: userLocation.toLocation, completion: { })
   }
-  
+
   func mapView(_ mapView: QMapView!, didTapMyLocation location: CLLocationCoordinate2D) {
     mapHandler.onUserLocationClick(position: location.position, completion: { })
   }
