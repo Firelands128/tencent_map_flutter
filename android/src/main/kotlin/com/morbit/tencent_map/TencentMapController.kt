@@ -1,63 +1,505 @@
 package com.morbit.tencent_map
 
-import android.location.Location
-import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition
-import com.tencent.tencentmap.mapsdk.maps.model.LatLng
-import com.tencent.tencentmap.mapsdk.maps.model.MapPoi
-import com.tencent.tencentmap.mapsdk.maps.model.Marker
+import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
+import io.flutter.plugin.common.MethodCall
+import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugin.common.StandardMessageCodec
+import io.flutter.plugin.common.StandardMethodCodec
+import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer
 
-class TencentMapController(private val tencentMap: TencentMap) : TencentMapListener {
-  override fun onScaleViewChanged(scale: Float) {
-    tencentMap.mapHandler.onScaleViewChanged(scale.toDouble()) {}
+class TencentMapController(viewId: Int, binding: FlutterPluginBinding, private val api: TencentMapApi) {
+  private val channel: MethodChannel
+
+  init {
+    channel = MethodChannel(
+      binding.binaryMessenger,
+      "plugins.flutter.dev/tencent_map_$viewId",
+      StandardMethodCodec(TencentMapApiCodec),
+    )
+    channel.setMethodCallHandler { call: MethodCall, result: MethodChannel.Result ->
+      this.onMethodCall(call, result)
+    }
   }
 
-  override fun onMapClick(latLng: LatLng) {
-    tencentMap.mapHandler.onPress(latLng.toPosition()) {}
+  private fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
+    when (call.method) {
+      "setMapType" -> {
+        val type = MapType.ofRaw(call.argument<Int>("type")!!)!!
+        api.setMapType(type)
+        result.success(null)
+      }
+
+      "setMapStyle" -> {
+        val index = call.argument<Long>("index")!!
+        api.setMapStyle(index)
+        result.success(null)
+      }
+
+      "setLogoScale" -> {
+        val scale = call.argument<Double>("scale")!!
+        api.setLogoScale(scale)
+        result.success(null)
+      }
+
+      "setLogoPosition" -> {
+        val position = call.argument<UIControlPosition>("position")!!
+        api.setLogoPosition(position)
+        result.success(null)
+      }
+
+      "setScalePosition" -> {
+        val position = call.argument<UIControlPosition>("position")!!
+        api.setScalePosition(position)
+        result.success(null)
+      }
+
+      "setCompassOffset" -> {
+        val offset = call.argument<UIControlOffset>("offset")!!
+        api.setCompassOffset(offset)
+        result.success(null)
+      }
+
+      "setCompassEnabled" -> {
+        val enabled = call.argument<Boolean>("enabled")!!
+        api.setCompassEnabled(enabled)
+        result.success(null)
+      }
+
+      "setScaleEnabled" -> {
+        val enabled = call.argument<Boolean>("enabled")!!
+        api.setScaleEnabled(enabled)
+        result.success(null)
+      }
+
+      "setScaleFadeEnabled" -> {
+        val enabled = call.argument<Boolean>("enabled")!!
+        api.setScaleFadeEnabled(enabled)
+        result.success(null)
+      }
+
+      "setRotateGesturesEnabled" -> {
+        val enabled = call.argument<Boolean>("enabled")!!
+        api.setRotateGesturesEnabled(enabled)
+        result.success(null)
+      }
+
+      "setScrollGesturesEnabled" -> {
+        val enabled = call.argument<Boolean>("enabled")!!
+        api.setScrollGesturesEnabled(enabled)
+        result.success(null)
+      }
+
+      "setZoomGesturesEnabled" -> {
+        val enabled = call.argument<Boolean>("enabled")!!
+        api.setZoomGesturesEnabled(enabled)
+        result.success(null)
+      }
+
+      "setSkewGesturesEnabled" -> {
+        val enabled = call.argument<Boolean>("enabled")!!
+        api.setSkewGesturesEnabled(enabled)
+        result.success(null)
+      }
+
+      "setIndoorViewEnabled" -> {
+        val enabled = call.argument<Boolean>("enabled")!!
+        api.setIndoorViewEnabled(enabled)
+        result.success(null)
+      }
+
+      "setIndoorPickerEnabled" -> {
+        val enabled = call.argument<Boolean>("enabled")!!
+        api.setIndoorPickerEnabled(enabled)
+        result.success(null)
+      }
+
+      "setTrafficEnabled" -> {
+        val enabled = call.argument<Boolean>("enabled")!!
+        api.setTrafficEnabled(enabled)
+        result.success(null)
+      }
+
+      "setBuildingsEnabled" -> {
+        val enabled = call.argument<Boolean>("enabled")!!
+        api.setBuildingsEnabled(enabled)
+        result.success(null)
+      }
+
+      "setBuildings3dEnabled" -> {
+        val enabled = call.argument<Boolean>("enabled")!!
+        api.setBuildings3dEnabled(enabled)
+        result.success(null)
+      }
+
+      "setMyLocationEnabled" -> {
+        val enabled = call.argument<Boolean>("enabled")!!
+        api.setMyLocationEnabled(enabled)
+        result.success(null)
+      }
+
+      "setUserLocationType" -> {
+        val type = call.argument<UserLocationType>("type")!!
+        api.setUserLocationType(type)
+        result.success(null)
+      }
+
+      "getUserLocation" -> {
+        result.success(api.getUserLocation())
+      }
+
+      "moveCamera" -> {
+        val position = call.argument<CameraPosition>("position")!!
+        val duration = call.argument<Long>("duration")!!
+        api.moveCamera(position, duration)
+        result.success(null)
+      }
+
+      "moveCameraToRegion" -> {
+        val region = call.argument<Region>("region")!!
+        val padding = call.argument<EdgePadding>("padding")!!
+        val duration = call.argument<Long>("duration")!!
+        api.moveCameraToRegion(region, padding, duration)
+        result.success(null)
+      }
+
+      "moveCameraToRegionWithPosition" -> {
+        val positions = call.argument<List<Position?>>("positions")!!
+        val padding = call.argument<EdgePadding>("padding")!!
+        val duration = call.argument<Long>("duration")!!
+        api.moveCameraToRegionWithPosition(positions, padding, duration)
+        result.success(null)
+      }
+
+      "setRestrictRegion" -> {
+        val region = call.argument<Region>("region")!!
+        val mode = RestrictRegionMode.ofRaw(call.argument<Int>("mode")!!)!!
+        api.setRestrictRegion(region, mode)
+        result.success(null)
+      }
+
+      "addMarker" -> {
+        val marker = call.argument<Marker>("marker")!!
+        api.addMarker(marker)
+        result.success(null)
+      }
+
+      "removeMarker" -> {
+        val id = call.argument<String>("id")!!
+        api.removeMarker(id)
+        result.success(null)
+      }
+
+      "updateMarker" -> {
+        val id = call.argument<String>("markerId")!!
+        val options = call.argument<MarkerUpdateOptions>("options")!!
+        api.updateMarker(id, options)
+        result.success(null)
+      }
+
+      "start" -> {
+        api.start()
+        result.success(null)
+      }
+
+      "pause" -> {
+        api.pause()
+        result.success(null)
+      }
+
+      "resume" -> {
+        api.resume()
+        result.success(null)
+      }
+
+      "stop" -> {
+        api.stop()
+        result.success(null)
+      }
+
+      "destroy" -> {
+        api.destroy()
+        result.success(null)
+      }
+    }
   }
 
-  override fun onMapLongClick(latLng: LatLng) {
-    tencentMap.mapHandler.onLongPress(latLng.toPosition()) {}
+  /// 当地图比例尺变化时触发该回调，方法会传入单位长度信息，单位为米
+  fun onScaleViewChanged(scale: Double) {
+    channel.invokeMethod(
+      "onScaleViewChanged",
+      mapOf(
+        "scale" to scale,
+      ),
+    )
   }
 
-  override fun onClicked(poi: MapPoi) {
-    tencentMap.mapHandler.onTapPoi(poi.toMapPoi()) {}
+  /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
+  fun onPress(position: Position) {
+    channel.invokeMethod(
+      "onPress",
+      mapOf(
+        "position" to position,
+      ),
+    )
   }
 
-  override fun onMyLocationChange(location: Location) {
-    tencentMap.mapHandler.onLocation(location.toLocation()) {}
+  /// 当地图上任意地点进行长按点击时会触发该回调，事件可能被上层覆盖物拦截（Android Only）
+  fun onLongPress(position: Position) {
+    channel.invokeMethod(
+      "onLongPress",
+      mapOf(
+        "position" to position,
+      ),
+    )
   }
 
-  override fun onMyLocationClicked(latLng: LatLng): Boolean {
-    tencentMap.mapHandler.onUserLocationClick(latLng.toPosition()) {}
-    return true
+  /// 当点击地图上任意的POI时调用，方法会传入点击的POI信息
+  fun onTapPoi(poi: MapPoi) {
+    channel.invokeMethod(
+      "onTapPoi",
+      mapOf(
+        "poi" to poi,
+      ),
+    )
   }
 
-  override fun onCameraChange(position: CameraPosition) {
-    tencentMap.mapHandler.onCameraMove(position.toCameraPosition()) {}
+  /// 当地图视野即将改变时会触发该回调（iOS Only）
+  fun onCameraMoveStart(cameraPosition: CameraPosition) {
+    channel.invokeMethod(
+      "onCameraMoveStart",
+      mapOf(
+        "position" to cameraPosition,
+      ),
+    )
   }
 
-  override fun onCameraChangeFinished(position: CameraPosition) {
-    tencentMap.mapHandler.onCameraMoveEnd(position.toCameraPosition()) {}
+  /// 当地图视野发生变化时触发该回调。视野持续变化时本回调可能会被频繁多次调用, 请不要做耗时或复杂的事情
+  fun onCameraMove(cameraPosition: CameraPosition) {
+    channel.invokeMethod(
+      "onCameraMove",
+      mapOf(
+        "position" to cameraPosition,
+      ),
+    )
   }
 
-  override fun onMarkerClick(marker: Marker): Boolean {
-    val markerId: String = tencentMap.tencentMapMarkerIdToDartMarkerId[marker.id] ?: return false
-    tencentMap.mapHandler.onTapMarker(markerId) {}
-    return true
+  /// 当地图视野变化完成时触发该回调，需注意当前地图状态有可能并不是稳定状态
+  fun onCameraMoveEnd(cameraPosition: CameraPosition) {
+    channel.invokeMethod(
+      "onCameraMoveEnd",
+      mapOf(
+        "position" to cameraPosition,
+      ),
+    )
   }
 
-  override fun onMarkerDragStart(marker: Marker) {
-    val markerId: String = tencentMap.tencentMapMarkerIdToDartMarkerId[marker.id] ?: return
-    tencentMap.mapHandler.onMarkerDragStart(markerId, marker.position.toPosition()) {}
+  /// 当点击点标记时触发该回调（Android Only）
+  fun onTapMarker(markerId: String) {
+    channel.invokeMethod(
+      "onTapMarker",
+      mapOf(
+        "markerId" to markerId,
+      ),
+    )
   }
 
-  override fun onMarkerDrag(marker: Marker) {
-    val markerId: String = tencentMap.tencentMapMarkerIdToDartMarkerId[marker.id] ?: return
-    tencentMap.mapHandler.onMarkerDrag(markerId, marker.position.toPosition()) {}
+  /// 当开始拖动点标记时触发该回调（Android Only）
+  fun onMarkerDragStart(markerId: String, position: Position) {
+    channel.invokeMethod(
+      "onMarkerDragStart",
+      mapOf(
+        "markerId" to markerId,
+        "position" to position,
+      ),
+    )
   }
 
-  override fun onMarkerDragEnd(marker: Marker) {
-    val markerId: String = tencentMap.tencentMapMarkerIdToDartMarkerId[marker.id] ?: return
-    tencentMap.mapHandler.onMarkerDragEnd(markerId, marker.position.toPosition()) {}
+  /// 当拖动点标记时触发该回调（Android Only）
+  fun onMarkerDrag(markerId: String, position: Position) {
+    channel.invokeMethod(
+      "onMarkerDrag",
+      mapOf(
+        "markerId" to markerId,
+        "position" to position,
+      ),
+    )
+  }
+
+  /// 当拖动点标记完成时触发该回调（Android Only）
+  fun onMarkerDragEnd(markerId: String, position: Position) {
+    channel.invokeMethod(
+      "onMarkerDragEnd",
+      mapOf(
+        "markerId" to markerId,
+        "position" to position,
+      ),
+    )
+  }
+
+  /// 当前位置改变时触发该回调（Android Only）
+  fun onLocation(location: Location) {
+    channel.invokeMethod(
+      "onLocation",
+      mapOf(
+        "location" to location,
+      ),
+    )
+  }
+
+  /// 当点击地图上的定位标会触发该回调
+  fun onUserLocationClick(position: Position) {
+    channel.invokeMethod(
+      "onUserLocationClick",
+      mapOf(
+        "position" to position,
+      ),
+    )
+  }
+}
+
+private object TencentMapApiCodec : StandardMessageCodec() {
+  override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
+    return when (type) {
+      128.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          Anchor.fromList(it)
+        }
+      }
+
+      129.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          Bitmap.fromList(it)
+        }
+      }
+
+      130.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          CameraPosition.fromList(it)
+        }
+      }
+
+      131.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          EdgePadding.fromList(it)
+        }
+      }
+
+      132.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          Location.fromList(it)
+        }
+      }
+
+      133.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          Marker.fromList(it)
+        }
+      }
+
+      134.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          MarkerUpdateOptions.fromList(it)
+        }
+      }
+
+      135.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          Position.fromList(it)
+        }
+      }
+
+      136.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          Region.fromList(it)
+        }
+      }
+
+      137.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          UIControlOffset.fromList(it)
+        }
+      }
+
+      138.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          UIControlPosition.fromList(it)
+        }
+      }
+
+      139.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          MapPoi.fromList(it)
+        }
+      }
+
+      else -> super.readValueOfType(type, buffer)
+    }
+  }
+
+  override fun writeValue(stream: ByteArrayOutputStream, value: Any?) {
+    when (value) {
+      is Anchor -> {
+        stream.write(128)
+        writeValue(stream, value.toList())
+      }
+
+      is Bitmap -> {
+        stream.write(129)
+        writeValue(stream, value.toList())
+      }
+
+      is CameraPosition -> {
+        stream.write(130)
+        writeValue(stream, value.toList())
+      }
+
+      is EdgePadding -> {
+        stream.write(131)
+        writeValue(stream, value.toList())
+      }
+
+      is Location -> {
+        stream.write(132)
+        writeValue(stream, value.toList())
+      }
+
+      is Marker -> {
+        stream.write(133)
+        writeValue(stream, value.toList())
+      }
+
+      is MarkerUpdateOptions -> {
+        stream.write(134)
+        writeValue(stream, value.toList())
+      }
+
+      is Position -> {
+        stream.write(135)
+        writeValue(stream, value.toList())
+      }
+
+      is Region -> {
+        stream.write(136)
+        writeValue(stream, value.toList())
+      }
+
+      is UIControlOffset -> {
+        stream.write(137)
+        writeValue(stream, value.toList())
+      }
+
+      is UIControlPosition -> {
+        stream.write(138)
+        writeValue(stream, value.toList())
+      }
+
+      is MapPoi -> {
+        stream.write(139)
+        writeValue(stream, value.toList())
+      }
+
+      else -> super.writeValue(stream, value)
+    }
   }
 }

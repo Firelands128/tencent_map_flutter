@@ -13,6 +13,7 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
+  stream_transform: ^2.0.0
 
 dev_dependencies:
   flutter_test:

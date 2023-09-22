@@ -1,15 +1,22 @@
 package com.morbit.tencent_map
 
+import com.tencent.map.geolocation.TencentLocationManager
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory
 import com.tencent.tencentmap.mapsdk.maps.TencentMap.MAP_TYPE_DARK
 import com.tencent.tencentmap.mapsdk.maps.TencentMap.MAP_TYPE_NORMAL
 import com.tencent.tencentmap.mapsdk.maps.TencentMap.MAP_TYPE_SATELLITE
+import com.tencent.tencentmap.mapsdk.maps.TencentMapInitializer
 import com.tencent.tencentmap.mapsdk.maps.model.LatLngBounds
 
-class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
+class TencentMapApi(private val tencentMap: TencentMap) {
   private val mapView = tencentMap.view
 
-  override fun setMapType(type: MapType) {
+  fun agreePrivacy(agreePrivacy: Boolean) {
+    TencentMapInitializer.setAgreePrivacy(agreePrivacy)
+    TencentLocationManager.setUserAgreePrivacy(agreePrivacy)
+  }
+
+  fun setMapType(type: MapType) {
     mapView.map.mapType = when (type) {
       MapType.NORMAL -> MAP_TYPE_NORMAL
       MapType.SATELLITE -> MAP_TYPE_SATELLITE
@@ -17,128 +24,121 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     }
   }
 
-  override fun setMapStyle(index: Long) {
+  fun setMapStyle(index: Long) {
     mapView.map.mapStyle = index.toInt()
   }
 
-  override fun setLogoScale(scale: Double) {
+  fun setLogoScale(scale: Double) {
     mapView.map.uiSettings.setLogoScale(scale.toFloat())
   }
 
-  override fun setLogoPosition(anchor: UIControlAnchor, offset: UIControlOffset) {
+  fun setLogoPosition(position: UIControlPosition) {
     mapView.map.uiSettings.setLogoPosition(
-      anchor.toAnchor(),
-      intArrayOf(offset.y.toInt(), offset.x.toInt())
+      position.anchor.toAnchor(),
+      intArrayOf(position.offset.y.toInt(), position.offset.x.toInt())
     )
   }
 
-  override fun setScalePosition(anchor: UIControlAnchor, offset: UIControlOffset) {
+  fun setScalePosition(position: UIControlPosition) {
     mapView.map.uiSettings.setScaleViewPositionWithMargin(
-      anchor.toAnchor(),
-      offset.y.toInt(),
-      offset.y.toInt(),
-      offset.x.toInt(),
-      offset.x.toInt()
+      position.anchor.toAnchor(),
+      position.offset.y.toInt(),
+      position.offset.y.toInt(),
+      position.offset.x.toInt(),
+      position.offset.x.toInt()
     )
   }
 
-  override fun setCompassOffset(offset: UIControlOffset) {
+  fun setCompassOffset(offset: UIControlOffset) {
     mapView.map.uiSettings.setCompassExtraPadding(
       offset.x.toInt(),
       offset.y.toInt()
     )
   }
 
-  override fun pause() {
+  fun pause() {
     mapView.onPause()
   }
 
-  override fun resume() {
+  fun resume() {
     mapView.onResume()
   }
 
-  override fun stop() {
+  fun stop() {
     mapView.onStop()
   }
 
-  override fun start() {
+  fun start() {
     mapView.onStart()
   }
 
-  override fun destroy() {
+  fun destroy() {
     mapView.onDestroy()
   }
 
-  override fun setCompassEnabled(enabled: Boolean) {
+  fun setCompassEnabled(enabled: Boolean) {
     mapView.map.uiSettings.isCompassEnabled = enabled
   }
 
-  override fun setRotateGesturesEnabled(enabled: Boolean) {
+  fun setRotateGesturesEnabled(enabled: Boolean) {
     mapView.map.uiSettings.isRotateGesturesEnabled = enabled
   }
 
-  override fun setScrollGesturesEnabled(enabled: Boolean) {
+  fun setScrollGesturesEnabled(enabled: Boolean) {
     mapView.map.uiSettings.isScrollGesturesEnabled = enabled
   }
 
-  override fun setZoomGesturesEnabled(enabled: Boolean) {
+  fun setZoomGesturesEnabled(enabled: Boolean) {
     mapView.map.uiSettings.isZoomGesturesEnabled = enabled
   }
 
-  override fun setSkewGesturesEnabled(enabled: Boolean) {
+  fun setSkewGesturesEnabled(enabled: Boolean) {
     mapView.map.uiSettings.isTiltGesturesEnabled = enabled
   }
 
-  override fun setIndoorViewEnabled(enabled: Boolean) {
+  fun setIndoorViewEnabled(enabled: Boolean) {
     mapView.map.setIndoorEnabled(enabled)
   }
 
-  override fun setIndoorPickerEnabled(enabled: Boolean) {
+  fun setIndoorPickerEnabled(enabled: Boolean) {
     mapView.map.uiSettings.isIndoorLevelPickerEnabled = enabled
   }
 
-  override fun setTrafficEnabled(enabled: Boolean) {
+  fun setTrafficEnabled(enabled: Boolean) {
     mapView.map.isTrafficEnabled = enabled
   }
 
-  override fun setBuildingsEnabled(enabled: Boolean) {
+  fun setBuildingsEnabled(enabled: Boolean) {
     mapView.map.showBuilding(enabled)
   }
 
-  override fun setBuildings3dEnabled(enabled: Boolean) {
+  fun setBuildings3dEnabled(enabled: Boolean) {
     mapView.map.setBuilding3dEffectEnable(enabled)
   }
 
-  override fun setScaleEnabled(enabled: Boolean) {
+  fun setScaleEnabled(enabled: Boolean) {
     mapView.map.uiSettings.isScaleViewEnabled = enabled
   }
 
-  override fun setScaleFadeEnabled(enabled: Boolean) {
+  fun setScaleFadeEnabled(enabled: Boolean) {
     mapView.map.uiSettings.setScaleViewFadeEnable(enabled)
   }
 
-  override fun setMyLocationEnabled(enabled: Boolean) {
+  fun setMyLocationEnabled(enabled: Boolean) {
     mapView.map.isMyLocationEnabled = enabled
   }
 
-  override fun setUserLocationType(type: UserLocationType) {
+  fun setUserLocationType(type: UserLocationType) {
     if (mapView.map.isMyLocationEnabled) {
       mapView.map.setMyLocationStyle(type.toMyLocationStyle())
     }
   }
 
-  override fun getUserLocation(): Location {
-    if (!mapView.map.isMyLocationEnabled) {
-      throw FlutterError(code = "400", message = "Location feature is not enabled.")
-    }
-    if (mapView.map.myLocation == null) {
-      throw FlutterError(code = "500", message = "Failed to get my location.")
-    } else {
-      return mapView.map.myLocation.toLocation()
-    }
+  fun getUserLocation(): Location {
+    return mapView.map.myLocation.toLocation()
   }
 
-  override fun moveCamera(position: CameraPosition, duration: Long) {
+  fun moveCamera(position: CameraPosition, duration: Long) {
     val cameraPosition = position.toCameraPosition(mapView.map.cameraPosition)
     val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
     if (duration > 0) {
@@ -149,7 +149,7 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     }
   }
 
-  override fun moveCameraToRegion(region: Region, padding: EdgePadding, duration: Long) {
+  fun moveCameraToRegion(region: Region, padding: EdgePadding, duration: Long) {
     val latLngBounds = region.toLatLngBounds()
     val cameraUpdate = CameraUpdateFactory.newLatLngBoundsRect(
       latLngBounds,
@@ -166,7 +166,7 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     }
   }
 
-  override fun moveCameraToRegionWithPosition(positions: List<Position?>, padding: EdgePadding, duration: Long) {
+  fun moveCameraToRegionWithPosition(positions: List<Position?>, padding: EdgePadding, duration: Long) {
     val latLngBounds = LatLngBounds.Builder().include(positions.filterNotNull().map { it.toPosition() }).build()
     val cameraUpdate = CameraUpdateFactory.newLatLngBoundsRect(
       latLngBounds,
@@ -183,20 +183,20 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     }
   }
 
-  override fun setRestrictRegion(region: Region, mode: RestrictRegionMode) {
+  fun setRestrictRegion(region: Region, mode: RestrictRegionMode) {
     mapView.map.setRestrictBounds(
       region.toLatLngBounds(),
       mode.toRestrictMode()
     )
   }
 
-  override fun addMarker(marker: Marker) {
+  fun addMarker(marker: Marker) {
     val tencentMarker = mapView.map.addMarker(marker.toMarkerOptions(tencentMap.binding))
     tencentMap.markers[marker.id] = tencentMarker
     tencentMap.tencentMapMarkerIdToDartMarkerId[tencentMarker.id] = marker.id
   }
 
-  override fun removeMarker(id: String) {
+  fun removeMarker(id: String) {
     val marker = tencentMap.markers[id]
     if (marker != null) {
       marker.remove()
@@ -205,7 +205,7 @@ class _TencentMapApi(private val tencentMap: TencentMap) : TencentMapApi {
     }
   }
 
-  override fun updateMarker(markerId: String, options: MarkerUpdateOptions) {
+  fun updateMarker(markerId: String, options: MarkerUpdateOptions) {
     if (options.position != null) {
       tencentMap.markers[markerId]?.position = options.position.toPosition()
     }

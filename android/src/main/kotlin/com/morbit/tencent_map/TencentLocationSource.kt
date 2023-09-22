@@ -10,8 +10,7 @@ import com.tencent.map.geolocation.TencentLocationRequest
 import com.tencent.tencentmap.mapsdk.maps.LocationSource
 import android.location.Location as AndroidLocation
 
-class TencentLocationSource(private val context: Context) : LocationSource,
-  TencentLocationListener {
+class TencentLocationSource(private val context: Context) : LocationSource, TencentLocationListener {
   private var locationChangedListener: LocationSource.OnLocationChangedListener? = null
   private var locationManager: TencentLocationManager?
   private var locationRequest: TencentLocationRequest?

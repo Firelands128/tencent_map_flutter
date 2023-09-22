@@ -6,13 +6,14 @@ class TencentMap: NSObject, FlutterPlatformView {
   let mapViewDelegate: TencentMapViewDelegate
   var markers = [String: QPointAnnotation]()
 
-  init(_ registrar: FlutterPluginRegistrar, args: [String: Any?]?) {
+  init(frame: CGRect, viewId: Int64, registrar: FlutterPluginRegistrar, args: [String: Any?]?) {
     mapView = QMapView()
-    mapViewDelegate = TencentMapViewDelegate(registrar, mapView: mapView)
+    let controller = TencentMapController(viewId: viewId, registrar: registrar, api: _TencentMapApi(mapView: mapView, markers: markers))
+    controller.setup()
+    mapViewDelegate = TencentMapViewDelegate(registrar, mapView: mapView, controller: controller)
     super.init()
     mapView.delegate = mapViewDelegate
     mapView.showsUserLocation = true
-    TencentMapApiSetup.setUp(binaryMessenger: registrar.messenger(), api: _TencentMapApi(self))
   }
 
   func view() -> UIView {

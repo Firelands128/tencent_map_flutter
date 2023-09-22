@@ -12,36 +12,36 @@ import QMapKit
 class TencentMapViewDelegate: NSObject, QMapViewDelegate {
   let registrar: FlutterPluginRegistrar
   let mapView: QMapView
-  let mapHandler: TencentMapHandler
+  let controller: TencentMapController
 
-  init(_ registrar: FlutterPluginRegistrar, mapView: QMapView) {
+  init(_ registrar: FlutterPluginRegistrar, mapView: QMapView, controller: TencentMapController) {
     self.registrar = registrar
     self.mapView = mapView
-    mapHandler = TencentMapHandler(binaryMessenger: registrar.messenger())
+    self.controller = controller
   }
 
-  func mapView(_ mapView: QMapView!, scaleViewChanged unitLength: CGFloat) {
-    mapHandler.onScaleViewChanged(unit: unitLength, completion: { })
+  func mapView(_ mapView: QMapView!, scaleViewChanged scale: CGFloat) {
+    controller.onScaleViewChanged(scale: scale)
   }
 
   func mapView(_ mapView: QMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-    mapHandler.onPress(position: coordinate.position, completion: { })
+    controller.onPress(position: coordinate.position)
   }
 
   func mapView(_ mapView: QMapView!, didTapPoi poi: QPoiInfo!) {
-    mapHandler.onTapPoi(poi: poi.poi, completion: { })
+    controller.onTapPoi(poi: poi.poi)
   }
 
   func mapView(_ mapView: QMapView!, regionWillChangeAnimated animated: Bool, gesture bGesture: Bool) {
-    mapHandler.onCameraMoveStart(cameraPosition: mapView.cameraPosition, completion: { })
+    controller.onCameraMoveStart(cameraPosition: mapView.cameraPosition)
   }
 
   func mapViewRegionChange(_ mapView: QMapView!) {
-    mapHandler.onCameraMove(cameraPosition: mapView.cameraPosition, completion: { })
+    controller.onCameraMove(cameraPosition: mapView.cameraPosition)
   }
 
   func mapView(_ mapView: QMapView!, regionDidChangeAnimated animated: Bool, gesture bGesture: Bool) {
-    mapHandler.onCameraMoveEnd(cameraPosition: mapView.cameraPosition, completion: { })
+    controller.onCameraMoveEnd(cameraPosition: mapView.cameraPosition)
   }
 
   func mapView(_ mapView: QMapView!, annotationView view: QAnnotationView!, didChange newState: QAnnotationViewDragState, fromOldState oldState: QAnnotationViewDragState) {
@@ -50,11 +50,11 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
       if let userData = annotation.userData as? [String: Any?] {
         if let markerId = userData["id"] as? String {
           if(newState == QAnnotationViewDragStateStarting) {
-            mapHandler.onMarkerDragStart(markerId: markerId, position: position, completion: { })
+            controller.onMarkerDragStart(markerId: markerId, position: position)
           } else if(newState == QAnnotationViewDragStateDragging) {
-            mapHandler.onMarkerDrag(markerId: markerId, position: position, completion: { })
+            controller.onMarkerDrag(markerId: markerId, position: position)
           } else if(newState == QAnnotationViewDragStateEnding) {
-            mapHandler.onMarkerDragEnd(markerId: markerId, position: position, completion: { })
+            controller.onMarkerDragEnd(markerId: markerId, position: position)
           }
         }
       }
@@ -110,10 +110,10 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
   }
 
   func mapView(_ mapView: QMapView!, didUpdate userLocation: QUserLocation!, fromHeading: Bool) {
-    mapHandler.onLocation(location: userLocation.toLocation, completion: { })
+    controller.onLocation(location: userLocation.toLocation)
   }
 
   func mapView(_ mapView: QMapView!, didTapMyLocation location: CLLocationCoordinate2D) {
-    mapHandler.onUserLocationClick(position: location.position, completion: { })
+    controller.onUserLocationClick(position: location.position)
   }
 }

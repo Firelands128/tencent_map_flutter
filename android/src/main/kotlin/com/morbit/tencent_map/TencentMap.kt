@@ -1,6 +1,7 @@
 package com.morbit.tencent_map
 
 import android.content.Context
+import android.view.View
 import com.tencent.tencentmap.mapsdk.maps.BaseMapView
 import com.tencent.tencentmap.mapsdk.maps.MapView
 import com.tencent.tencentmap.mapsdk.maps.TextureMapView
@@ -8,11 +9,15 @@ import com.tencent.tencentmap.mapsdk.maps.model.Marker
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.platform.PlatformView
 
-class TencentMap(val binding: FlutterPlugin.FlutterPluginBinding, context: Context, args: HashMap<*, *>) :
-  PlatformView {
+class TencentMap(
+  context: Context,
+  viewId: Int,
+  val binding: FlutterPlugin.FlutterPluginBinding,
+  args: HashMap<*, *>
+) : PlatformView {
   private val mapView: BaseMapView
   private val locationSource = TencentLocationSource(context)
-  val mapHandler = TencentMapHandler(binding.binaryMessenger)
+  val controller: TencentMapController
   val markers = mutableMapOf<String, Marker>()
   val tencentMapMarkerIdToDartMarkerId = mutableMapOf<String, String>()
 
@@ -28,23 +33,22 @@ class TencentMap(val binding: FlutterPlugin.FlutterPluginBinding, context: Conte
     } else {
       MapView(context)
     }
-    val mapApi = _TencentMapApi(this)
-    TencentMapApi.setUp(binding.binaryMessenger, mapApi)
+    controller = TencentMapController(viewId, binding, TencentMapApi(this));
     mapView.onResume()
     mapView.map.setLocationSource(locationSource)
     setTencentMapListener()
   }
 
   private fun setTencentMapListener() {
-    val mapController = TencentMapController(this)
-    mapView.map.setOnScaleViewChangedListener(mapController)
-    mapView.map.setOnMapClickListener(mapController)
-    mapView.map.setOnMapLongClickListener(mapController)
-    mapView.map.setOnMapPoiClickListener(mapController)
-    mapView.map.setOnMyLocationChangeListener(mapController)
-    mapView.map.setMyLocationClickListener(mapController)
-    mapView.map.setOnCameraChangeListener(mapController)
-    mapView.map.setOnMarkerClickListener(mapController)
-    mapView.map.setOnMarkerDragListener(mapController)
+    val mapListener = TencentMapListener(this)
+    mapView.map.setOnScaleViewChangedListener(mapListener)
+    mapView.map.setOnMapClickListener(mapListener)
+    mapView.map.setOnMapLongClickListener(mapListener)
+    mapView.map.setOnMapPoiClickListener(mapListener)
+    mapView.map.setOnMyLocationChangeListener(mapListener)
+    mapView.map.setMyLocationClickListener(mapListener)
+    mapView.map.setOnCameraChangeListener(mapListener)
+    mapView.map.setOnMarkerClickListener(mapListener)
+    mapView.map.setOnMarkerDragListener(mapListener)
   }
 }
