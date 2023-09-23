@@ -44,6 +44,14 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
     controller.onCameraMoveEnd(cameraPosition: mapView.cameraPosition)
   }
 
+  func mapView(_ mapView: QMapView!, didUpdate userLocation: QUserLocation!, fromHeading: Bool) {
+      controller.onLocation(location: userLocation.toLocation)
+    }
+
+    func mapView(_ mapView: QMapView!, didTapMyLocation location: CLLocationCoordinate2D) {
+      controller.onUserLocationClick(position: location.position)
+    }
+
   func mapView(_ mapView: QMapView!, annotationView view: QAnnotationView!, didChange newState: QAnnotationViewDragState, fromOldState oldState: QAnnotationViewDragState) {
     if let annotation = view.annotation as? QPointAnnotation {
       let position = annotation.coordinate.position
@@ -107,13 +115,5 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
       return pinView
     }
     return nil
-  }
-
-  func mapView(_ mapView: QMapView!, didUpdate userLocation: QUserLocation!, fromHeading: Bool) {
-    controller.onLocation(location: userLocation.toLocation)
-  }
-
-  func mapView(_ mapView: QMapView!, didTapMyLocation location: CLLocationCoordinate2D) {
-    controller.onUserLocationClick(position: location.position)
   }
 }
