@@ -1,4 +1,4 @@
-import "dart:typed_data";
+part of tencent_map;
 
 /// 地图类型
 enum MapType {

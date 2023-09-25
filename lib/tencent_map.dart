@@ -1,6 +1,15 @@
-export "src/controller.dart";
-export "src/errors.dart";
-export "src/events.dart";
-export "src/tencent_map.dart";
-export "src/method_channel.dart";
-export "src/types.dart";
+library tencent_map;
+
+import "dart:async";
+
+import "package:flutter/foundation.dart";
+import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
+import "package:stream_transform/stream_transform.dart";
+
+part 'src/controller.dart';
+part 'src/errors.dart';
+part 'src/events.dart';
+part 'src/method_channel.dart';
+part "src/tencent_map.dart";
+part "src/types.dart";

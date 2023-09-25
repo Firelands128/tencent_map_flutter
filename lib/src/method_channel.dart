@@ -1,11 +1,4 @@
-import "dart:async";
-
-import "package:flutter/services.dart";
-import "package:stream_transform/stream_transform.dart";
-
-import "errors.dart";
-import "events.dart";
-import "types.dart";
+part of tencent_map;
 
 /// Tencent map API
 class TencentMapMethodChannel {

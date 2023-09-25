@@ -1,12 +1,4 @@
-import "dart:async";
-
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
-import "package:flutter/services.dart";
-
-import "controller.dart";
-import "method_channel.dart";
-import "types.dart";
+part of tencent_map;
 
 /// 腾讯地图
 class TencentMap extends StatefulWidget {

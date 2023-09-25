@@ -1,8 +1,4 @@
-import "package:tencent_map/src/events.dart";
-
-import "method_channel.dart";
-import "tencent_map.dart";
-import "types.dart";
+part of tencent_map;
 
 /// Controller for a single TencentMap instance running on the host platform.
 class TencentMapController {

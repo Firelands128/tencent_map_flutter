@@ -1,3 +1,5 @@
+part of tencent_map;
+
 /// The error for provided unknown map id
 class UnknownMapIDError extends Error {
   /// Creates an assertion error with the provided [mapId] and optional [message].
