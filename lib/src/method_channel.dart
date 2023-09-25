@@ -8,10 +8,10 @@ import "events.dart";
 import "types.dart";
 
 /// Tencent map API
-class TencentMapApi {
-  static final TencentMapApi _instance = TencentMapApi();
+class TencentMapMethodChannel {
+  static final TencentMapMethodChannel _instance = TencentMapMethodChannel();
 
-  static TencentMapApi get instance => _instance;
+  static TencentMapMethodChannel get instance => _instance;
 
   final MethodChannel _initializerChannel = const MethodChannel("plugins.flutter.dev/tencent_map_initializer");
 
