@@ -5,24 +5,23 @@ import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptor
 import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng
 import com.tencent.tencentmap.mapsdk.maps.model.LatLngBounds
+import com.tencent.tencentmap.mapsdk.maps.model.MapPoi
+import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions
+import com.tencent.tencentmap.mapsdk.maps.model.MyLocationStyle
 import com.tencent.tencentmap.mapsdk.maps.model.RestrictBoundsFitMode
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 import android.location.Location as AndroidLocation
 import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition as TencentCameraPosition
-import com.tencent.tencentmap.mapsdk.maps.model.LatLng as TencentLatLng
-import com.tencent.tencentmap.mapsdk.maps.model.MapPoi as TencentMapPoi
-import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions as TencentMarkerOptions
-import com.tencent.tencentmap.mapsdk.maps.model.MyLocationStyle as TencentMyLocationStyle
 
-fun Position.toPosition(): TencentLatLng {
-  return TencentLatLng(latitude, longitude)
+fun Position.toPosition(): LatLng {
+  return LatLng(latitude, longitude)
 }
 
-fun TencentLatLng.toPosition(): Position {
+fun LatLng.toPosition(): Position {
   return Position(latitude, longitude)
 }
 
-fun TencentMapPoi.toPoi(): Poi {
+fun MapPoi.toPoi(): Poi {
   return Poi(name, position.toPosition())
 }
 
@@ -53,13 +52,13 @@ fun AndroidLocation.toLocation(): Location {
   )
 }
 
-fun UserLocationType.toMyLocationStyle(): TencentMyLocationStyle {
-  return TencentMyLocationStyle().also { style ->
+fun UserLocationType.toMyLocationStyle(): MyLocationStyle {
+  return MyLocationStyle().also { style ->
     when (this) {
-      UserLocationType.TRACKINGLOCATIONROTATE -> TencentMyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER
-      UserLocationType.TRACKINGLOCATION -> TencentMyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER
-      UserLocationType.TRACKINGLOCATIONROTATECENTER -> TencentMyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE
-      UserLocationType.TRACKINGROTATE -> TencentMyLocationStyle.LOCATION_TYPE_MAP_ROTATE_NO_CENTER
+      UserLocationType.TRACKINGLOCATIONROTATE -> MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER
+      UserLocationType.TRACKINGLOCATION -> MyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER
+      UserLocationType.TRACKINGLOCATIONROTATECENTER -> MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE
+      UserLocationType.TRACKINGROTATE -> MyLocationStyle.LOCATION_TYPE_MAP_ROTATE_NO_CENTER
       else -> null
     }?.let {
       style.myLocationType(it)
@@ -87,8 +86,8 @@ fun UIControlAnchor.toAnchor(): Int {
   }
 }
 
-fun Marker.toMarkerOptions(binding: FlutterPluginBinding): TencentMarkerOptions {
-  return TencentMarkerOptions(position.toPosition()).let { options ->
+fun Marker.toMarkerOptions(binding: FlutterPluginBinding): MarkerOptions {
+  return MarkerOptions(position.toPosition()).let { options ->
     icon?.toBitmapDescriptor(binding)?.let { options.icon(it) }
     rotation?.toFloat()?.let { options.rotation(it) }
     alpha?.toFloat()?.let { options.alpha(it) }

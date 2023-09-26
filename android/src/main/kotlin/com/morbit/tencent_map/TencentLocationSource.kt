@@ -8,7 +8,7 @@ import com.tencent.map.geolocation.TencentLocationListener
 import com.tencent.map.geolocation.TencentLocationManager
 import com.tencent.map.geolocation.TencentLocationRequest
 import com.tencent.tencentmap.mapsdk.maps.LocationSource
-import android.location.Location as AndroidLocation
+import android.location.Location
 
 class TencentLocationSource(private val context: Context) : LocationSource, TencentLocationListener {
   private var locationChangedListener: LocationSource.OnLocationChangedListener? = null
@@ -68,7 +68,7 @@ class TencentLocationSource(private val context: Context) : LocationSource, Tenc
     // 其中 locationChangeListener 为 LocationSource.active 返回给用户的位置监听器
     // 用户通过这个监听器就可以设置地图的定位点位置
     if (i == TencentLocation.ERROR_OK && locationChangedListener != null) {
-      val location = AndroidLocation(tencentLocation.provider)
+      val location = Location(tencentLocation.provider)
       // 设置经纬度
       location.latitude = tencentLocation.latitude
       location.longitude = tencentLocation.longitude
