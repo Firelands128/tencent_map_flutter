@@ -20,7 +20,7 @@ class TencentMapListener(private val tencentMap: TencentMap) : TencentMapListene
   }
 
   override fun onClicked(poi: MapPoi) {
-    tencentMap.controller.onTapPoi(poi.toMapPoi())
+    tencentMap.controller.onTapPoi(poi.toPoi())
   }
 
   override fun onMyLocationChange(location: Location) {

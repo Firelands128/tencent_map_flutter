@@ -237,7 +237,7 @@ class TencentMapController: NSObject {
   }
 
   /// 当点击地图上任意的POI时调用，方法会传入点击的POI信息
-  func onTapPoi(poi: MapPoi) {
+  func onTapPoi(poi: Poi) {
     channel.invokeMethod("onTapPoi", arguments: [
       "poi": poi,
     ] as [String: Any])
@@ -327,7 +327,7 @@ class TencentMapController: NSObject {
       case 134:
         return MarkerUpdateOptions.fromList(self.readValue() as! [Any?])
 			case 135:
-				return MapPoi.fromList(self.readValue() as! [Any?])
+				return Poi.fromList(self.readValue() as! [Any?])
       case 136:
         return Position.fromList(self.readValue() as! [Any?])
       case 137:
@@ -365,7 +365,7 @@ class TencentMapController: NSObject {
       } else if let value = value as? MarkerUpdateOptions {
         super.writeByte(134)
         super.writeValue(value.toList())
-			} else if let value = value as? MapPoi {
+			} else if let value = value as? Poi {
 				super.writeByte(135)
 				super.writeValue(value.toList())
       } else if let value = value as? Position {

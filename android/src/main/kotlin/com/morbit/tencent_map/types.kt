@@ -337,7 +337,7 @@ data class MarkerUpdateOptions(
 }
 
 /** 地图兴趣点 */
-data class MapPoi(
+data class Poi(
   /** 兴趣点的名称 */
   val name: String,
   /** 兴趣点的位置 */
@@ -345,10 +345,10 @@ data class MapPoi(
 
 ) {
   companion object {
-    fun fromList(list: List<Any?>): MapPoi {
+    fun fromList(list: List<Any?>): Poi {
       val name = list[0] as String
       val position = Position.fromList(list[1] as List<Any?>)
-      return MapPoi(name, position)
+      return Poi(name, position)
     }
   }
 

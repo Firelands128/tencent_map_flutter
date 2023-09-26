@@ -255,7 +255,7 @@ class TencentMapController(viewId: Int, binding: FlutterPluginBinding, private v
   }
 
   /// 当点击地图上任意的POI时调用，方法会传入点击的POI信息
-  fun onTapPoi(poi: MapPoi) {
+  fun onTapPoi(poi: Poi) {
     channel.invokeMethod(
       "onTapPoi",
       mapOf(
@@ -405,7 +405,7 @@ private object TencentMapApiCodec : StandardMessageCodec() {
 
       135.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MapPoi.fromList(it)
+          Poi.fromList(it)
         }
       }
 
@@ -474,7 +474,7 @@ private object TencentMapApiCodec : StandardMessageCodec() {
         writeValue(stream, value.toList())
       }
 
-      is MapPoi -> {
+      is Poi -> {
         stream.write(135)
         writeValue(stream, value.toList())
       }

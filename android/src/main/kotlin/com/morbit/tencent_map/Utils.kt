@@ -22,8 +22,8 @@ fun TencentLatLng.toPosition(): Position {
   return Position(latitude, longitude)
 }
 
-fun TencentMapPoi.toMapPoi(): MapPoi {
-  return MapPoi(name, position.toPosition())
+fun TencentMapPoi.toPoi(): Poi {
+  return Poi(name, position.toPosition())
 }
 
 fun TencentCameraPosition.toCameraPosition(): CameraPosition {

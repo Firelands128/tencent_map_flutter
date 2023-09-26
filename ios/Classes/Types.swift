@@ -308,17 +308,17 @@ struct MarkerUpdateOptions {
 }
 
 /// 地图兴趣点
-struct MapPoi {
+struct Poi {
   /// 兴趣点的名称
   var name: String
   /// 兴趣点的位置
   var position: Position
 
-  static func fromList(_ list: [Any?]) -> MapPoi {
+  static func fromList(_ list: [Any?]) -> Poi {
     let name = list[0] as! String
     let position = Position.fromList(list[1] as! [Any?])
 
-    return MapPoi(
+    return Poi(
       name: name,
       position: position
     )

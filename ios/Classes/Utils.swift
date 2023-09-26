@@ -211,8 +211,8 @@ extension QMapView {
 }
 
 extension QPoiInfo {
-  var poi: MapPoi {
-    return MapPoi(
+  var poi: Poi {
+    return Poi(
       name: name,
       position: coordinate.position
     )
