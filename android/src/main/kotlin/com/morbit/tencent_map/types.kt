@@ -18,6 +18,21 @@ enum class MapType(val raw: Int) {
   }
 }
 
+/** 限制显示区域模式 */
+enum class RestrictRegionMode(val raw: Int) {
+  /** 适配宽度 */
+  FITWIDTH(0),
+
+  /** 适配高度 */
+  FITHEIGHT(1);
+
+  companion object {
+    fun ofRaw(raw: Int): RestrictRegionMode? {
+      return values().firstOrNull { it.raw == raw }
+    }
+  }
+}
+
 /** UI控件位置锚点 */
 enum class UIControlAnchor(val raw: Int) {
   BOTTOMLEFT(0),
@@ -32,11 +47,7 @@ enum class UIControlAnchor(val raw: Int) {
   }
 }
 
-/**
- * 定位模式
- *
- * 在地图的各种应用场景中，用户对定位点展示时也希望地图能跟随定位点旋转、移动等多种行为
- */
+/** 定位模式: 在地图的各种应用场景中，用户对定位点展示时也希望地图能跟随定位点旋转、移动等多种行为 */
 enum class UserLocationType(val raw: Int) {
   /** 跟踪用户的位置与方向更新，默认是此种类型 */
   TRACKINGLOCATIONROTATE(0),
@@ -60,82 +71,7 @@ enum class UserLocationType(val raw: Int) {
   }
 }
 
-/** 限制显示区域模式 */
-enum class RestrictRegionMode(val raw: Int) {
-  /** 适配宽度 */
-  FITWIDTH(0),
-
-  /** 适配高度 */
-  FITHEIGHT(1);
-
-  companion object {
-    fun ofRaw(raw: Int): RestrictRegionMode? {
-      return values().firstOrNull { it.raw == raw }
-    }
-  }
-}
-
-/**
- * UI控件位置
- *
- * Generated class from Pigeon that represents data sent in messages.
- */
-data class UIControlPosition(
-  /** UI控件位置锚点 */
-  val anchor: UIControlAnchor,
-  /** UI控件位置偏移 */
-  val offset: UIControlOffset
-
-) {
-  companion object {
-    fun fromList(list: List<Any?>): UIControlPosition {
-      val anchor = UIControlAnchor.ofRaw(list[0] as Int)!!
-      val offset = UIControlOffset.fromList(list[1] as List<Any?>)
-      return UIControlPosition(anchor, offset)
-    }
-  }
-
-  fun toList(): List<Any?> {
-    return listOf<Any?>(
-      anchor.raw,
-      offset.toList(),
-    )
-  }
-}
-
-/**
- * UI控件位置偏移
- *
- * Generated class from Pigeon that represents data sent in messages.
- */
-data class UIControlOffset(
-  /** X轴方向的位置偏移 */
-  val x: Double,
-  /** Y轴方向的位置偏移 */
-  val y: Double
-
-) {
-  companion object {
-    fun fromList(list: List<Any?>): UIControlOffset {
-      val x = list[0] as Double
-      val y = list[1] as Double
-      return UIControlOffset(x, y)
-    }
-  }
-
-  fun toList(): List<Any?> {
-    return listOf<Any?>(
-      x,
-      y,
-    )
-  }
-}
-
-/**
- * 点标记图标锚点
- *
- * Generated class from Pigeon that represents data sent in messages.
- */
+/** 点标记图标锚点 */
 data class Anchor(
   /** 点标记图标锚点的X坐标 */
   val x: Double,
@@ -159,99 +95,52 @@ data class Anchor(
   }
 }
 
-/**
- * 位置
- *
- * Generated class from Pigeon that represents data sent in messages.
- */
-data class Position(
-  /** 位置的纬度 */
-  val latitude: Double,
-  /** 位置的经度 */
-  val longitude: Double
+/** 图片信息 */
+data class Bitmap(
+  /** 图片资源路径 */
+  val asset: String? = null,
+  /** 图片数据 */
+  val bytes: ByteArray? = null
 
 ) {
   companion object {
-    fun fromList(list: List<Any?>): Position {
-      val latitude = list[0] as Double
-      val longitude = list[1] as Double
-      return Position(latitude, longitude)
-    }
-  }
-
-  fun toList(): List<Any?> {
-    return listOf<Any?>(
-      latitude,
-      longitude,
-    )
-  }
-}
-
-/**
- * 定位点
- *
- * Generated class from Pigeon that represents data sent in messages.
- */
-data class Location(
-  /** 定位点的位置 */
-  val position: Position,
-  /** 定位点的方向 */
-  val heading: Double? = null,
-  /** 定位点的精确度 */
-  val accuracy: Double? = null
-
-) {
-  companion object {
-    fun fromList(list: List<Any?>): Location {
-      val position = Position.fromList(list[0] as List<Any?>)
-      val heading = list[1] as Double?
-      val accuracy = list[2] as Double?
-      return Location(position, heading, accuracy)
+    fun fromList(list: List<Any?>): Bitmap {
+      val asset = list[0] as String?
+      val bytes = list[1] as ByteArray?
+      return Bitmap(asset, bytes)
     }
   }
 
   fun toList(): List<Any?> {
     return listOf(
-      position.toList(),
-      heading,
-      accuracy,
+      asset,
+      bytes,
     )
+  }
+
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (javaClass != other?.javaClass) return false
+
+    other as Bitmap
+
+    if (asset != other.asset) return false
+    if (bytes != null) {
+      if (other.bytes == null) return false
+      if (!bytes.contentEquals(other.bytes)) return false
+    } else if (other.bytes != null) return false
+
+    return true
+  }
+
+  override fun hashCode(): Int {
+    var result = asset?.hashCode() ?: 0
+    result = 31 * result + (bytes?.contentHashCode() ?: 0)
+    return result
   }
 }
 
-/**
- * 地图兴趣点
- *
- * Generated class from Pigeon that represents data sent in messages.
- */
-data class MapPoi(
-  /** 兴趣点的名称 */
-  val name: String,
-  /** 兴趣点的位置 */
-  val position: Position
-
-) {
-  companion object {
-    fun fromList(list: List<Any?>): MapPoi {
-      val name = list[0] as String
-      val position = Position.fromList(list[1] as List<Any?>)
-      return MapPoi(name, position)
-    }
-  }
-
-  fun toList(): List<Any?> {
-    return listOf(
-      name,
-      position.toList(),
-    )
-  }
-}
-
-/**
- * 地图视野
- *
- * Generated class from Pigeon that represents data sent in messages.
- */
+/** 地图视野 */
 data class CameraPosition(
   /** 地图视野的位置 */
   val position: Position? = null,
@@ -285,47 +174,7 @@ data class CameraPosition(
   }
 }
 
-/**
- * 地图区域
- *
- * Generated class from Pigeon that represents data sent in messages.
- */
-data class Region(
-  /** 最北的纬度 */
-  val north: Double,
-  /** 最东的经度 */
-  val east: Double,
-  /** 最南的纬度 */
-  val south: Double,
-  /** 最西的经度 */
-  val west: Double
-
-) {
-  companion object {
-    fun fromList(list: List<Any?>): Region {
-      val north = list[0] as Double
-      val east = list[1] as Double
-      val south = list[2] as Double
-      val west = list[3] as Double
-      return Region(north, east, south, west)
-    }
-  }
-
-  fun toList(): List<Any?> {
-    return listOf(
-      north,
-      east,
-      south,
-      west,
-    )
-  }
-}
-
-/**
- * 视野边缘宽度
- *
- * Generated class from Pigeon that represents data sent in messages.
- */
+/** 视野边缘宽度 */
 data class EdgePadding(
   /** 上边缘宽度 */
   val top: Double,
@@ -357,11 +206,35 @@ data class EdgePadding(
   }
 }
 
-/**
- * 标记点配置属性
- *
- * Generated class from Pigeon that represents data sent in messages.
- */
+/** 定位点 */
+data class Location(
+  /** 定位点的位置 */
+  val position: Position,
+  /** 定位点的方向 */
+  val heading: Double? = null,
+  /** 定位点的精确度 */
+  val accuracy: Double? = null
+
+) {
+  companion object {
+    fun fromList(list: List<Any?>): Location {
+      val position = Position.fromList(list[0] as List<Any?>)
+      val heading = list[1] as Double?
+      val accuracy = list[2] as Double?
+      return Location(position, heading, accuracy)
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf(
+      position.toList(),
+      heading,
+      accuracy,
+    )
+  }
+}
+
+/** 标记点配置属性 */
 data class Marker(
   /** 标记点ID */
   val id: String,
@@ -413,7 +286,7 @@ data class Marker(
   }
 }
 
-/** Generated class from Pigeon that represents data sent in messages. */
+/** 标记点更新配置属性 */
 data class MarkerUpdateOptions(
   /** 标记点的位置 */
   val position: Position? = null,
@@ -463,51 +336,130 @@ data class MarkerUpdateOptions(
   }
 }
 
-/**
- * 图片信息
- *
- * Generated class from Pigeon that represents data sent in messages.
- */
-data class Bitmap(
-  /** 图片资源路径 */
-  val asset: String? = null,
-  /** 图片数据 */
-  val bytes: ByteArray? = null
+/** 地图兴趣点 */
+data class MapPoi(
+  /** 兴趣点的名称 */
+  val name: String,
+  /** 兴趣点的位置 */
+  val position: Position
 
 ) {
   companion object {
-    fun fromList(list: List<Any?>): Bitmap {
-      val asset = list[0] as String?
-      val bytes = list[1] as ByteArray?
-      return Bitmap(asset, bytes)
+    fun fromList(list: List<Any?>): MapPoi {
+      val name = list[0] as String
+      val position = Position.fromList(list[1] as List<Any?>)
+      return MapPoi(name, position)
     }
   }
 
   fun toList(): List<Any?> {
     return listOf(
-      asset,
-      bytes,
+      name,
+      position.toList(),
     )
   }
+}
 
-  override fun equals(other: Any?): Boolean {
-    if (this === other) return true
-    if (javaClass != other?.javaClass) return false
+/** 位置 */
+data class Position(
+  /** 位置的纬度 */
+  val latitude: Double,
+  /** 位置的经度 */
+  val longitude: Double
 
-    other as Bitmap
-
-    if (asset != other.asset) return false
-    if (bytes != null) {
-      if (other.bytes == null) return false
-      if (!bytes.contentEquals(other.bytes)) return false
-    } else if (other.bytes != null) return false
-
-    return true
+) {
+  companion object {
+    fun fromList(list: List<Any?>): Position {
+      val latitude = list[0] as Double
+      val longitude = list[1] as Double
+      return Position(latitude, longitude)
+    }
   }
 
-  override fun hashCode(): Int {
-    var result = asset?.hashCode() ?: 0
-    result = 31 * result + (bytes?.contentHashCode() ?: 0)
-    return result
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      latitude,
+      longitude,
+    )
+  }
+}
+
+/** 地图区域 */
+data class Region(
+  /** 最北的纬度 */
+  val north: Double,
+  /** 最东的经度 */
+  val east: Double,
+  /** 最南的纬度 */
+  val south: Double,
+  /** 最西的经度 */
+  val west: Double
+
+) {
+  companion object {
+    fun fromList(list: List<Any?>): Region {
+      val north = list[0] as Double
+      val east = list[1] as Double
+      val south = list[2] as Double
+      val west = list[3] as Double
+      return Region(north, east, south, west)
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf(
+      north,
+      east,
+      south,
+      west,
+    )
+  }
+}
+
+/** UI控件位置偏移 */
+data class UIControlOffset(
+  /** X轴方向的位置偏移 */
+  val x: Double,
+  /** Y轴方向的位置偏移 */
+  val y: Double
+
+) {
+  companion object {
+    fun fromList(list: List<Any?>): UIControlOffset {
+      val x = list[0] as Double
+      val y = list[1] as Double
+      return UIControlOffset(x, y)
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      x,
+      y,
+    )
+  }
+}
+
+/** UI控件位置 */
+data class UIControlPosition(
+  /** UI控件位置锚点 */
+  val anchor: UIControlAnchor,
+  /** UI控件位置偏移 */
+  val offset: UIControlOffset
+
+) {
+  companion object {
+    fun fromList(list: List<Any?>): UIControlPosition {
+      val anchor = UIControlAnchor.ofRaw(list[0] as Int)!!
+      val offset = UIControlOffset.fromList(list[1] as List<Any?>)
+      return UIControlPosition(anchor, offset)
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      anchor.raw,
+      offset.toList(),
+    )
   }
 }

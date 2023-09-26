@@ -11,6 +11,14 @@ enum MapType: Int {
   case dark = 2
 }
 
+/// 限制显示区域模式
+enum RestrictRegionMode: Int {
+  /// 适配宽度
+  case fitWidth = 0
+  /// 适配高度
+  case fitHeight = 1
+}
+
 /// UI控件位置锚点
 enum UIControlAnchor: Int {
   case bottomLeft = 0
@@ -19,57 +27,7 @@ enum UIControlAnchor: Int {
   case topRight = 3
 }
 
-/// UI控件位置偏移
-struct UIControlOffset {
-  /// X轴方向的位置偏移
-  var x: Double
-  /// Y轴方向的位置偏移
-  var y: Double
-
-  static func fromList(_ list: [Any?]) -> UIControlOffset {
-    let x = list[0] as! Double
-    let y = list[1] as! Double
-
-    return UIControlOffset(
-      x: x,
-      y: y
-    )
-  }
-  func toList() -> [Any?] {
-    return [
-      x,
-      y,
-    ]
-  }
-}
-
-/// UI控件位置
-struct UIControlPosition {
-  /// UI控件位置锚点
-  var anchor: UIControlAnchor
-  /// UI控件位置偏移
-  var offset: UIControlOffset
-
-  static func fromList(_ list: [Any?]) -> UIControlPosition? {
-    let anchor = UIControlAnchor(rawValue: list[0] as! Int)!
-    let offset = UIControlOffset.fromList(list[1] as! [Any?])
-
-    return UIControlPosition(
-      anchor: anchor,
-      offset: offset
-    )
-  }
-  func toList() -> [Any?] {
-    return [
-      anchor.rawValue,
-      offset.toList(),
-    ]
-  }
-}
-
-/// 定位模式
-///
-/// 在地图的各种应用场景中，用户对定位点展示时也希望地图能跟随定位点旋转、移动等多种行为
+/// 定位模式：在地图的各种应用场景中，用户对定位点展示时也希望地图能跟随定位点旋转、移动等多种行为
 enum UserLocationType: Int {
   /// 跟踪用户的位置与方向更新，默认是此种类型
   case trackingLocationRotate = 0
@@ -83,31 +41,50 @@ enum UserLocationType: Int {
   case trackingRotate = 4
 }
 
-/// 定位点
-struct Location {
-  /// 定位点的位置
-  var position: Position
-  /// 定位点的方向
-  var heading: Double? = nil
-  /// 定位点的精确度
-  var accuracy: Double? = nil
+/// 点标记图标锚点
+struct Anchor {
+  /// 点标记图标锚点的X坐标
+  var x: Double
+  /// 点标记图标锚点的Y坐标
+  var y: Double
 
-  static func fromList(_ list: [Any?]) -> Location {
-    let position = Position.fromList(list[0] as! [Any?])
-    let heading: Double? = nilOrValue(list[1])
-    let accuracy: Double? = nilOrValue(list[2])
+  static func fromList(_ list: [Any?]) -> Anchor {
+    let x = list[0] as! Double
+    let y = list[1] as! Double
 
-    return Location(
-      position: position,
-      heading: heading,
-      accuracy: accuracy
+    return Anchor(
+      x: x,
+      y: y
     )
   }
   func toList() -> [Any?] {
     return [
-      position.toList(),
-      heading,
-      accuracy,
+      x,
+      y,
+    ]
+  }
+}
+
+/// 图片信息
+struct Bitmap {
+  /// 图片资源路径
+  var asset: String? = nil
+  /// 图片数据
+  var bytes: FlutterStandardTypedData? = nil
+
+  static func fromList(_ list: [Any?]) -> Bitmap {
+    let asset: String? = nilOrValue(list[0])
+    let bytes: FlutterStandardTypedData? = nilOrValue(list[1])
+
+    return Bitmap(
+      asset: asset,
+      bytes: bytes
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      asset,
+      bytes,
     ]
   }
 }
@@ -149,40 +126,6 @@ struct CameraPosition {
   }
 }
 
-/// 地图区域
-struct Region {
-  /// 最北的纬度
-  var north: Double
-  /// 最东的经度
-  var east: Double
-  /// 最南的纬度
-  var south: Double
-  /// 最西的经度
-  var west: Double
-
-  static func fromList(_ list: [Any?]) -> Region {
-    let north = list[0] as! Double
-    let east = list[1] as! Double
-    let south = list[2] as! Double
-    let west = list[3] as! Double
-
-    return Region(
-      north: north,
-      east: east,
-      south: south,
-      west: west
-    )
-  }
-  func toList() -> [Any?] {
-    return [
-      north,
-      east,
-      south,
-      west,
-    ]
-  }
-}
-
 /// 视野边缘宽度
 struct EdgePadding {
   /// 上边缘宽度
@@ -217,60 +160,33 @@ struct EdgePadding {
   }
 }
 
-/// 点标记图标锚点
-struct Anchor {
-  /// 点标记图标锚点的X坐标
-  var x: Double
-  /// 点标记图标锚点的Y坐标
-  var y: Double
+/// 定位点
+struct Location {
+  /// 定位点的位置
+  var position: Position
+  /// 定位点的方向
+  var heading: Double? = nil
+  /// 定位点的精确度
+  var accuracy: Double? = nil
 
-  static func fromList(_ list: [Any?]) -> Anchor {
-    let x = list[0] as! Double
-    let y = list[1] as! Double
+  static func fromList(_ list: [Any?]) -> Location {
+    let position = Position.fromList(list[0] as! [Any?])
+    let heading: Double? = nilOrValue(list[1])
+    let accuracy: Double? = nilOrValue(list[2])
 
-    return Anchor(
-      x: x,
-      y: y
+    return Location(
+      position: position,
+      heading: heading,
+      accuracy: accuracy
     )
   }
   func toList() -> [Any?] {
     return [
-      x,
-      y,
+      position.toList(),
+      heading,
+      accuracy,
     ]
   }
-}
-
-/// 位置
-struct Position {
-  /// 位置的纬度
-  var latitude: Double
-  /// 位置的经度
-  var longitude: Double
-
-  static func fromList(_ list: [Any?]) -> Position {
-    let latitude = list[0] as! Double
-    let longitude = list[1] as! Double
-
-    return Position(
-      latitude: latitude,
-      longitude: longitude
-    )
-  }
-  func toList() -> [Any?] {
-    return [
-      latitude,
-      longitude,
-    ]
-  }
-}
-
-/// 限制显示区域模式
-enum RestrictRegionMode: Int {
-  /// 适配宽度
-  case fitWidth = 0
-  /// 适配高度
-  case fitHeight = 1
 }
 
 /// 标记点配置属性
@@ -297,7 +213,7 @@ struct Marker {
     let position = Position.fromList(list[1] as! [Any?])
     let alpha: Double? = nilOrValue(list[2])
     let rotation: Double? = nilOrValue(list[3])
-    let zIndex: Int64? = list[4] is NSNull ? nil : (list[4] is Int64? ? list[4] as! Int64? : Int64(list[4] as! Int32))
+    let zIndex: Int64? = list[4] is NSNull ? nil : (list[4] is Int64? ? list[4] as! Int64?: Int64(list[4] as! Int32))
     let draggable: Bool? = nilOrValue(list[5])
     var icon: Bitmap? = nil
     if let iconList: [Any?] = nilOrValue(list[6]) {
@@ -357,7 +273,7 @@ struct MarkerUpdateOptions {
     }
     let alpha: Double? = nilOrValue(list[1])
     let rotation: Double? = nilOrValue(list[2])
-    let zIndex: Int64? = list[3] is NSNull ? nil : (list[3] is Int64? ? list[3] as! Int64? : Int64(list[3] as! Int32))
+    let zIndex: Int64? = list[3] is NSNull ? nil : (list[3] is Int64? ? list[3] as! Int64?: Int64(list[3] as! Int32))
     let draggable: Bool? = nilOrValue(list[4])
     var icon: Bitmap? = nil
     if let iconList: [Any?] = nilOrValue(list[5]) {
@@ -391,30 +307,6 @@ struct MarkerUpdateOptions {
   }
 }
 
-/// 图片信息
-struct Bitmap {
-  /// 图片资源路径
-  var asset: String? = nil
-  /// 图片数据
-  var bytes: FlutterStandardTypedData? = nil
-
-  static func fromList(_ list: [Any?]) -> Bitmap {
-    let asset: String? = nilOrValue(list[0])
-    let bytes: FlutterStandardTypedData? = nilOrValue(list[1])
-
-    return Bitmap(
-      asset: asset,
-      bytes: bytes
-    )
-  }
-  func toList() -> [Any?] {
-    return [
-      asset,
-      bytes,
-    ]
-  }
-}
-
 /// 地图兴趣点
 struct MapPoi {
   /// 兴趣点的名称
@@ -435,6 +327,112 @@ struct MapPoi {
     return [
       name,
       position.toList(),
+    ]
+  }
+}
+
+/// 位置
+struct Position {
+  /// 位置的纬度
+  var latitude: Double
+  /// 位置的经度
+  var longitude: Double
+
+  static func fromList(_ list: [Any?]) -> Position {
+    let latitude = list[0] as! Double
+    let longitude = list[1] as! Double
+
+    return Position(
+      latitude: latitude,
+      longitude: longitude
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      latitude,
+      longitude,
+    ]
+  }
+}
+
+/// 地图区域
+struct Region {
+  /// 最北的纬度
+  var north: Double
+  /// 最东的经度
+  var east: Double
+  /// 最南的纬度
+  var south: Double
+  /// 最西的经度
+  var west: Double
+
+  static func fromList(_ list: [Any?]) -> Region {
+    let north = list[0] as! Double
+    let east = list[1] as! Double
+    let south = list[2] as! Double
+    let west = list[3] as! Double
+
+    return Region(
+      north: north,
+      east: east,
+      south: south,
+      west: west
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      north,
+      east,
+      south,
+      west,
+    ]
+  }
+}
+
+/// UI控件位置偏移
+struct UIControlOffset {
+  /// X轴方向的位置偏移
+  var x: Double
+  /// Y轴方向的位置偏移
+  var y: Double
+
+  static func fromList(_ list: [Any?]) -> UIControlOffset {
+    let x = list[0] as! Double
+    let y = list[1] as! Double
+
+    return UIControlOffset(
+      x: x,
+      y: y
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      x,
+      y,
+    ]
+  }
+}
+
+/// UI控件位置
+struct UIControlPosition {
+  /// UI控件位置锚点
+  var anchor: UIControlAnchor
+  /// UI控件位置偏移
+  var offset: UIControlOffset
+
+  static func fromList(_ list: [Any?]) -> UIControlPosition? {
+    let anchor = UIControlAnchor(rawValue: list[0] as! Int)!
+    let offset = UIControlOffset.fromList(list[1] as! [Any?])
+
+    return UIControlPosition(
+      anchor: anchor,
+      offset: offset
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      anchor.rawValue,
+      offset.toList(),
     ]
   }
 }

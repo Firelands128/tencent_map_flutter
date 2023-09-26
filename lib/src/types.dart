@@ -10,6 +10,14 @@ enum MapType {
   dark,
 }
 
+/// 限制显示区域模式
+enum RestrictRegionMode {
+  /// 适配宽度
+  fitWidth,
+  /// 适配高度
+  fitHeight,
+}
+
 /// UI控件位置锚点
 enum UIControlAnchor {
   bottomLeft,
@@ -30,72 +38,6 @@ enum UserLocationType {
   noTracking,
   /// 跟踪用户的位置与方向更新，并地图依照用户方向旋转（Android only）
   trackingRotate,
-}
-
-/// 限制显示区域模式
-enum RestrictRegionMode {
-  /// 适配宽度
-  fitWidth,
-  /// 适配高度
-  fitHeight,
-}
-
-/// UI控件位置
-class UIControlPosition {
-  UIControlPosition({
-    required this.anchor,
-    required this.offset,
-  });
-
-  /// UI控件位置锚点
-  UIControlAnchor anchor;
-
-  /// UI控件位置偏移
-  UIControlOffset offset;
-
-  Object encode() {
-    return <Object?>[
-      anchor.index,
-      offset.encode(),
-    ];
-  }
-
-  static UIControlPosition decode(Object result) {
-    result as List<Object?>;
-    return UIControlPosition(
-      anchor: UIControlAnchor.values[result[0]! as int],
-      offset: UIControlOffset.decode(result[1]! as List<Object?>),
-    );
-  }
-}
-
-/// UI控件位置偏移
-class UIControlOffset {
-  UIControlOffset({
-    required this.x,
-    required this.y,
-  });
-
-  /// X轴方向的位置偏移
-  double x;
-
-  /// Y轴方向的位置偏移
-  double y;
-
-  Object encode() {
-    return <Object?>[
-      x,
-      y,
-    ];
-  }
-
-  static UIControlOffset decode(Object result) {
-    result as List<Object?>;
-    return UIControlOffset(
-      x: result[0]! as double,
-      y: result[1]! as double,
-    );
-  }
 }
 
 /// 点标记图标锚点
@@ -127,97 +69,31 @@ class Anchor {
   }
 }
 
-/// 位置
-class Position {
-  Position({
-    required double latitude,
-    required double longitude,
-  })  : latitude = latitude < -90.0 ? -90.0 : (latitude > 90.0 ? 90.0 : latitude),
-        longitude = longitude >= -180 && longitude < 180 ? longitude : (longitude + 180.0) % 360.0 - 180.0;
-
-  /// 位置的纬度
-  double latitude;
-
-  /// 位置的经度
-  double longitude;
-
-  Object encode() {
-    return <Object?>[
-      latitude,
-      longitude,
-    ];
-  }
-
-  static Position decode(Object result) {
-    assert(result is List && result.length == 2);
-    result as List<Object?>;
-    return Position(
-      latitude: result[0]! as double,
-      longitude: result[1]! as double,
-    );
-  }
-}
-
-/// 定位点
-class Location {
-  Location({
-    required this.position,
-    this.heading,
-    this.accuracy,
+/// 图片信息
+class Bitmap {
+  Bitmap({
+    this.asset,
+    this.bytes,
   });
 
-  /// 定位点的位置
-  Position position;
+  /// 图片资源路径
+  String? asset;
 
-  /// 定位点的方向
-  double? heading;
-
-  /// 定位点的精确度
-  double? accuracy;
+  /// 图片数据
+  Uint8List? bytes;
 
   Object encode() {
     return <Object?>[
-      position.encode(),
-      heading,
-      accuracy,
+      asset,
+      bytes,
     ];
   }
 
-  static Location decode(Object result) {
+  static Bitmap decode(Object result) {
     result as List<Object?>;
-    return Location(
-      position: Position.decode(result[0]! as List<Object?>),
-      heading: result[1] as double?,
-      accuracy: result[2] as double?,
-    );
-  }
-}
-
-/// 地图兴趣点
-class Poi {
-  Poi({
-    required this.name,
-    required this.position,
-  });
-
-  /// 兴趣点的名称
-  String name;
-
-  /// 兴趣点的位置
-  Position position;
-
-  Object encode() {
-    return <Object?>[
-      name,
-      position.encode(),
-    ];
-  }
-
-  static Poi decode(Object result) {
-    result as List<Object?>;
-    return Poi(
-      name: result[0]! as String,
-      position: Position.decode(result[1]! as List<Object?>),
+    return Bitmap(
+      asset: result[0] as String?,
+      bytes: result[1] as Uint8List?,
     );
   }
 }
@@ -265,47 +141,6 @@ class CameraPosition {
   }
 }
 
-/// 地图区域
-class Region {
-  Region({
-    required this.north,
-    required this.east,
-    required this.south,
-    required this.west,
-  });
-
-  /// 最北的纬度
-  double north;
-
-  /// 最东的经度
-  double east;
-
-  /// 最南的纬度
-  double south;
-
-  /// 最西的经度
-  double west;
-
-  Object encode() {
-    return <Object?>[
-      north,
-      east,
-      south,
-      west,
-    ];
-  }
-
-  static Region decode(Object result) {
-    result as List<Object?>;
-    return Region(
-      north: result[0]! as double,
-      east: result[1]! as double,
-      south: result[2]! as double,
-      west: result[3]! as double,
-    );
-  }
-}
-
 /// 视野边缘宽度
 class EdgePadding {
   EdgePadding({
@@ -343,6 +178,41 @@ class EdgePadding {
       right: result[1]! as double,
       bottom: result[2]! as double,
       left: result[3]! as double,
+    );
+  }
+}
+
+/// 定位点
+class Location {
+  Location({
+    required this.position,
+    this.heading,
+    this.accuracy,
+  });
+
+  /// 定位点的位置
+  Position position;
+
+  /// 定位点的方向
+  double? heading;
+
+  /// 定位点的精确度
+  double? accuracy;
+
+  Object encode() {
+    return <Object?>[
+      position.encode(),
+      heading,
+      accuracy,
+    ];
+  }
+
+  static Location decode(Object result) {
+    result as List<Object?>;
+    return Location(
+      position: Position.decode(result[0]! as List<Object?>),
+      heading: result[1] as double?,
+      accuracy: result[2] as double?,
     );
   }
 }
@@ -481,31 +351,161 @@ class MarkerUpdateOptions {
   }
 }
 
-/// 图片信息
-class Bitmap {
-  Bitmap({
-    this.asset,
-    this.bytes,
+/// 地图兴趣点
+class Poi {
+  Poi({
+    required this.name,
+    required this.position,
   });
 
-  /// 图片资源路径
-  String? asset;
+  /// 兴趣点的名称
+  String name;
 
-  /// 图片数据
-  Uint8List? bytes;
+  /// 兴趣点的位置
+  Position position;
 
   Object encode() {
     return <Object?>[
-      asset,
-      bytes,
+      name,
+      position.encode(),
     ];
   }
 
-  static Bitmap decode(Object result) {
+  static Poi decode(Object result) {
     result as List<Object?>;
-    return Bitmap(
-      asset: result[0] as String?,
-      bytes: result[1] as Uint8List?,
+    return Poi(
+      name: result[0]! as String,
+      position: Position.decode(result[1]! as List<Object?>),
+    );
+  }
+}
+
+/// 位置
+class Position {
+  Position({
+    required double latitude,
+    required double longitude,
+  })  : latitude = latitude < -90.0 ? -90.0 : (latitude > 90.0 ? 90.0 : latitude),
+        longitude = longitude >= -180 && longitude < 180 ? longitude : (longitude + 180.0) % 360.0 - 180.0;
+
+  /// 位置的纬度
+  double latitude;
+
+  /// 位置的经度
+  double longitude;
+
+  Object encode() {
+    return <Object?>[
+      latitude,
+      longitude,
+    ];
+  }
+
+  static Position decode(Object result) {
+    assert(result is List && result.length == 2);
+    result as List<Object?>;
+    return Position(
+      latitude: result[0]! as double,
+      longitude: result[1]! as double,
+    );
+  }
+}
+
+/// 地图区域
+class Region {
+  Region({
+    required this.north,
+    required this.east,
+    required this.south,
+    required this.west,
+  });
+
+  /// 最北的纬度
+  double north;
+
+  /// 最东的经度
+  double east;
+
+  /// 最南的纬度
+  double south;
+
+  /// 最西的经度
+  double west;
+
+  Object encode() {
+    return <Object?>[
+      north,
+      east,
+      south,
+      west,
+    ];
+  }
+
+  static Region decode(Object result) {
+    result as List<Object?>;
+    return Region(
+      north: result[0]! as double,
+      east: result[1]! as double,
+      south: result[2]! as double,
+      west: result[3]! as double,
+    );
+  }
+}
+
+/// UI控件位置偏移
+class UIControlOffset {
+  UIControlOffset({
+    required this.x,
+    required this.y,
+  });
+
+  /// X轴方向的位置偏移
+  double x;
+
+  /// Y轴方向的位置偏移
+  double y;
+
+  Object encode() {
+    return <Object?>[
+      x,
+      y,
+    ];
+  }
+
+  static UIControlOffset decode(Object result) {
+    result as List<Object?>;
+    return UIControlOffset(
+      x: result[0]! as double,
+      y: result[1]! as double,
+    );
+  }
+}
+
+/// UI控件位置
+class UIControlPosition {
+  UIControlPosition({
+    required this.anchor,
+    required this.offset,
+  });
+
+  /// UI控件位置锚点
+  UIControlAnchor anchor;
+
+  /// UI控件位置偏移
+  UIControlOffset offset;
+
+  Object encode() {
+    return <Object?>[
+      anchor.index,
+      offset.encode(),
+    ];
+  }
+
+  static UIControlPosition decode(Object result) {
+    result as List<Object?>;
+    return UIControlPosition(
+      anchor: UIControlAnchor.values[result[0]! as int],
+      offset: UIControlOffset.decode(result[1]! as List<Object?>),
     );
   }
 }
