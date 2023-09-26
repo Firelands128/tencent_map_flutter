@@ -405,31 +405,31 @@ private object TencentMapApiCodec : StandardMessageCodec() {
 
       135.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Position.fromList(it)
+          MapPoi.fromList(it)
         }
       }
 
       136.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Region.fromList(it)
+          Position.fromList(it)
         }
       }
 
       137.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          UIControlOffset.fromList(it)
+          Region.fromList(it)
         }
       }
 
       138.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          UIControlPosition.fromList(it)
+          UIControlOffset.fromList(it)
         }
       }
 
       139.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MapPoi.fromList(it)
+          UIControlPosition.fromList(it)
         }
       }
 
@@ -474,27 +474,27 @@ private object TencentMapApiCodec : StandardMessageCodec() {
         writeValue(stream, value.toList())
       }
 
-      is Position -> {
+      is MapPoi -> {
         stream.write(135)
         writeValue(stream, value.toList())
       }
 
-      is Region -> {
+      is Position -> {
         stream.write(136)
         writeValue(stream, value.toList())
       }
 
-      is UIControlOffset -> {
+      is Region -> {
         stream.write(137)
         writeValue(stream, value.toList())
       }
 
-      is UIControlPosition -> {
+      is UIControlOffset -> {
         stream.write(138)
         writeValue(stream, value.toList())
       }
 
-      is MapPoi -> {
+      is UIControlPosition -> {
         stream.write(139)
         writeValue(stream, value.toList())
       }

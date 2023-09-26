@@ -542,19 +542,19 @@ class _TencentMapApiCodec extends StandardMessageCodec {
     } else if (value is MarkerUpdateOptions) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
-    } else if (value is Position) {
+    } else if (value is Poi) {
       buffer.putUint8(135);
       writeValue(buffer, value.encode());
-    } else if (value is Region) {
+    } else if (value is Position) {
       buffer.putUint8(136);
       writeValue(buffer, value.encode());
-    } else if (value is UIControlOffset) {
+    } else if (value is Region) {
       buffer.putUint8(137);
       writeValue(buffer, value.encode());
-    } else if (value is UIControlPosition) {
+    } else if (value is UIControlOffset) {
       buffer.putUint8(138);
       writeValue(buffer, value.encode());
-    } else if (value is Poi) {
+    } else if (value is UIControlPosition) {
       buffer.putUint8(139);
       writeValue(buffer, value.encode());
     } else {
@@ -580,15 +580,15 @@ class _TencentMapApiCodec extends StandardMessageCodec {
       case 134:
         return MarkerUpdateOptions.decode(readValue(buffer)!);
       case 135:
-        return Position.decode(readValue(buffer)!);
-      case 136:
-        return Region.decode(readValue(buffer)!);
-      case 137:
-        return UIControlOffset.decode(readValue(buffer)!);
-      case 138:
-        return UIControlPosition.decode(readValue(buffer)!);
-      case 139:
         return Poi.decode(readValue(buffer)!);
+      case 136:
+        return Position.decode(readValue(buffer)!);
+      case 137:
+        return Region.decode(readValue(buffer)!);
+      case 138:
+        return UIControlOffset.decode(readValue(buffer)!);
+      case 139:
+        return UIControlPosition.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
