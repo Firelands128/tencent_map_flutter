@@ -18,6 +18,7 @@ class TencentMap extends StatefulWidget {
     this.scaleFadeEnabled = true,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
+    this.zoomGesturesEnabled = true,
     this.skewGesturesEnabled = true,
     this.trafficEnabled = false,
     this.indoorViewEnabled = false,
@@ -86,6 +87,9 @@ class TencentMap extends StatefulWidget {
 
   /// 是否允许拖拽手势
   final bool scrollGesturesEnabled;
+
+  /// 是否允许缩放手势
+  final bool zoomGesturesEnabled;
 
   /// 是否允许倾斜手势
   final bool skewGesturesEnabled;
@@ -305,6 +309,12 @@ class TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
         mapId: mapId,
       );
     }
+    if (widget.zoomGesturesEnabled != oldWidget.zoomGesturesEnabled) {
+      TencentMapMethodChannel.instance.setZoomGesturesEnabled(
+        widget.zoomGesturesEnabled,
+        mapId: mapId,
+      );
+    }
     if (widget.rotateGesturesEnabled != oldWidget.rotateGesturesEnabled) {
       TencentMapMethodChannel.instance.setRotateGesturesEnabled(
         widget.rotateGesturesEnabled,
@@ -386,6 +396,7 @@ class TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     TencentMapMethodChannel.instance.setScaleFadeEnabled(widget.scaleFadeEnabled, mapId: mapId);
     TencentMapMethodChannel.instance.setSkewGesturesEnabled(widget.skewGesturesEnabled, mapId: mapId);
     TencentMapMethodChannel.instance.setScrollGesturesEnabled(widget.scrollGesturesEnabled, mapId: mapId);
+    TencentMapMethodChannel.instance.setZoomGesturesEnabled(widget.zoomGesturesEnabled, mapId: mapId);
     TencentMapMethodChannel.instance.setRotateGesturesEnabled(widget.rotateGesturesEnabled, mapId: mapId);
     TencentMapMethodChannel.instance.setTrafficEnabled(widget.trafficEnabled, mapId: mapId);
     TencentMapMethodChannel.instance.setIndoorViewEnabled(widget.indoorViewEnabled, mapId: mapId);
