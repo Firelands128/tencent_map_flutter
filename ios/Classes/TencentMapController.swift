@@ -208,22 +208,22 @@ class TencentMapController: NSObject {
         return EdgePadding.fromList(self.readValue() as! [Any?])
       case 132:
         return Location.fromList(self.readValue() as! [Any?])
-      case 133:
-        return Marker.fromList(self.readValue() as! [Any?])
+			case 133:
+				return MapConfig.fromList(self.readValue() as! [Any?])
       case 134:
+        return Marker.fromList(self.readValue() as! [Any?])
+      case 135:
         return MarkerUpdateOptions.fromList(self.readValue() as! [Any?])
-			case 135:
+			case 136:
 				return Poi.fromList(self.readValue() as! [Any?])
-      case 136:
-        return Position.fromList(self.readValue() as! [Any?])
       case 137:
-        return Region.fromList(self.readValue() as! [Any?])
+        return Position.fromList(self.readValue() as! [Any?])
       case 138:
-        return UIControlOffset.fromList(self.readValue() as! [Any?])
+        return Region.fromList(self.readValue() as! [Any?])
       case 139:
-        return UIControlPosition.fromList(self.readValue() as! [Any?])
+        return UIControlOffset.fromList(self.readValue() as! [Any?])
       case 140:
-        return MapConfig.fromList(self.readValue() as! [Any?])
+        return UIControlPosition.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
       }
@@ -247,28 +247,28 @@ class TencentMapController: NSObject {
       } else if let value = value as? Location {
         super.writeByte(132)
         super.writeValue(value.toList())
+			} else if let value = value as? MapConfig {
+				super.writeByte(133)
+				super.writeValue(value.toList())
       } else if let value = value as? Marker {
-        super.writeByte(133)
-        super.writeValue(value.toList())
-      } else if let value = value as? MarkerUpdateOptions {
         super.writeByte(134)
         super.writeValue(value.toList())
+      } else if let value = value as? MarkerUpdateOptions {
+        super.writeByte(135)
+        super.writeValue(value.toList())
 			} else if let value = value as? Poi {
-				super.writeByte(135)
+				super.writeByte(136)
 				super.writeValue(value.toList())
       } else if let value = value as? Position {
-        super.writeByte(136)
-        super.writeValue(value.toList())
-      } else if let value = value as? Region {
         super.writeByte(137)
         super.writeValue(value.toList())
-      } else if let value = value as? UIControlOffset {
+      } else if let value = value as? Region {
         super.writeByte(138)
         super.writeValue(value.toList())
-      } else if let value = value as? UIControlPosition {
+      } else if let value = value as? UIControlOffset {
         super.writeByte(139)
         super.writeValue(value.toList())
-      } else if let value = value as? MapConfig {
+      } else if let value = value as? UIControlPosition {
         super.writeByte(140)
         super.writeValue(value.toList())
       } else {

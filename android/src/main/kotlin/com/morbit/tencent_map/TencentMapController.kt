@@ -279,49 +279,49 @@ private object TencentMapApiCodec : StandardMessageCodec() {
 
       133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Marker.fromList(it)
+          MapConfig.fromList(it)
         }
       }
 
       134.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MarkerUpdateOptions.fromList(it)
+          Marker.fromList(it)
         }
       }
 
       135.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Poi.fromList(it)
+          MarkerUpdateOptions.fromList(it)
         }
       }
 
       136.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Position.fromList(it)
+          Poi.fromList(it)
         }
       }
 
       137.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Region.fromList(it)
+          Position.fromList(it)
         }
       }
 
       138.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          UIControlOffset.fromList(it)
+          Region.fromList(it)
         }
       }
 
       139.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          UIControlPosition.fromList(it)
+          UIControlOffset.fromList(it)
         }
       }
 
       140.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MapConfig.fromList(it)
+          UIControlPosition.fromList(it)
         }
       }
 
@@ -356,42 +356,42 @@ private object TencentMapApiCodec : StandardMessageCodec() {
         writeValue(stream, value.toList())
       }
 
-      is Marker -> {
+      is MapConfig -> {
         stream.write(133)
         writeValue(stream, value.toList())
       }
 
-      is MarkerUpdateOptions -> {
+      is Marker -> {
         stream.write(134)
         writeValue(stream, value.toList())
       }
 
-      is Poi -> {
+      is MarkerUpdateOptions -> {
         stream.write(135)
         writeValue(stream, value.toList())
       }
 
-      is Position -> {
+      is Poi -> {
         stream.write(136)
         writeValue(stream, value.toList())
       }
 
-      is Region -> {
+      is Position -> {
         stream.write(137)
         writeValue(stream, value.toList())
       }
 
-      is UIControlOffset -> {
+      is Region -> {
         stream.write(138)
         writeValue(stream, value.toList())
       }
 
-      is UIControlPosition -> {
+      is UIControlOffset -> {
         stream.write(139)
         writeValue(stream, value.toList())
       }
 
-      is MapConfig -> {
+      is UIControlPosition -> {
         stream.write(140)
         writeValue(stream, value.toList())
       }
