@@ -16,44 +16,57 @@ class TencentMapApi(private val tencentMap: TencentMap) {
     TencentLocationManager.setUserAgreePrivacy(agreePrivacy)
   }
 
-  fun setMapType(type: MapType) {
-    mapView.map.mapType = when (type) {
-      MapType.NORMAL -> MAP_TYPE_NORMAL
-      MapType.SATELLITE -> MAP_TYPE_SATELLITE
-      MapType.DARK -> MAP_TYPE_DARK
+  fun updateMapConfig(config: MapConfig) {
+    config.mapType?.let {
+      mapView.map.mapType = when (it) {
+        MapType.NORMAL -> MAP_TYPE_NORMAL
+        MapType.SATELLITE -> MAP_TYPE_SATELLITE
+        MapType.DARK -> MAP_TYPE_DARK
+      }
     }
-  }
-
-  fun setMapStyle(index: Long) {
-    mapView.map.mapStyle = index.toInt()
-  }
-
-  fun setLogoScale(scale: Double) {
-    mapView.map.uiSettings.setLogoScale(scale.toFloat())
-  }
-
-  fun setLogoPosition(position: UIControlPosition) {
-    mapView.map.uiSettings.setLogoPosition(
-      position.anchor.toAnchor(),
-      intArrayOf(position.offset.y.toInt(), position.offset.x.toInt())
-    )
-  }
-
-  fun setScalePosition(position: UIControlPosition) {
-    mapView.map.uiSettings.setScaleViewPositionWithMargin(
-      position.anchor.toAnchor(),
-      position.offset.y.toInt(),
-      position.offset.y.toInt(),
-      position.offset.x.toInt(),
-      position.offset.x.toInt()
-    )
-  }
-
-  fun setCompassOffset(offset: UIControlOffset) {
-    mapView.map.uiSettings.setCompassExtraPadding(
-      offset.x.toInt(),
-      offset.y.toInt()
-    )
+    config.mapStyle?.let {
+      mapView.map.mapStyle = it.toInt()
+    }
+    config.logoScale?.let { mapView.map.uiSettings.setLogoScale(it.toFloat()) }
+    config.logoPosition?.let {
+      mapView.map.uiSettings.setLogoPosition(
+        it.anchor.toAnchor(),
+        intArrayOf(it.offset.y.toInt(), it.offset.x.toInt())
+      )
+    }
+    config.scalePosition?.let {
+      mapView.map.uiSettings.setScaleViewPositionWithMargin(
+        it.anchor.toAnchor(),
+        it.offset.y.toInt(),
+        it.offset.y.toInt(),
+        it.offset.x.toInt(),
+        it.offset.x.toInt()
+      )
+    }
+    config.compassOffset?.let {
+      mapView.map.uiSettings.setCompassExtraPadding(
+        it.x.toInt(),
+        it.y.toInt()
+      )
+    }
+    config.compassEnabled?.let { mapView.map.uiSettings.isCompassEnabled = it }
+    config.scaleEnabled?.let { mapView.map.uiSettings.isScaleViewEnabled = it }
+    config.scaleFadeEnabled?.let { mapView.map.uiSettings.setScaleViewFadeEnable(it) }
+    config.skewGesturesEnabled?.let { mapView.map.uiSettings.isTiltGesturesEnabled = it }
+    config.scrollGesturesEnabled?.let { mapView.map.uiSettings.isScrollGesturesEnabled = it }
+    config.rotateGesturesEnabled?.let { mapView.map.uiSettings.isRotateGesturesEnabled = it }
+    config.zoomGesturesEnabled?.let { mapView.map.uiSettings.isZoomGesturesEnabled = it }
+    config.trafficEnabled?.let { mapView.map.isTrafficEnabled = it }
+    config.indoorViewEnabled?.let { mapView.map.setIndoorEnabled(it) }
+    config.indoorPickerEnabled?.let { mapView.map.uiSettings.isIndoorLevelPickerEnabled = it }
+    config.buildingsEnabled?.let { mapView.map.showBuilding(it) }
+    config.buildings3dEnabled?.let { mapView.map.setBuilding3dEffectEnable(it) }
+    config.myLocationEnabled?.let { mapView.map.isMyLocationEnabled = it }
+    config.userLocationType?.let {
+      if (mapView.map.isMyLocationEnabled) {
+        mapView.map.setMyLocationStyle(it.toMyLocationStyle())
+      }
+    }
   }
 
   fun pause() {
@@ -74,64 +87,6 @@ class TencentMapApi(private val tencentMap: TencentMap) {
 
   fun destroy() {
     mapView.onDestroy()
-  }
-
-  fun setCompassEnabled(enabled: Boolean) {
-    mapView.map.uiSettings.isCompassEnabled = enabled
-  }
-
-  fun setRotateGesturesEnabled(enabled: Boolean) {
-    mapView.map.uiSettings.isRotateGesturesEnabled = enabled
-  }
-
-  fun setScrollGesturesEnabled(enabled: Boolean) {
-    mapView.map.uiSettings.isScrollGesturesEnabled = enabled
-  }
-
-  fun setZoomGesturesEnabled(enabled: Boolean) {
-    mapView.map.uiSettings.isZoomGesturesEnabled = enabled
-  }
-
-  fun setSkewGesturesEnabled(enabled: Boolean) {
-    mapView.map.uiSettings.isTiltGesturesEnabled = enabled
-  }
-
-  fun setIndoorViewEnabled(enabled: Boolean) {
-    mapView.map.setIndoorEnabled(enabled)
-  }
-
-  fun setIndoorPickerEnabled(enabled: Boolean) {
-    mapView.map.uiSettings.isIndoorLevelPickerEnabled = enabled
-  }
-
-  fun setTrafficEnabled(enabled: Boolean) {
-    mapView.map.isTrafficEnabled = enabled
-  }
-
-  fun setBuildingsEnabled(enabled: Boolean) {
-    mapView.map.showBuilding(enabled)
-  }
-
-  fun setBuildings3dEnabled(enabled: Boolean) {
-    mapView.map.setBuilding3dEffectEnable(enabled)
-  }
-
-  fun setScaleEnabled(enabled: Boolean) {
-    mapView.map.uiSettings.isScaleViewEnabled = enabled
-  }
-
-  fun setScaleFadeEnabled(enabled: Boolean) {
-    mapView.map.uiSettings.setScaleViewFadeEnable(enabled)
-  }
-
-  fun setMyLocationEnabled(enabled: Boolean) {
-    mapView.map.isMyLocationEnabled = enabled
-  }
-
-  fun setUserLocationType(type: UserLocationType) {
-    if (mapView.map.isMyLocationEnabled) {
-      mapView.map.setMyLocationStyle(type.toMyLocationStyle())
-    }
   }
 
   fun getUserLocation(): Location {

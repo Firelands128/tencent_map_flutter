@@ -205,202 +205,12 @@ class TencentMapMethodChannel {
     );
   }
 
-  /// 设置地图类型
-  Future<void> setMapType(MapType type, {required int mapId}) {
+  /// 设置地图属性
+  Future<void> updateMapConfig(MapConfig config, {required int mapId}) {
     return _channel(mapId).invokeMethod(
-      "setMapType",
-      <String, dynamic>{
-        "type": type.index,
-      },
-    );
-  }
-
-  /// 设置个性化地图样式，在官网绑定个性化地图样式，输入样式编号
-  Future<void> setMapStyle(int index, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setMapStyle",
-      <String, dynamic>{
-        "index": index,
-      },
-    );
-  }
-
-  /// 设置Logo大小
-  Future<void> setLogoScale(double scale, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setLogoScale",
-      <String, dynamic>{
-        "scale": scale,
-      },
-    );
-  }
-
-  /// 设置LOGO的位置
-  Future<void> setLogoPosition(UIControlPosition position, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setLogoPosition",
-      <String, dynamic>{
-        "position": position,
-      },
-    );
-  }
-
-  /// 设置比例尺的位置（iOS不支持改变位置锚点，仅支持改变位置偏移）
-  Future<void> setScalePosition(UIControlPosition position, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setScalePosition",
-      <String, dynamic>{
-        "position": position,
-      },
-    );
-  }
-
-  /// 设置指南针的位置偏移
-  Future<void> setCompassOffset(UIControlOffset offset, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setCompassOffset",
-      <String, dynamic>{
-        "offset": offset,
-      },
-    );
-  }
-
-  /// 设置是否显示指南针
-  Future<void> setCompassEnabled(bool enabled, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setCompassEnabled",
-      <String, dynamic>{
-        "enabled": enabled,
-      },
-    );
-  }
-
-  /// 设置是否显示比例尺
-  Future<void> setScaleEnabled(bool enabled, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setScaleEnabled",
-      <String, dynamic>{
-        "enabled": enabled,
-      },
-    );
-  }
-
-  /// 设置比例尺是否淡出
-  Future<void> setScaleFadeEnabled(bool enabled, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setScaleFadeEnabled",
-      <String, dynamic>{
-        "enabled": enabled,
-      },
-    );
-  }
-
-  /// 设置是否使用旋转手势
-  Future<void> setRotateGesturesEnabled(bool enabled, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setRotateGesturesEnabled",
-      <String, dynamic>{
-        "enabled": enabled,
-      },
-    );
-  }
-
-  /// 设置是否使用滚动手势
-  Future<void> setScrollGesturesEnabled(bool enabled, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setScrollGesturesEnabled",
-      <String, dynamic>{
-        "enabled": enabled,
-      },
-    );
-  }
-
-  /// 设置是否使用缩放手势
-  Future<void> setZoomGesturesEnabled(bool enabled, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setZoomGesturesEnabled",
-      <String, dynamic>{
-        "enabled": enabled,
-      },
-    );
-  }
-
-  /// 设置是否使用倾斜手势
-  Future<void> setSkewGesturesEnabled(bool enabled, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setSkewGesturesEnabled",
-      <String, dynamic>{
-        "enabled": enabled,
-      },
-    );
-  }
-
-  /// 设置是否显示室内图（需要API key支持）
-  Future<void> setIndoorViewEnabled(bool enabled, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setIndoorViewEnabled",
-      <String, dynamic>{
-        "enabled": enabled,
-      },
-    );
-  }
-
-  /// 设置是否显示室内图楼层控件
-  Future<void> setIndoorPickerEnabled(bool enabled, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setIndoorPickerEnabled",
-      <String, dynamic>{
-        "enabled": enabled,
-      },
-    );
-  }
-
-  /// 设置是否显示路况
-  Future<void> setTrafficEnabled(bool enabled, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setTrafficEnabled",
-      <String, dynamic>{
-        "enabled": enabled,
-      },
-    );
-  }
-
-  /// 设置是否显示建筑物
-  Future<void> setBuildingsEnabled(bool enabled, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setBuildingsEnabled",
-      <String, dynamic>{
-        "enabled": enabled,
-      },
-    );
-  }
-
-  /// 设置是否显示3D建筑物
-  Future<void> setBuildings3dEnabled(bool enabled, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setBuildings3dEnabled",
-      <String, dynamic>{
-        "enabled": enabled,
-      },
-    );
-  }
-
-  /// 设置是否开启定位
-  Future<void> setMyLocationEnabled(bool enabled, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setMyLocationEnabled",
-      <String, dynamic>{
-        "enabled": enabled,
-      },
-    );
-  }
-
-  /// 设置定位模式
-  Future<void> setUserLocationType(UserLocationType type, {required int mapId}) {
-    return _channel(mapId).invokeMethod(
-      "setUserLocationType",
-      <String, dynamic>{
-        "type": type.index,
+      "updateMapConfig",
+      <String, dynamic> {
+        "config": config,
       },
     );
   }
@@ -557,6 +367,9 @@ class _TencentMapApiCodec extends StandardMessageCodec {
     } else if (value is UIControlPosition) {
       buffer.putUint8(139);
       writeValue(buffer, value.encode());
+    } else if (value is MapConfig) {
+      buffer.putUint8(140);
+      writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
     }
@@ -589,6 +402,8 @@ class _TencentMapApiCodec extends StandardMessageCodec {
         return UIControlOffset.decode(readValue(buffer)!);
       case 139:
         return UIControlPosition.decode(readValue(buffer)!);
+      case 140:
+        return MapConfig.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }

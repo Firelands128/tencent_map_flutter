@@ -21,124 +21,10 @@ class TencentMapController: NSObject {
   }
 
   func onMethodCall(call: FlutterMethodCall, result: FlutterResult) {
-    if(call.method == "setMapType") {
+    if(call.method == "updateMapConfig") {
       let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let type = MapType(rawValue: arguments["type"] as! Int)!
-      api.setMapType(type: type)
-      result(nil)
-    }
-    else if(call.method == "setMapStyle") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let index = arguments["index"] as! Int64
-      api.setMapStyle(index: index)
-      result(nil)
-    }
-    else if(call.method == "setLogoScale") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let scale = arguments["scale"] as! Double
-      api.setLogoScale(scale: scale)
-      result(nil)
-    }
-    else if(call.method == "setLogoPosition") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let position = arguments["position"] as! UIControlPosition
-      api.setLogoPosition(position: position)
-      result(nil)
-    }
-    else if(call.method == "setScalePosition") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let position = arguments["position"] as! UIControlPosition
-      api.setScalePosition(position: position)
-      result(nil)
-    }
-    else if(call.method == "setCompassOffset") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let offset = arguments["offset"] as! UIControlOffset
-      api.setCompassOffset(offset: offset)
-      result(nil)
-    }
-    else if(call.method == "setCompassEnabled") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let enabled = arguments["enabled"] as! Bool
-      api.setCompassEnabled(enabled: enabled)
-      result(nil)
-    }
-    else if(call.method == "setScaleEnabled") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let enabled = arguments["enabled"] as! Bool
-      api.setScaleEnabled(enabled: enabled)
-      result(nil)
-    }
-    else if(call.method == "setScaleFadeEnabled") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let enabled = arguments["enabled"] as! Bool
-      api.setScaleFadeEnabled(enabled: enabled)
-      result(nil)
-    }
-    else if(call.method == "setRotateGesturesEnabled") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let enabled = arguments["enabled"] as! Bool
-      api.setRotateGesturesEnabled(enabled: enabled)
-      result(nil)
-    }
-    else if(call.method == "setScrollGesturesEnabled") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let enabled = arguments["enabled"] as! Bool
-      api.setScrollGesturesEnabled(enabled: enabled)
-      result(nil)
-    }
-    else if(call.method == "setZoomGesturesEnabled") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let enabled = arguments["enabled"] as! Bool
-      api.setZoomGesturesEnabled(enabled: enabled)
-      result(nil)
-    }
-    else if(call.method == "setSkewGesturesEnabled") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let enabled = arguments["enabled"] as! Bool
-      api.setSkewGesturesEnabled(enabled: enabled)
-      result(nil)
-    }
-    else if(call.method == "setIndoorViewEnabled") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let enabled = arguments["enabled"] as! Bool
-      api.setIndoorViewEnabled(enabled: enabled)
-      result(nil)
-    }
-    else if(call.method == "setIndoorPickerEnabled") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let enabled = arguments["enabled"] as! Bool
-      api.setIndoorPickerEnabled(enabled: enabled)
-      result(nil)
-    }
-    else if(call.method == "setTrafficEnabled") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let enabled = arguments["enabled"] as! Bool
-      api.setTrafficEnabled(enabled: enabled)
-      result(nil)
-    }
-    else if(call.method == "setBuildingsEnabled") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let enabled = arguments["enabled"] as! Bool
-      api.setBuildingsEnabled(enabled: enabled)
-      result(nil)
-    }
-    else if(call.method == "setBuildings3dEnabled") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let enabled = arguments["enabled"] as! Bool
-      api.setBuildings3dEnabled(enabled: enabled)
-      result(nil)
-    }
-    else if(call.method == "setMyLocationEnabled") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let enabled = arguments["enabled"] as! Bool
-      api.setMyLocationEnabled(enabled: enabled)
-      result(nil)
-    }
-    else if(call.method == "setUserLocationType") {
-      let arguments = call.arguments as! Dictionary<String, AnyObject>
-      let type = UserLocationType(rawValue: arguments["type"] as! Int)!
-      api.setUserLocationType(type: type)
+      let config = arguments["config"] as! MapConfig
+      api.updateMapConfig(config: config)
       result(nil)
     }
     else if(call.method == "getUserLocation") {
@@ -336,6 +222,8 @@ class TencentMapController: NSObject {
         return UIControlOffset.fromList(self.readValue() as! [Any?])
       case 139:
         return UIControlPosition.fromList(self.readValue() as! [Any?])
+      case 140:
+        return MapConfig.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
       }
@@ -379,6 +267,9 @@ class TencentMapController: NSObject {
         super.writeValue(value.toList())
       } else if let value = value as? UIControlPosition {
         super.writeByte(139)
+        super.writeValue(value.toList())
+      } else if let value = value as? MapConfig {
+        super.writeByte(140)
         super.writeValue(value.toList())
       } else {
         super.writeValue(value)

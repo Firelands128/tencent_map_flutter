@@ -220,123 +220,76 @@ class TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
   @override
   void didUpdateWidget(oldWidget) {
     super.didUpdateWidget(oldWidget);
+    MapConfig config = MapConfig();
     if (widget.mapType != oldWidget.mapType) {
-      TencentMapMethodChannel.instance.setMapType(widget.mapType, mapId: mapId);
+      config.mapType = widget.mapType;
     }
     if (widget.mapStyle != null && widget.mapStyle != oldWidget.mapStyle) {
-      TencentMapMethodChannel.instance.setMapStyle(widget.mapStyle!, mapId: mapId);
+      config.mapStyle = widget.mapStyle;
     }
     if (widget.logoScale != oldWidget.logoScale) {
-      TencentMapMethodChannel.instance.setLogoScale(widget.logoScale, mapId: mapId);
+      config.logoScale = widget.logoScale;
     }
     if (widget.logoPosition != oldWidget.logoPosition) {
-      TencentMapMethodChannel.instance.setLogoPosition(
-          widget.logoPosition ??
-              UIControlPosition(
-                anchor: UIControlAnchor.bottomRight,
-                offset: defaultUIControlOffset,
-              ),
-          mapId: mapId);
+      config.logoPosition = widget.logoPosition ??
+          UIControlPosition(
+            anchor: UIControlAnchor.bottomRight,
+            offset: defaultUIControlOffset,
+          );
     }
     if (widget.scalePosition != oldWidget.scalePosition) {
-      TencentMapMethodChannel.instance.setScalePosition(
-          widget.scalePosition ??
-              UIControlPosition(
-                anchor: UIControlAnchor.bottomLeft,
-                offset: defaultUIControlOffset,
-              ),
-          mapId: mapId);
+      config.scalePosition = widget.scalePosition ??
+          UIControlPosition(
+            anchor: UIControlAnchor.bottomLeft,
+            offset: defaultUIControlOffset,
+          );
     }
     if (widget.compassOffset != null && widget.compassOffset != oldWidget.compassOffset) {
-      TencentMapMethodChannel.instance.setCompassOffset(
-        widget.compassOffset!,
-        mapId: mapId,
-      );
+      config.compassOffset = widget.compassOffset;
     }
     if (widget.compassEnabled != oldWidget.compassEnabled) {
-      TencentMapMethodChannel.instance.setCompassEnabled(
-        widget.compassEnabled,
-        mapId: mapId,
-      );
+      config.compassEnabled = widget.compassEnabled;
     }
     if (widget.scaleEnabled != oldWidget.scaleEnabled) {
-      TencentMapMethodChannel.instance.setScaleEnabled(
-        widget.scaleEnabled,
-        mapId: mapId,
-      );
+      config.scaleEnabled = widget.scaleEnabled;
     }
     if (widget.scaleFadeEnabled != oldWidget.scaleFadeEnabled) {
-      TencentMapMethodChannel.instance.setScaleFadeEnabled(
-        widget.scaleFadeEnabled,
-        mapId: mapId,
-      );
+      config.scaleFadeEnabled = widget.scaleFadeEnabled;
     }
     if (widget.skewGesturesEnabled != oldWidget.skewGesturesEnabled) {
-      TencentMapMethodChannel.instance.setSkewGesturesEnabled(
-        widget.skewGesturesEnabled,
-        mapId: mapId,
-      );
+      config.skewGesturesEnabled = widget.skewGesturesEnabled;
     }
     if (widget.scrollGesturesEnabled != oldWidget.scrollGesturesEnabled) {
-      TencentMapMethodChannel.instance.setScrollGesturesEnabled(
-        widget.scrollGesturesEnabled,
-        mapId: mapId,
-      );
+      config.scrollGesturesEnabled = widget.scrollGesturesEnabled;
     }
     if (widget.zoomGesturesEnabled != oldWidget.zoomGesturesEnabled) {
-      TencentMapMethodChannel.instance.setZoomGesturesEnabled(
-        widget.zoomGesturesEnabled,
-        mapId: mapId,
-      );
+      config.zoomGesturesEnabled = widget.zoomGesturesEnabled;
     }
     if (widget.rotateGesturesEnabled != oldWidget.rotateGesturesEnabled) {
-      TencentMapMethodChannel.instance.setRotateGesturesEnabled(
-        widget.rotateGesturesEnabled,
-        mapId: mapId,
-      );
+      config.rotateGesturesEnabled = widget.rotateGesturesEnabled;
     }
     if (widget.trafficEnabled != oldWidget.trafficEnabled) {
-      TencentMapMethodChannel.instance.setTrafficEnabled(
-        widget.trafficEnabled,
-        mapId: mapId,
-      );
+      config.trafficEnabled = widget.trafficEnabled;
     }
     if (widget.indoorViewEnabled != oldWidget.indoorViewEnabled) {
-      TencentMapMethodChannel.instance.setIndoorViewEnabled(
-        widget.indoorViewEnabled,
-        mapId: mapId,
-      );
+      config.indoorViewEnabled = widget.indoorViewEnabled;
     }
     if (widget.indoorPickerEnabled != oldWidget.indoorPickerEnabled) {
-      TencentMapMethodChannel.instance.setIndoorPickerEnabled(
-        widget.indoorPickerEnabled,
-        mapId: mapId,
-      );
+      config.indoorPickerEnabled = widget.indoorPickerEnabled;
     }
     if (widget.buildingsEnabled != oldWidget.buildingsEnabled) {
-      TencentMapMethodChannel.instance.setBuildingsEnabled(
-        widget.buildingsEnabled,
-        mapId: mapId,
-      );
+      config.buildingsEnabled = widget.buildingsEnabled;
     }
     if (widget.buildings3dEnabled != oldWidget.buildings3dEnabled) {
-      TencentMapMethodChannel.instance.setBuildings3dEnabled(
-        widget.buildings3dEnabled,
-        mapId: mapId,
-      );
+      config.buildings3dEnabled = widget.buildings3dEnabled;
     }
     if (widget.myLocationEnabled != oldWidget.myLocationEnabled) {
-      TencentMapMethodChannel.instance.setMyLocationEnabled(
-        widget.myLocationEnabled,
-        mapId: mapId,
-      );
+      config.myLocationEnabled = widget.myLocationEnabled;
     }
     if (widget.userLocationType != oldWidget.userLocationType) {
-      TencentMapMethodChannel.instance.setUserLocationType(
-        widget.userLocationType,
-        mapId: mapId,
-      );
+      config.userLocationType = widget.userLocationType;
     }
+    TencentMapMethodChannel.instance.updateMapConfig(config, mapId: mapId);
   }
 
   _onPlatformViewCreated(int id) async {
@@ -347,39 +300,28 @@ class TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
   }
 
   initMap() {
-    TencentMapMethodChannel.instance.setMapType(widget.mapType, mapId: mapId);
-    if (widget.mapStyle != null) TencentMapMethodChannel.instance.setMapStyle(widget.mapStyle!, mapId: mapId);
-    TencentMapMethodChannel.instance.setLogoScale(widget.logoScale, mapId: mapId);
-    TencentMapMethodChannel.instance.setLogoPosition(
-      widget.logoPosition ??
-          UIControlPosition(
-            anchor: UIControlAnchor.bottomRight,
-            offset: defaultUIControlOffset,
-          ),
-      mapId: mapId,
+    MapConfig config = MapConfig(
+      mapType: widget.mapType,
+      mapStyle: widget.mapStyle,
+      logoScale: widget.logoScale,
+      logoPosition: widget.logoPosition,
+      scalePosition: widget.scalePosition,
+      compassOffset: widget.compassOffset,
+      compassEnabled: widget.compassEnabled,
+      scaleEnabled: widget.scaleEnabled,
+      scaleFadeEnabled: widget.scaleFadeEnabled,
+      skewGesturesEnabled: widget.skewGesturesEnabled,
+      scrollGesturesEnabled: widget.scrollGesturesEnabled,
+      rotateGesturesEnabled: widget.rotateGesturesEnabled,
+      zoomGesturesEnabled: widget.zoomGesturesEnabled,
+      trafficEnabled: widget.trafficEnabled,
+      indoorViewEnabled: widget.indoorViewEnabled,
+      indoorPickerEnabled: widget.indoorPickerEnabled,
+      buildingsEnabled: widget.buildingsEnabled,
+      buildings3dEnabled: widget.buildings3dEnabled,
+      myLocationEnabled: widget.myLocationEnabled,
+      userLocationType: widget.userLocationType,
     );
-    TencentMapMethodChannel.instance.setScalePosition(
-      widget.scalePosition ??
-          UIControlPosition(
-            anchor: UIControlAnchor.bottomLeft,
-            offset: defaultUIControlOffset,
-          ),
-      mapId: mapId,
-    );
-    TencentMapMethodChannel.instance.setCompassOffset(widget.compassOffset ?? defaultUIControlOffset, mapId: mapId);
-    TencentMapMethodChannel.instance.setCompassEnabled(widget.compassEnabled, mapId: mapId);
-    TencentMapMethodChannel.instance.setScaleEnabled(widget.scaleEnabled, mapId: mapId);
-    TencentMapMethodChannel.instance.setScaleFadeEnabled(widget.scaleFadeEnabled, mapId: mapId);
-    TencentMapMethodChannel.instance.setSkewGesturesEnabled(widget.skewGesturesEnabled, mapId: mapId);
-    TencentMapMethodChannel.instance.setScrollGesturesEnabled(widget.scrollGesturesEnabled, mapId: mapId);
-    TencentMapMethodChannel.instance.setZoomGesturesEnabled(widget.zoomGesturesEnabled, mapId: mapId);
-    TencentMapMethodChannel.instance.setRotateGesturesEnabled(widget.rotateGesturesEnabled, mapId: mapId);
-    TencentMapMethodChannel.instance.setTrafficEnabled(widget.trafficEnabled, mapId: mapId);
-    TencentMapMethodChannel.instance.setIndoorViewEnabled(widget.indoorViewEnabled, mapId: mapId);
-    TencentMapMethodChannel.instance.setIndoorPickerEnabled(widget.indoorPickerEnabled, mapId: mapId);
-    TencentMapMethodChannel.instance.setBuildingsEnabled(widget.buildingsEnabled, mapId: mapId);
-    TencentMapMethodChannel.instance.setBuildings3dEnabled(widget.buildings3dEnabled, mapId: mapId);
-    TencentMapMethodChannel.instance.setMyLocationEnabled(widget.myLocationEnabled, mapId: mapId);
-    TencentMapMethodChannel.instance.setUserLocationType(widget.userLocationType, mapId: mapId);
+    TencentMapMethodChannel.instance.updateMapConfig(config, mapId: mapId);
   }
 }

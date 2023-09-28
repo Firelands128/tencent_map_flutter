@@ -13,92 +13,68 @@ class _TencentMapApi: NSObject {
   func agreePrivacy(agreePrivacy: Bool) {
     QMapServices.shared().setPrivacyAgreement(agreePrivacy)
   }
-
-  func setMapType(type: MapType) {
-    mapView.mapType = [
-      MapType.dark: QMapType.dark,
-      MapType.normal: QMapType.standard,
-      MapType.satellite: QMapType.satellite,
-    ][type] ?? QMapType.standard
-  }
-
-  func setMapStyle(index: Int64) {
-    mapView.setMapStyle(Int32(index))
-  }
-
-  func setLogoScale(scale: Double) {
-    mapView.setLogoScale(scale)
-  }
-
-  func setLogoPosition(position: UIControlPosition) {
-    mapView.setLogoMargin(position.offset.offset, anchor: position.anchor.anchor)
-  }
-
-  func setScalePosition(position: UIControlPosition) {
-    mapView.setScaleOffset(CGPointMake(position.offset.x, -position.offset.y))
-  }
-
-  func setCompassOffset(offset: UIControlOffset) {
-    mapView.setCompassOffset(offset.offset)
-  }
-
-  func setCompassEnabled(enabled: Bool) {
-    mapView.showsCompass = enabled
-  }
-
-  func setScaleEnabled(enabled: Bool) {
-    mapView.showsScale = enabled
-  }
-
-  func setScaleFadeEnabled(enabled: Bool) {
-    mapView.setScaleFadeEnable(enabled)
-  }
-
-  func setRotateGesturesEnabled(enabled: Bool) {
-    mapView.isRotateEnabled = enabled
-  }
-
-  func setScrollGesturesEnabled(enabled: Bool) {
-    mapView.isScrollEnabled = enabled
-  }
-
-  func setZoomGesturesEnabled(enabled: Bool) {
-    mapView.isZoomEnabled = enabled
-  }
-
-  func setSkewGesturesEnabled(enabled: Bool) {
-    mapView.isOverlookingEnabled = enabled
-  }
-
-  func setIndoorViewEnabled(enabled: Bool) {
-    mapView.setIndoorEnabled(enabled)
-  }
-
-  func setIndoorPickerEnabled(enabled: Bool) {
-    mapView.indoorPicker = enabled
-  }
-
-  func setTrafficEnabled(enabled: Bool) {
-    mapView.showsTraffic = enabled
-  }
-
-  func setBuildingsEnabled(enabled: Bool) {
-    mapView.showsBuildings = enabled
-  }
-
-  func setBuildings3dEnabled(enabled: Bool) {
-    mapView.shows3DBuildings = enabled
-  }
-
-  func setMyLocationEnabled(enabled: Bool) {
-    mapView.showsUserLocation = enabled
-  }
-
-  func setUserLocationType(type: UserLocationType) {
-    if(mapView.showsUserLocation) {
-      if let trackingMode = type.trackingMode {
-        mapView.setUserTrackingMode(trackingMode, animated: false)
-      }
+  
+  func updateMapConfig(config: MapConfig) {
+    if let type = config.mapType {
+      mapView.mapType = [
+        MapType.dark: QMapType.dark,
+        MapType.normal: QMapType.standard,
+        MapType.satellite: QMapType.satellite,
+      ][type] ?? QMapType.standard
+    }
+    if let index = config.mapStyle {
+      mapView.setMapStyle(Int32(index))
+    }
+    if let scale = config.logoScale {
+      mapView.setLogoScale(scale)
+    }
+    if let position = config.logoPosition {
+      mapView.setLogoMargin(position.offset.offset, anchor: position.anchor.anchor)
+    }
+    if let position = config.scalePosition {
+      mapView.setScaleOffset(CGPointMake(position.offset.x, -position.offset.y))
+    }
+    if let offset = config.compassOffset {
+      mapView.setCompassOffset(offset.offset)
+    }
+    if let enabled = config.compassEnabled {
+      mapView.showsCompass = enabled
+    }
+    if let enabled = config.scaleEnabled {
+      mapView.showsScale = enabled
+    }
+    if let enabled = config.scaleFadeEnabled {
+      mapView.setScaleFadeEnable(enabled)
+    }
+    if let enabled = config.rotateGesturesEnabled {
+      mapView.isRotateEnabled = enabled
+    }
+    if let enabled = config.scrollGesturesEnabled {
+      mapView.isScrollEnabled = enabled
+    }
+    if let enabled = config.zoomGesturesEnabled {
+      mapView.isZoomEnabled = enabled
+    }
+    if let enabled = config.skewGesturesEnabled {
+      mapView.isOverlookingEnabled = enabled
+    }
+    if let enabled = config.indoorViewEnabled {
+      mapView.setIndoorEnabled(enabled)
+    }
+    if let enabled = config.indoorPickerEnabled {
+      mapView.indoorPicker = enabled
+    }
+    if let enabled = config.trafficEnabled {
+      mapView.showsTraffic = enabled
+    }
+    if let enabled = config.buildingsEnabled {
+      mapView.showsBuildings = enabled
+    }
+    if let enabled = config.buildings3dEnabled {
+      mapView.shows3DBuildings = enabled
+    }
+    if let enabled = config.myLocationEnabled {
+      mapView.showsUserLocation = enabled
     }
   }
 

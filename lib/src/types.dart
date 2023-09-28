@@ -217,6 +217,104 @@ class Location {
   }
 }
 
+/// 地图属性配置
+class MapConfig {
+  MapConfig({
+    this.mapType,
+    this.mapStyle,
+    this.logoScale,
+    this.logoPosition,
+    this.scalePosition,
+    this.compassOffset,
+    this.compassEnabled,
+    this.scaleEnabled,
+    this.scaleFadeEnabled,
+    this.skewGesturesEnabled,
+    this.scrollGesturesEnabled,
+    this.rotateGesturesEnabled,
+    this.zoomGesturesEnabled,
+    this.trafficEnabled,
+    this.indoorViewEnabled,
+    this.indoorPickerEnabled,
+    this.buildingsEnabled,
+    this.buildings3dEnabled,
+    this.myLocationEnabled,
+    this.userLocationType,
+  });
+
+  MapType? mapType;
+  int? mapStyle;
+  double? logoScale;
+  UIControlPosition? logoPosition;
+  UIControlPosition? scalePosition;
+  UIControlOffset? compassOffset;
+  bool? compassEnabled;
+  bool? scaleEnabled;
+  bool? scaleFadeEnabled;
+  bool? skewGesturesEnabled;
+  bool? scrollGesturesEnabled;
+  bool? rotateGesturesEnabled;
+  bool? zoomGesturesEnabled;
+  bool? trafficEnabled;
+  bool? indoorViewEnabled;
+  bool? indoorPickerEnabled;
+  bool? buildingsEnabled;
+  bool? buildings3dEnabled;
+  bool? myLocationEnabled;
+  UserLocationType? userLocationType;
+
+  Object encode() {
+    return <Object?>[
+      mapType?.index,
+      mapStyle,
+      logoScale,
+      logoPosition?.encode(),
+      scalePosition?.encode(),
+      compassOffset?.encode(),
+      compassEnabled,
+      scaleEnabled,
+      scaleFadeEnabled,
+      skewGesturesEnabled,
+      scrollGesturesEnabled,
+      rotateGesturesEnabled,
+      zoomGesturesEnabled,
+      trafficEnabled,
+      indoorViewEnabled,
+      indoorPickerEnabled,
+      buildingsEnabled,
+      buildings3dEnabled,
+      myLocationEnabled,
+      userLocationType?.index,
+    ];
+  }
+
+  static MapConfig decode(Object result) {
+    result as List<Object?>;
+    return MapConfig(
+      mapType: result[0] != null ? MapType.values.elementAt(result[0] as int) : null,
+      mapStyle: result[1] as int?,
+      logoScale: result[2] as double?,
+      logoPosition: result[3] != null ? UIControlPosition.decode(result[3]! as List<Object?>) : null,
+      scalePosition: result[4] != null ? UIControlPosition.decode(result[4]! as List<Object?>) : null,
+      compassOffset: result[5] != null ? UIControlOffset.decode(result[5]! as List<Object?>) : null,
+      compassEnabled: result[6] as bool?,
+      scaleEnabled: result[7] as bool?,
+      scaleFadeEnabled: result[8] as bool?,
+      skewGesturesEnabled: result[9] as bool?,
+      scrollGesturesEnabled: result[10] as bool?,
+      rotateGesturesEnabled: result[11] as bool?,
+      zoomGesturesEnabled: result[12] as bool?,
+      trafficEnabled: result[13] as bool?,
+      indoorViewEnabled: result[14] as bool?,
+      indoorPickerEnabled: result[15] as bool?,
+      buildingsEnabled: result[16] as bool?,
+      buildings3dEnabled: result[17] as bool?,
+      myLocationEnabled: result[18] as bool?,
+      userLocationType: result[19] != null ? UserLocationType.values.elementAt(result[19] as int) : null,
+    );
+  }
+}
+
 /// 标记点配置属性
 class Marker {
   Marker({

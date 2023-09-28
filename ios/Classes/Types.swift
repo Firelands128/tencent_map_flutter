@@ -189,6 +189,115 @@ struct Location {
   }
 }
 
+/// 地图属性配置
+struct MapConfig {
+  var mapType: MapType? = nil
+  var mapStyle: Int32? = nil
+  var logoScale: Double? = nil
+  var logoPosition: UIControlPosition? = nil
+  var scalePosition: UIControlPosition? = nil
+  var compassOffset: UIControlOffset? = nil
+  var compassEnabled: Bool? = nil
+  var scaleEnabled: Bool? = nil
+  var scaleFadeEnabled: Bool? = nil
+  var skewGesturesEnabled: Bool? = nil
+  var scrollGesturesEnabled: Bool? = nil
+  var rotateGesturesEnabled: Bool? = nil
+  var zoomGesturesEnabled: Bool? = nil
+  var trafficEnabled: Bool? = nil
+  var indoorViewEnabled: Bool? = nil
+  var indoorPickerEnabled: Bool? = nil
+  var buildingsEnabled: Bool? = nil
+  var buildings3dEnabled: Bool? = nil
+  var myLocationEnabled: Bool? = nil
+  var userLocationType: UserLocationType? = nil
+
+  static func fromList(_ list: [Any?]) -> MapConfig {
+    var mapType: MapType? = nil
+    if let type: Int = nilOrValue(list[0]) {
+      mapType = MapType(rawValue: type)!
+    }
+    let mapStyle: Int32? = nilOrValue(list[1])
+    let logoScale: Double? = nilOrValue(list[2])
+    var logoPosition: UIControlPosition? = nil
+    if let logoPositionList: [Any?] = nilOrValue(list[3]) {
+      logoPosition = UIControlPosition.fromList(logoPositionList)
+    }
+    var scalePosition: UIControlPosition? = nil
+    if let scalePositionList: [Any?] = nilOrValue(list[4]) {
+      scalePosition = UIControlPosition.fromList(scalePositionList)
+    }
+    var compassOffset: UIControlOffset? = nil
+    if let compassPositionList: [Any?] = nilOrValue(list[5]) {
+      compassOffset = UIControlOffset.fromList(compassPositionList)
+    }
+    let compassEnabled: Bool? = nilOrValue(list[6])
+    let scaleEnabled: Bool? = nilOrValue(list[7])
+    let scaleFadeEnabled: Bool? = nilOrValue(list[8])
+    let skewGesturesEnabled: Bool? = nilOrValue(list[9])
+    let scrollGesturesEnabled: Bool? = nilOrValue(list[10])
+    let rotateGesturesEnabled: Bool? = nilOrValue(list[11])
+    let zoomGesturesEnabled: Bool? = nilOrValue(list[12])
+    let trafficEnabled: Bool? = nilOrValue(list[13])
+    let indoorViewEnabled: Bool? = nilOrValue(list[14])
+    let indoorPickerEnabled: Bool? = nilOrValue(list[15])
+    let buildingsEnabled: Bool? = nilOrValue(list[16])
+    let buildings3dEnabled: Bool? = nilOrValue(list[17])
+    let myLocationEnabled: Bool? = nilOrValue(list[18])
+    var userLocationType: UserLocationType? = nil
+    if let type: Int = nilOrValue(list[19]) {
+      userLocationType = UserLocationType(rawValue: type)!
+    }
+    return MapConfig(
+      mapType: mapType,
+      mapStyle: mapStyle,
+      logoScale: logoScale,
+      logoPosition: logoPosition,
+      scalePosition: scalePosition,
+      compassOffset: compassOffset,
+      compassEnabled: compassEnabled,
+      scaleEnabled: scaleEnabled,
+      scaleFadeEnabled: scaleFadeEnabled,
+      skewGesturesEnabled: skewGesturesEnabled,
+      scrollGesturesEnabled: scrollGesturesEnabled,
+      rotateGesturesEnabled: rotateGesturesEnabled,
+      zoomGesturesEnabled: zoomGesturesEnabled,
+      trafficEnabled: trafficEnabled,
+      indoorViewEnabled: indoorViewEnabled,
+      indoorPickerEnabled: indoorPickerEnabled,
+      buildingsEnabled: buildingsEnabled,
+      buildings3dEnabled: buildings3dEnabled,
+      myLocationEnabled: myLocationEnabled,
+      userLocationType: userLocationType
+    )
+  }
+
+  func toList() -> [Any?] {
+    return [
+      mapType?.rawValue,
+      mapStyle,
+      logoScale,
+      logoPosition?.toList(),
+      scalePosition?.toList(),
+      compassOffset?.toList(),
+      compassEnabled,
+      scaleEnabled,
+      scaleFadeEnabled,
+      skewGesturesEnabled,
+      scrollGesturesEnabled,
+      rotateGesturesEnabled,
+      zoomGesturesEnabled,
+      trafficEnabled,
+      indoorViewEnabled,
+      indoorPickerEnabled,
+      buildingsEnabled,
+      buildings3dEnabled,
+      myLocationEnabled,
+      userLocationType?.rawValue,
+    ]
+  }
+}
+
 /// 标记点配置属性
 struct Marker {
   /// 标记点ID

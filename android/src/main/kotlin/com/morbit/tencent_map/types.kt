@@ -234,6 +234,103 @@ data class Location(
   }
 }
 
+/** 地图属性配置 */
+data class MapConfig(
+  val mapType: MapType? = null,
+  val mapStyle: Int? = null,
+  val logoScale: Double? = null,
+  val logoPosition: UIControlPosition? = null,
+  val scalePosition: UIControlPosition? = null,
+  val compassOffset: UIControlOffset? = null,
+  val compassEnabled: Boolean? = null,
+  val scaleEnabled: Boolean? = null,
+  val scaleFadeEnabled: Boolean? = null,
+  val skewGesturesEnabled: Boolean? = null,
+  val scrollGesturesEnabled: Boolean? = null,
+  val rotateGesturesEnabled: Boolean? = null,
+  val zoomGesturesEnabled: Boolean? = null,
+  val trafficEnabled: Boolean? = null,
+  val indoorViewEnabled: Boolean? = null,
+  val indoorPickerEnabled: Boolean? = null,
+  val buildingsEnabled: Boolean? = null,
+  val buildings3dEnabled: Boolean? = null,
+  val myLocationEnabled: Boolean? = null,
+  val userLocationType: UserLocationType? = null,
+) {
+
+  companion object {
+    fun fromList(list: List<Any?>): MapConfig {
+      val mapType = (list[0] as Int?)?.let { MapType.ofRaw(it) }
+      val mapStyle = list[1] as Int?
+      val logoScale = list[2] as Double?
+      val logoPosition = (list[3] as List<Any?>?)?.let { UIControlPosition.fromList(it) }
+      val scalePosition = (list[4] as List<Any?>?)?.let { UIControlPosition.fromList(it) }
+      val compassOffset = (list[5] as List<Any?>?)?.let { UIControlOffset.fromList(it) }
+      val compassEnabled = list[6] as Boolean?
+      val scaleEnabled = list[7] as Boolean?
+      val scaleFadeEnabled = list[8] as Boolean?
+      val skewGesturesEnabled = list[9] as Boolean?
+      val scrollGesturesEnabled = list[10] as Boolean?
+      val rotateGesturesEnabled = list[11] as Boolean?
+      val zoomGesturesEnabled = list[12] as Boolean?
+      val trafficEnabled = list[13] as Boolean?
+      val indoorViewEnabled = list[14] as Boolean?
+      val indoorPickerEnabled = list[15] as Boolean?
+      val buildingsEnabled = list[16] as Boolean?
+      val buildings3dEnabled = list[17] as Boolean?
+      val myLocationEnabled = list[18] as Boolean?
+      val userLocationType = (list[19] as Int?)?.let { UserLocationType.ofRaw(it) }
+      return MapConfig(
+        mapType,
+        mapStyle,
+        logoScale,
+        logoPosition,
+        scalePosition,
+        compassOffset,
+        compassEnabled,
+        scaleEnabled,
+        scaleFadeEnabled,
+        skewGesturesEnabled,
+        scrollGesturesEnabled,
+        rotateGesturesEnabled,
+        zoomGesturesEnabled,
+        trafficEnabled,
+        indoorViewEnabled,
+        indoorPickerEnabled,
+        buildingsEnabled,
+        buildings3dEnabled,
+        myLocationEnabled,
+        userLocationType
+      )
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf(
+      mapType?.raw,
+      mapStyle,
+      logoScale,
+      logoPosition?.toList(),
+      scalePosition?.toList(),
+      compassOffset?.toList(),
+      compassEnabled,
+      scaleEnabled,
+      scaleFadeEnabled,
+      skewGesturesEnabled,
+      scrollGesturesEnabled,
+      rotateGesturesEnabled,
+      zoomGesturesEnabled,
+      trafficEnabled,
+      indoorViewEnabled,
+      indoorPickerEnabled,
+      buildingsEnabled,
+      buildings3dEnabled,
+      myLocationEnabled,
+      userLocationType?.raw,
+    )
+  }
+}
+
 /** 标记点配置属性 */
 data class Marker(
   /** 标记点ID */

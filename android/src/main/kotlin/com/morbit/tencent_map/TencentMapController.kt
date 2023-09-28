@@ -24,123 +24,9 @@ class TencentMapController(viewId: Int, binding: FlutterPluginBinding, private v
 
   private fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
     when (call.method) {
-      "setMapType" -> {
-        val type = MapType.ofRaw(call.argument<Int>("type")!!)!!
-        api.setMapType(type)
-        result.success(null)
-      }
-
-      "setMapStyle" -> {
-        val index = call.argument<Long>("index")!!
-        api.setMapStyle(index)
-        result.success(null)
-      }
-
-      "setLogoScale" -> {
-        val scale = call.argument<Double>("scale")!!
-        api.setLogoScale(scale)
-        result.success(null)
-      }
-
-      "setLogoPosition" -> {
-        val position = call.argument<UIControlPosition>("position")!!
-        api.setLogoPosition(position)
-        result.success(null)
-      }
-
-      "setScalePosition" -> {
-        val position = call.argument<UIControlPosition>("position")!!
-        api.setScalePosition(position)
-        result.success(null)
-      }
-
-      "setCompassOffset" -> {
-        val offset = call.argument<UIControlOffset>("offset")!!
-        api.setCompassOffset(offset)
-        result.success(null)
-      }
-
-      "setCompassEnabled" -> {
-        val enabled = call.argument<Boolean>("enabled")!!
-        api.setCompassEnabled(enabled)
-        result.success(null)
-      }
-
-      "setScaleEnabled" -> {
-        val enabled = call.argument<Boolean>("enabled")!!
-        api.setScaleEnabled(enabled)
-        result.success(null)
-      }
-
-      "setScaleFadeEnabled" -> {
-        val enabled = call.argument<Boolean>("enabled")!!
-        api.setScaleFadeEnabled(enabled)
-        result.success(null)
-      }
-
-      "setRotateGesturesEnabled" -> {
-        val enabled = call.argument<Boolean>("enabled")!!
-        api.setRotateGesturesEnabled(enabled)
-        result.success(null)
-      }
-
-      "setScrollGesturesEnabled" -> {
-        val enabled = call.argument<Boolean>("enabled")!!
-        api.setScrollGesturesEnabled(enabled)
-        result.success(null)
-      }
-
-      "setZoomGesturesEnabled" -> {
-        val enabled = call.argument<Boolean>("enabled")!!
-        api.setZoomGesturesEnabled(enabled)
-        result.success(null)
-      }
-
-      "setSkewGesturesEnabled" -> {
-        val enabled = call.argument<Boolean>("enabled")!!
-        api.setSkewGesturesEnabled(enabled)
-        result.success(null)
-      }
-
-      "setIndoorViewEnabled" -> {
-        val enabled = call.argument<Boolean>("enabled")!!
-        api.setIndoorViewEnabled(enabled)
-        result.success(null)
-      }
-
-      "setIndoorPickerEnabled" -> {
-        val enabled = call.argument<Boolean>("enabled")!!
-        api.setIndoorPickerEnabled(enabled)
-        result.success(null)
-      }
-
-      "setTrafficEnabled" -> {
-        val enabled = call.argument<Boolean>("enabled")!!
-        api.setTrafficEnabled(enabled)
-        result.success(null)
-      }
-
-      "setBuildingsEnabled" -> {
-        val enabled = call.argument<Boolean>("enabled")!!
-        api.setBuildingsEnabled(enabled)
-        result.success(null)
-      }
-
-      "setBuildings3dEnabled" -> {
-        val enabled = call.argument<Boolean>("enabled")!!
-        api.setBuildings3dEnabled(enabled)
-        result.success(null)
-      }
-
-      "setMyLocationEnabled" -> {
-        val enabled = call.argument<Boolean>("enabled")!!
-        api.setMyLocationEnabled(enabled)
-        result.success(null)
-      }
-
-      "setUserLocationType" -> {
-        val type = call.argument<UserLocationType>("type")!!
-        api.setUserLocationType(type)
+      "updateMapConfig" -> {
+        val config = call.argument<MapConfig>("config")!!
+        api.updateMapConfig(config)
         result.success(null)
       }
 
@@ -433,6 +319,12 @@ private object TencentMapApiCodec : StandardMessageCodec() {
         }
       }
 
+      140.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          MapConfig.fromList(it)
+        }
+      }
+
       else -> super.readValueOfType(type, buffer)
     }
   }
@@ -496,6 +388,11 @@ private object TencentMapApiCodec : StandardMessageCodec() {
 
       is UIControlPosition -> {
         stream.write(139)
+        writeValue(stream, value.toList())
+      }
+
+      is MapConfig -> {
+        stream.write(140)
         writeValue(stream, value.toList())
       }
 
