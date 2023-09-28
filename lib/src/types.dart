@@ -508,4 +508,14 @@ class UIControlPosition {
       offset: UIControlOffset.decode(result[1]! as List<Object?>),
     );
   }
+
+  UIControlPosition copyWith({
+    UIControlAnchor? anchor,
+    UIControlOffset? offset,
+  }) {
+    return UIControlPosition(
+      anchor: anchor ?? this.anchor,
+      offset: offset ?? this.offset,
+    );
+  }
 }

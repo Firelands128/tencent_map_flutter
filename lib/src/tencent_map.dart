@@ -8,10 +8,8 @@ class TencentMap extends StatefulWidget {
     this.mapType = MapType.normal,
     this.mapStyle,
     this.logoScale = 1.0,
-    this.logoAnchor = UIControlAnchor.bottomRight,
-    this.logoOffset,
-    this.scaleAnchor = UIControlAnchor.bottomLeft,
-    this.scaleOffset,
+    this.logoPosition,
+    this.scalePosition,
     this.compassOffset,
     this.compassEnabled = true,
     this.scaleEnabled = true,
@@ -58,17 +56,11 @@ class TencentMap extends StatefulWidget {
   /// Logo大小
   final double logoScale;
 
-  /// Logo控件位置锚点
-  final UIControlAnchor logoAnchor;
+  /// Logo控件位置
+  final UIControlPosition? logoPosition;
 
-  /// Logo控件位置偏移
-  final UIControlOffset? logoOffset;
-
-  /// 比例尺控件位置锚点
-  final UIControlAnchor scaleAnchor;
-
-  /// 比例尺控件位置偏移
-  final UIControlOffset? scaleOffset;
+  /// 比例尺控件位置
+  final UIControlPosition? scalePosition;
 
   /// 指南针控件位置偏移
   final UIControlOffset? compassOffset;
@@ -237,41 +229,23 @@ class TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     if (widget.logoScale != oldWidget.logoScale) {
       TencentMapMethodChannel.instance.setLogoScale(widget.logoScale, mapId: mapId);
     }
-    if (widget.logoAnchor != oldWidget.logoAnchor) {
+    if (widget.logoPosition != oldWidget.logoPosition) {
       TencentMapMethodChannel.instance.setLogoPosition(
-        UIControlPosition(
-          anchor: widget.logoAnchor,
-          offset: widget.logoOffset ?? defaultUIControlOffset,
-        ),
-        mapId: mapId,
-      );
+          widget.logoPosition ??
+              UIControlPosition(
+                anchor: UIControlAnchor.bottomRight,
+                offset: defaultUIControlOffset,
+              ),
+          mapId: mapId);
     }
-    if (widget.logoOffset != null && widget.logoOffset != oldWidget.logoOffset) {
-      TencentMapMethodChannel.instance.setLogoPosition(
-        UIControlPosition(
-          anchor: widget.logoAnchor,
-          offset: widget.logoOffset!,
-        ),
-        mapId: mapId,
-      );
-    }
-    if (widget.scaleAnchor != oldWidget.scaleAnchor) {
+    if (widget.scalePosition != oldWidget.scalePosition) {
       TencentMapMethodChannel.instance.setScalePosition(
-        UIControlPosition(
-          anchor: widget.scaleAnchor,
-          offset: widget.scaleOffset ?? defaultUIControlOffset,
-        ),
-        mapId: mapId,
-      );
-    }
-    if (widget.scaleOffset != null && widget.scaleOffset != oldWidget.scaleOffset) {
-      TencentMapMethodChannel.instance.setScalePosition(
-        UIControlPosition(
-          anchor: widget.scaleAnchor,
-          offset: widget.scaleOffset!,
-        ),
-        mapId: mapId,
-      );
+          widget.scalePosition ??
+              UIControlPosition(
+                anchor: UIControlAnchor.bottomLeft,
+                offset: defaultUIControlOffset,
+              ),
+          mapId: mapId);
     }
     if (widget.compassOffset != null && widget.compassOffset != oldWidget.compassOffset) {
       TencentMapMethodChannel.instance.setCompassOffset(
@@ -377,17 +351,19 @@ class TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     if (widget.mapStyle != null) TencentMapMethodChannel.instance.setMapStyle(widget.mapStyle!, mapId: mapId);
     TencentMapMethodChannel.instance.setLogoScale(widget.logoScale, mapId: mapId);
     TencentMapMethodChannel.instance.setLogoPosition(
-      UIControlPosition(
-        anchor: widget.logoAnchor,
-        offset: widget.logoOffset ?? defaultUIControlOffset,
-      ),
+      widget.logoPosition ??
+          UIControlPosition(
+            anchor: UIControlAnchor.bottomRight,
+            offset: defaultUIControlOffset,
+          ),
       mapId: mapId,
     );
     TencentMapMethodChannel.instance.setScalePosition(
-      UIControlPosition(
-        anchor: widget.scaleAnchor,
-        offset: widget.scaleOffset ?? defaultUIControlOffset,
-      ),
+      widget.scalePosition ??
+          UIControlPosition(
+            anchor: UIControlAnchor.bottomLeft,
+            offset: defaultUIControlOffset,
+          ),
       mapId: mapId,
     );
     TencentMapMethodChannel.instance.setCompassOffset(widget.compassOffset ?? defaultUIControlOffset, mapId: mapId);

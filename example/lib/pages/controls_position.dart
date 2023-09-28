@@ -27,10 +27,14 @@ class _ControlsPositionPageState extends State<ControlsPositionPage> {
     UIControlAnchor.topLeft: '左上角',
     UIControlAnchor.topRight: '右上角',
   };
-  UIControlAnchor logoAnchor = UIControlAnchor.bottomRight;
-  UIControlAnchor scaleAnchor = UIControlAnchor.bottomLeft;
-  UIControlOffset logoOffset = UIControlOffset(x: 0, y: 0);
-  UIControlOffset scaleOffset = UIControlOffset(x: 0, y: 0);
+  UIControlPosition logoPosition = UIControlPosition(
+    anchor: UIControlAnchor.bottomRight,
+    offset: UIControlOffset(x: 0, y: 0),
+  );
+  UIControlPosition scalePosition = UIControlPosition(
+    anchor: UIControlAnchor.bottomLeft,
+    offset: UIControlOffset(x: 0, y: 0),
+  );
   UIControlOffset compassOffset = UIControlOffset(x: 0, y: 0);
 
   void showOptions({
@@ -74,10 +78,8 @@ class _ControlsPositionPageState extends State<ControlsPositionPage> {
               scaleEnabled: true,
               scaleFadeEnabled: false,
               compassEnabled: true,
-              logoAnchor: logoAnchor,
-              logoOffset: logoOffset,
-              scaleAnchor: scaleAnchor,
-              scaleOffset: scaleOffset,
+              logoPosition: logoPosition,
+              scalePosition: scalePosition,
               compassOffset: compassOffset,
             ),
           ),
@@ -92,11 +94,13 @@ class _ControlsPositionPageState extends State<ControlsPositionPage> {
                     children: [
                       TextButton(
                         onPressed: () => showOptions(
-                          anchor: logoAnchor,
-                          onChanged: (anchor) => setState(() => logoAnchor = anchor),
+                          anchor: logoPosition.anchor,
+                          onChanged: (anchor) => setState(
+                            () => logoPosition = logoPosition.copyWith(anchor: anchor),
+                          ),
                         ),
                         child: Text(
-                          "$logo - ${anchorLabels[logoAnchor]}",
+                          "$logo - ${anchorLabels[logoPosition.anchor]}",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onBackground,
                           ),
@@ -107,22 +111,26 @@ class _ControlsPositionPageState extends State<ControlsPositionPage> {
                         children: [
                           _OffsetTextField(
                             label: "X",
-                            offset: logoOffset,
+                            offset: logoPosition.offset,
                             onChanged: (value) => setState(() {
-                              logoOffset = UIControlOffset(
-                                x: value,
-                                y: logoOffset.y,
+                              logoPosition = logoPosition.copyWith(
+                                offset: UIControlOffset(
+                                  x: value,
+                                  y: logoPosition.offset.y,
+                                ),
                               );
                             }),
                           ),
                           const SizedBox(width: 10),
                           _OffsetTextField(
                             label: "Y",
-                            offset: logoOffset,
+                            offset: logoPosition.offset,
                             onChanged: (value) => setState(() {
-                              logoOffset = UIControlOffset(
-                                x: logoOffset.x,
-                                y: value,
+                              logoPosition = logoPosition.copyWith(
+                                offset: UIControlOffset(
+                                  x: logoPosition.offset.x,
+                                  y: value,
+                                ),
                               );
                             }),
                           ),
@@ -139,11 +147,13 @@ class _ControlsPositionPageState extends State<ControlsPositionPage> {
                               alignment: Alignment.center,
                               child: TextButton(
                                 onPressed: () => showOptions(
-                                  anchor: scaleAnchor,
-                                  onChanged: (anchor) => setState(() => scaleAnchor = anchor),
+                                  anchor: scalePosition.anchor,
+                                  onChanged: (anchor) => setState(
+                                    () => scalePosition = scalePosition.copyWith(anchor: anchor),
+                                  ),
                                 ),
                                 child: Text(
-                                  "$scale - ${anchorLabels[logoAnchor]}",
+                                  "$scale - ${anchorLabels[logoPosition.anchor]}",
                                   style: TextStyle(
                                     color: Theme.of(context).colorScheme.onBackground,
                                   ),
@@ -165,22 +175,26 @@ class _ControlsPositionPageState extends State<ControlsPositionPage> {
                         children: [
                           _OffsetTextField(
                             label: "X",
-                            offset: scaleOffset,
+                            offset: scalePosition.offset,
                             onChanged: (value) => setState(() {
-                              scaleOffset = UIControlOffset(
-                                x: value,
-                                y: scaleOffset.y,
+                              scalePosition = scalePosition.copyWith(
+                                offset: UIControlOffset(
+                                  x: value,
+                                  y: scalePosition.offset.y,
+                                ),
                               );
                             }),
                           ),
                           const SizedBox(width: 10),
                           _OffsetTextField(
                             label: "Y",
-                            offset: scaleOffset,
+                            offset: scalePosition.offset,
                             onChanged: (value) => setState(() {
-                              scaleOffset = UIControlOffset(
-                                x: scaleOffset.x,
-                                y: value,
+                              scalePosition = scalePosition.copyWith(
+                                offset: UIControlOffset(
+                                  x: scalePosition.offset.x,
+                                  y: value,
+                                ),
                               );
                             }),
                           ),
