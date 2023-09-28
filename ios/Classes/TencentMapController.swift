@@ -198,39 +198,39 @@ class TencentMapController: NSObject {
   private class TencentMapCodecReader: FlutterStandardReader {
     override func readValue(ofType type: UInt8) -> Any? {
       switch type {
-      case 124:
-        return MapType(rawValue: self.readValue() as! Int)
-      case 125:
-        return RestrictRegionMode(rawValue: self.readValue() as! Int)
-      case 126:
-        return UIControlAnchor(rawValue: self.readValue() as! Int)
-      case 127:
-        return UserLocationType(rawValue: self.readValue() as! Int)
       case 128:
-        return Anchor.fromList(self.readValue() as! [Any?])
+        return MapType(rawValue: self.readValue() as! Int)
       case 129:
-        return Bitmap.fromList(self.readValue() as! [Any?])
+        return RestrictRegionMode(rawValue: self.readValue() as! Int)
       case 130:
-        return CameraPosition.fromList(self.readValue() as! [Any?])
+        return UIControlAnchor(rawValue: self.readValue() as! Int)
       case 131:
-        return EdgePadding.fromList(self.readValue() as! [Any?])
+        return UserLocationType(rawValue: self.readValue() as! Int)
       case 132:
-        return Location.fromList(self.readValue() as! [Any?])
+        return Anchor.fromList(self.readValue() as! [Any?])
       case 133:
-        return MapConfig.fromList(self.readValue() as! [Any?])
+        return Bitmap.fromList(self.readValue() as! [Any?])
       case 134:
-        return Marker.fromList(self.readValue() as! [Any?])
+        return CameraPosition.fromList(self.readValue() as! [Any?])
       case 135:
-        return MarkerUpdateOptions.fromList(self.readValue() as! [Any?])
+        return EdgePadding.fromList(self.readValue() as! [Any?])
       case 136:
-        return Poi.fromList(self.readValue() as! [Any?])
+        return Location.fromList(self.readValue() as! [Any?])
       case 137:
-        return Position.fromList(self.readValue() as! [Any?])
+        return MapConfig.fromList(self.readValue() as! [Any?])
       case 138:
-        return Region.fromList(self.readValue() as! [Any?])
+        return Marker.fromList(self.readValue() as! [Any?])
       case 139:
-        return UIControlOffset.fromList(self.readValue() as! [Any?])
+        return MarkerUpdateOptions.fromList(self.readValue() as! [Any?])
       case 140:
+        return Poi.fromList(self.readValue() as! [Any?])
+      case 141:
+        return Position.fromList(self.readValue() as! [Any?])
+      case 142:
+        return Region.fromList(self.readValue() as! [Any?])
+      case 143:
+        return UIControlOffset.fromList(self.readValue() as! [Any?])
+      case 144:
         return UIControlPosition.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
@@ -241,59 +241,59 @@ class TencentMapController: NSObject {
   private class TencentMapCodecWriter: FlutterStandardWriter {
     override func writeValue(_ value: Any) {
       if let value = value as? MapType {
-        super.writeValue(124)
+        super.writeValue(128)
         super.writeValue(value.rawValue)
       }
       else if let value = value as? RestrictRegionMode {
-        super.writeValue(125)
+        super.writeValue(129)
         super.writeValue(value.rawValue)
       }
       else if let value = value as? UIControlAnchor {
-        super.writeValue(126)
+        super.writeValue(130)
         super.writeValue(value.rawValue)
       }
       else if let value = value as? UserLocationType {
-        super.writeValue(127)
+        super.writeValue(131)
         super.writeValue(value.rawValue)
       }
       else if let value = value as? Anchor {
-        super.writeByte(128)
-        super.writeValue(value.toList())
-      } else if let value = value as? Bitmap {
-        super.writeByte(129)
-        super.writeValue(value.toList())
-      } else if let value = value as? CameraPosition {
-        super.writeByte(130)
-        super.writeValue(value.toList())
-      } else if let value = value as? EdgePadding {
-        super.writeByte(131)
-        super.writeValue(value.toList())
-      } else if let value = value as? Location {
         super.writeByte(132)
         super.writeValue(value.toList())
-      } else if let value = value as? MapConfig {
+      } else if let value = value as? Bitmap {
         super.writeByte(133)
         super.writeValue(value.toList())
-      } else if let value = value as? Marker {
+      } else if let value = value as? CameraPosition {
         super.writeByte(134)
         super.writeValue(value.toList())
-      } else if let value = value as? MarkerUpdateOptions {
+      } else if let value = value as? EdgePadding {
         super.writeByte(135)
         super.writeValue(value.toList())
-      } else if let value = value as? Poi {
+      } else if let value = value as? Location {
         super.writeByte(136)
         super.writeValue(value.toList())
-      } else if let value = value as? Position {
+      } else if let value = value as? MapConfig {
         super.writeByte(137)
         super.writeValue(value.toList())
-      } else if let value = value as? Region {
+      } else if let value = value as? Marker {
         super.writeByte(138)
         super.writeValue(value.toList())
-      } else if let value = value as? UIControlOffset {
+      } else if let value = value as? MarkerUpdateOptions {
         super.writeByte(139)
         super.writeValue(value.toList())
-      } else if let value = value as? UIControlPosition {
+      } else if let value = value as? Poi {
         super.writeByte(140)
+        super.writeValue(value.toList())
+      } else if let value = value as? Position {
+        super.writeByte(141)
+        super.writeValue(value.toList())
+      } else if let value = value as? Region {
+        super.writeByte(142)
+        super.writeValue(value.toList())
+      } else if let value = value as? UIControlOffset {
+        super.writeByte(143)
+        super.writeValue(value.toList())
+      } else if let value = value as? UIControlPosition {
+        super.writeByte(144)
         super.writeValue(value.toList())
       } else {
         super.writeValue(value)

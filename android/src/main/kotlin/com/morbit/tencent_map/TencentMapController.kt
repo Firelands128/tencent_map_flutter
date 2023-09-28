@@ -247,103 +247,103 @@ class TencentMapController(viewId: Int, binding: FlutterPluginBinding, private v
 private object TencentMapApiCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
     return when (type) {
-      124.toByte() -> {
+      128.toByte() -> {
         return (readValue(buffer) as? Int)?.let {
           MapType.ofRaw(it)
         }
       }
 
-      125.toByte() -> {
+      129.toByte() -> {
         return (readValue(buffer) as? Int)?.let {
           RestrictRegionMode.ofRaw(it)
         }
       }
 
-      126.toByte() -> {
+      130.toByte() -> {
         return (readValue(buffer) as? Int)?.let {
           UIControlAnchor.ofRaw(it)
         }
       }
 
-      127.toByte() -> {
+      131.toByte() -> {
         return (readValue(buffer) as? Int)?.let {
           UserLocationType.ofRaw(it)
         }
       }
 
-      128.toByte() -> {
+      132.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           Anchor.fromList(it)
         }
       }
 
-      129.toByte() -> {
+      133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           Bitmap.fromList(it)
         }
       }
 
-      130.toByte() -> {
+      134.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           CameraPosition.fromList(it)
         }
       }
 
-      131.toByte() -> {
+      135.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           EdgePadding.fromList(it)
         }
       }
 
-      132.toByte() -> {
+      136.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           Location.fromList(it)
         }
       }
 
-      133.toByte() -> {
+      137.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           MapConfig.fromList(it)
         }
       }
 
-      134.toByte() -> {
+      138.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           Marker.fromList(it)
         }
       }
 
-      135.toByte() -> {
+      139.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           MarkerUpdateOptions.fromList(it)
         }
       }
 
-      136.toByte() -> {
+      140.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           Poi.fromList(it)
         }
       }
 
-      137.toByte() -> {
+      141.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           Position.fromList(it)
         }
       }
 
-      138.toByte() -> {
+      142.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           Region.fromList(it)
         }
       }
 
-      139.toByte() -> {
+      143.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           UIControlOffset.fromList(it)
         }
       }
 
-      140.toByte() -> {
+      144.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           UIControlPosition.fromList(it)
         }
@@ -356,87 +356,87 @@ private object TencentMapApiCodec : StandardMessageCodec() {
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?) {
     when (value) {
       is MapType -> {
-        stream.write(124)
+        stream.write(128)
         writeValue(stream, value.raw)
       }
 
       is RestrictRegionMode -> {
-        stream.write(125)
+        stream.write(129)
         writeValue(stream, value.raw)
       }
 
       is UIControlAnchor -> {
-        stream.write(126)
+        stream.write(130)
         writeValue(stream, value.raw)
       }
 
       is UserLocationType -> {
-        stream.write(127)
+        stream.write(131)
         writeValue(stream, value.raw)
       }
 
       is Anchor -> {
-        stream.write(128)
-        writeValue(stream, value.toList())
-      }
-
-      is Bitmap -> {
-        stream.write(129)
-        writeValue(stream, value.toList())
-      }
-
-      is CameraPosition -> {
-        stream.write(130)
-        writeValue(stream, value.toList())
-      }
-
-      is EdgePadding -> {
-        stream.write(131)
-        writeValue(stream, value.toList())
-      }
-
-      is Location -> {
         stream.write(132)
         writeValue(stream, value.toList())
       }
 
-      is MapConfig -> {
+      is Bitmap -> {
         stream.write(133)
         writeValue(stream, value.toList())
       }
 
-      is Marker -> {
+      is CameraPosition -> {
         stream.write(134)
         writeValue(stream, value.toList())
       }
 
-      is MarkerUpdateOptions -> {
+      is EdgePadding -> {
         stream.write(135)
         writeValue(stream, value.toList())
       }
 
-      is Poi -> {
+      is Location -> {
         stream.write(136)
         writeValue(stream, value.toList())
       }
 
-      is Position -> {
+      is MapConfig -> {
         stream.write(137)
         writeValue(stream, value.toList())
       }
 
-      is Region -> {
+      is Marker -> {
         stream.write(138)
         writeValue(stream, value.toList())
       }
 
-      is UIControlOffset -> {
+      is MarkerUpdateOptions -> {
         stream.write(139)
         writeValue(stream, value.toList())
       }
 
-      is UIControlPosition -> {
+      is Poi -> {
         stream.write(140)
+        writeValue(stream, value.toList())
+      }
+
+      is Position -> {
+        stream.write(141)
+        writeValue(stream, value.toList())
+      }
+
+      is Region -> {
+        stream.write(142)
+        writeValue(stream, value.toList())
+      }
+
+      is UIControlOffset -> {
+        stream.write(143)
+        writeValue(stream, value.toList())
+      }
+
+      is UIControlPosition -> {
+        stream.write(144)
         writeValue(stream, value.toList())
       }
 

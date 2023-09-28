@@ -332,55 +332,55 @@ class _TencentMapApiCodec extends StandardMessageCodec {
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     if (value is MapType) {
-      buffer.putUint8(124);
+      buffer.putUint8(128);
       writeValue(buffer, value.index);
     } else if (value is RestrictRegionMode) {
-      buffer.putUint8(125);
+      buffer.putUint8(129);
       writeValue(buffer, value.index);
     } else if (value is UIControlAnchor) {
-      buffer.putUint8(126);
+      buffer.putUint8(130);
       writeValue(buffer, value.index);
     } else if (value is UserLocationType) {
-      buffer.putUint8(127);
+      buffer.putUint8(131);
       writeValue(buffer, value.index);
     } else if (value is Anchor) {
-      buffer.putUint8(128);
-      writeValue(buffer, value.encode());
-    } else if (value is Bitmap) {
-      buffer.putUint8(129);
-      writeValue(buffer, value.encode());
-    } else if (value is CameraPosition) {
-      buffer.putUint8(130);
-      writeValue(buffer, value.encode());
-    } else if (value is EdgePadding) {
-      buffer.putUint8(131);
-      writeValue(buffer, value.encode());
-    } else if (value is Location) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    } else if (value is MapConfig) {
+    } else if (value is Bitmap) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
-    } else if (value is Marker) {
+    } else if (value is CameraPosition) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
-    } else if (value is MarkerUpdateOptions) {
+    } else if (value is EdgePadding) {
       buffer.putUint8(135);
       writeValue(buffer, value.encode());
-    } else if (value is Poi) {
+    } else if (value is Location) {
       buffer.putUint8(136);
       writeValue(buffer, value.encode());
-    } else if (value is Position) {
+    } else if (value is MapConfig) {
       buffer.putUint8(137);
       writeValue(buffer, value.encode());
-    } else if (value is Region) {
+    } else if (value is Marker) {
       buffer.putUint8(138);
       writeValue(buffer, value.encode());
-    } else if (value is UIControlOffset) {
+    } else if (value is MarkerUpdateOptions) {
       buffer.putUint8(139);
       writeValue(buffer, value.encode());
-    } else if (value is UIControlPosition) {
+    } else if (value is Poi) {
       buffer.putUint8(140);
+      writeValue(buffer, value.encode());
+    } else if (value is Position) {
+      buffer.putUint8(141);
+      writeValue(buffer, value.encode());
+    } else if (value is Region) {
+      buffer.putUint8(142);
+      writeValue(buffer, value.encode());
+    } else if (value is UIControlOffset) {
+      buffer.putUint8(143);
+      writeValue(buffer, value.encode());
+    } else if (value is UIControlPosition) {
+      buffer.putUint8(144);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -390,39 +390,39 @@ class _TencentMapApiCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 124:
-        return MapType.values.elementAt(readValue(buffer) as int);
-      case 125:
-        return RestrictRegionMode.values.elementAt(readValue(buffer) as int);
-      case 126:
-        return UIControlAnchor.values.elementAt(readValue(buffer) as int);
-      case 127:
-        return UserLocationType.values.elementAt(readValue(buffer) as int);
       case 128:
-        return Anchor.decode(readValue(buffer)!);
+        return MapType.values.elementAt(readValue(buffer) as int);
       case 129:
-        return Bitmap.decode(readValue(buffer)!);
+        return RestrictRegionMode.values.elementAt(readValue(buffer) as int);
       case 130:
-        return CameraPosition.decode(readValue(buffer)!);
+        return UIControlAnchor.values.elementAt(readValue(buffer) as int);
       case 131:
-        return EdgePadding.decode(readValue(buffer)!);
+        return UserLocationType.values.elementAt(readValue(buffer) as int);
       case 132:
-        return Location.decode(readValue(buffer)!);
+        return Anchor.decode(readValue(buffer)!);
       case 133:
-        return MapConfig.decode(readValue(buffer)!);
+        return Bitmap.decode(readValue(buffer)!);
       case 134:
-        return Marker.decode(readValue(buffer)!);
+        return CameraPosition.decode(readValue(buffer)!);
       case 135:
-        return MarkerUpdateOptions.decode(readValue(buffer)!);
+        return EdgePadding.decode(readValue(buffer)!);
       case 136:
-        return Poi.decode(readValue(buffer)!);
+        return Location.decode(readValue(buffer)!);
       case 137:
-        return Position.decode(readValue(buffer)!);
+        return MapConfig.decode(readValue(buffer)!);
       case 138:
-        return Region.decode(readValue(buffer)!);
+        return Marker.decode(readValue(buffer)!);
       case 139:
-        return UIControlOffset.decode(readValue(buffer)!);
+        return MarkerUpdateOptions.decode(readValue(buffer)!);
       case 140:
+        return Poi.decode(readValue(buffer)!);
+      case 141:
+        return Position.decode(readValue(buffer)!);
+      case 142:
+        return Region.decode(readValue(buffer)!);
+      case 143:
+        return UIControlOffset.decode(readValue(buffer)!);
+      case 144:
         return UIControlPosition.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
