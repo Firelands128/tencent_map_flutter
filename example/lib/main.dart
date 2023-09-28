@@ -11,7 +11,6 @@ import 'pages/flutter_marker.dart';
 import 'pages/layers.dart';
 import 'pages/location.dart';
 import 'pages/logo_scale.dart';
-import 'pages/map_style.dart';
 import 'pages/map_types.dart';
 import 'pages/restrict_map.dart';
 
@@ -51,7 +50,6 @@ class _AppState extends State<App> {
         home: Scaffold(
           body: ListView(children: [
             Item(MapTypesPage.title, (_) => const MapTypesPage()),
-            Item(MapStylePage.title, (_) => const MapStylePage()),
             Item(CameraMovePage.title, (_) => const CameraMovePage()),
             Item(CameraRegionMovePage.title, (_) => const CameraRegionMovePage()),
             Item(RestrictMapPage.title, (_) => const RestrictMapPage()),
