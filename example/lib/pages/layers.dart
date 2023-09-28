@@ -3,13 +3,13 @@ import 'package:tencent_map/tencent_map.dart';
 
 import '../utils.dart';
 
-/// 图层显示页面：路况、室内图、3D建筑
+/// 图层显示页面：路况、建筑物
 class LayersPage extends StatefulWidget {
   /// 图层显示页面构造函数
   const LayersPage({Key? key}) : super(key: key);
 
   /// 图层显示页面标题
-  static const title = '图层：路况、室内图、3D 建筑';
+  static const title = '图层：路况、建筑物';
 
   @override
   State<LayersPage> createState() => _LayersPageState();
@@ -17,17 +17,15 @@ class LayersPage extends StatefulWidget {
 
 class _LayersPageState extends State<LayersPage> {
   static const traffic = '路况';
-  static const indoor = '室内图';
   static const buildings = '建筑物';
   static const buildings3d = '3D建筑物';
 
   final _state = {
     traffic: false,
-    indoor: false,
     buildings: true,
     buildings3d: true,
   };
-  final _items = [traffic, indoor, buildings, buildings3d];
+  final _items = [traffic, buildings, buildings3d];
 
   List<Widget> get items {
     return _items
@@ -53,8 +51,6 @@ class _LayersPageState extends State<LayersPage> {
       body: TencentMap(
         mapType: context.isDark ? MapType.dark : MapType.normal,
         trafficEnabled: _state[traffic] ?? false,
-        indoorViewEnabled: _state[indoor] ?? false,
-        indoorPickerEnabled: _state[indoor] ?? false,
         buildingsEnabled: _state[buildings] ?? false,
         buildings3dEnabled: _state[buildings3d] ?? false,
         onMapCreated: (controller) {
