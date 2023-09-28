@@ -69,6 +69,10 @@ class TencentMapApi(private val tencentMap: TencentMap) {
     }
   }
 
+  fun start() {
+    mapView.onStart()
+  }
+
   fun pause() {
     mapView.onPause()
   }
@@ -79,10 +83,6 @@ class TencentMapApi(private val tencentMap: TencentMap) {
 
   fun stop() {
     mapView.onStop()
-  }
-
-  fun start() {
-    mapView.onStart()
   }
 
   fun destroy() {
