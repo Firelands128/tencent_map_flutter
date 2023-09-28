@@ -208,14 +208,14 @@ class TencentMapController: NSObject {
         return EdgePadding.fromList(self.readValue() as! [Any?])
       case 132:
         return Location.fromList(self.readValue() as! [Any?])
-			case 133:
-				return MapConfig.fromList(self.readValue() as! [Any?])
+      case 133:
+        return MapConfig.fromList(self.readValue() as! [Any?])
       case 134:
         return Marker.fromList(self.readValue() as! [Any?])
       case 135:
         return MarkerUpdateOptions.fromList(self.readValue() as! [Any?])
-			case 136:
-				return Poi.fromList(self.readValue() as! [Any?])
+      case 136:
+        return Poi.fromList(self.readValue() as! [Any?])
       case 137:
         return Position.fromList(self.readValue() as! [Any?])
       case 138:
@@ -247,18 +247,18 @@ class TencentMapController: NSObject {
       } else if let value = value as? Location {
         super.writeByte(132)
         super.writeValue(value.toList())
-			} else if let value = value as? MapConfig {
-				super.writeByte(133)
-				super.writeValue(value.toList())
+      } else if let value = value as? MapConfig {
+        super.writeByte(133)
+        super.writeValue(value.toList())
       } else if let value = value as? Marker {
         super.writeByte(134)
         super.writeValue(value.toList())
       } else if let value = value as? MarkerUpdateOptions {
         super.writeByte(135)
         super.writeValue(value.toList())
-			} else if let value = value as? Poi {
-				super.writeByte(136)
-				super.writeValue(value.toList())
+      } else if let value = value as? Poi {
+        super.writeByte(136)
+        super.writeValue(value.toList())
       } else if let value = value as? Position {
         super.writeByte(137)
         super.writeValue(value.toList())
