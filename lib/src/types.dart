@@ -4,8 +4,10 @@ part of tencent_map;
 enum MapType {
   /// 常规地图
   normal,
+
   /// 卫星地图
   satellite,
+
   /// 暗色地图
   dark,
 }
@@ -14,6 +16,7 @@ enum MapType {
 enum RestrictRegionMode {
   /// 适配宽度
   fitWidth,
+
   /// 适配高度
   fitHeight,
 }
@@ -30,12 +33,16 @@ enum UIControlAnchor {
 enum UserLocationType {
   /// 跟踪用户的位置与方向更新，默认是此种类型
   trackingLocationRotate,
+
   /// 追踪用户的位置更新
   trackingLocation,
+
   /// 跟踪用户的位置与方向更新，并移动到地图中心（Android only, Android default）
   trackingLocationRotateCenter,
+
   /// 不追踪用户的位置与方向更新（iOS only）
   noTracking,
+
   /// 跟踪用户的位置与方向更新，并地图依照用户方向旋转（Android only）
   trackingRotate,
 }
@@ -131,9 +138,7 @@ class CameraPosition {
   static CameraPosition decode(Object result) {
     result as List<Object?>;
     return CameraPosition(
-      position: result[0] != null
-          ? Position.decode(result[0]! as List<Object?>)
-          : null,
+      position: result[0] != null ? Position.decode(result[0]! as List<Object?>) : null,
       heading: result[1] as double?,
       skew: result[2] as double?,
       zoom: result[3] as double?,
@@ -374,12 +379,8 @@ class Marker {
       rotation: result[3] as double?,
       zIndex: result[4] as int?,
       draggable: result[5] as bool?,
-      icon: result[6] != null
-          ? Bitmap.decode(result[6]! as List<Object?>)
-          : null,
-      anchor: result[7] != null
-          ? Anchor.decode(result[7]! as List<Object?>)
-          : null,
+      icon: result[6] != null ? Bitmap.decode(result[6]! as List<Object?>) : null,
+      anchor: result[7] != null ? Anchor.decode(result[7]! as List<Object?>) : null,
     );
   }
 }
@@ -432,19 +433,13 @@ class MarkerUpdateOptions {
   static MarkerUpdateOptions decode(Object result) {
     result as List<Object?>;
     return MarkerUpdateOptions(
-      position: result[0] != null
-          ? Position.decode(result[0]! as List<Object?>)
-          : null,
+      position: result[0] != null ? Position.decode(result[0]! as List<Object?>) : null,
       alpha: result[1] as double?,
       rotation: result[2] as double?,
       zIndex: result[3] as int?,
       draggable: result[4] as bool?,
-      icon: result[5] != null
-          ? Bitmap.decode(result[5]! as List<Object?>)
-          : null,
-      anchor: result[6] != null
-          ? Anchor.decode(result[6]! as List<Object?>)
-          : null,
+      icon: result[5] != null ? Bitmap.decode(result[5]! as List<Object?>) : null,
+      anchor: result[6] != null ? Anchor.decode(result[6]! as List<Object?>) : null,
     );
   }
 }
