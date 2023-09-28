@@ -331,7 +331,19 @@ class _TencentMapApiCodec extends StandardMessageCodec {
 
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is Anchor) {
+    if (value is MapType) {
+      buffer.putUint8(124);
+      writeValue(buffer, value.index);
+    } else if (value is RestrictRegionMode) {
+      buffer.putUint8(125);
+      writeValue(buffer, value.index);
+    } else if (value is UIControlAnchor) {
+      buffer.putUint8(126);
+      writeValue(buffer, value.index);
+    } else if (value is UserLocationType) {
+      buffer.putUint8(127);
+      writeValue(buffer, value.index);
+    } else if (value is Anchor) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
     } else if (value is Bitmap) {
@@ -378,6 +390,14 @@ class _TencentMapApiCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
+      case 124:
+        return MapType.values.elementAt(readValue(buffer) as int);
+      case 125:
+        return RestrictRegionMode.values.elementAt(readValue(buffer) as int);
+      case 126:
+        return UIControlAnchor.values.elementAt(readValue(buffer) as int);
+      case 127:
+        return UserLocationType.values.elementAt(readValue(buffer) as int);
       case 128:
         return Anchor.decode(readValue(buffer)!);
       case 129:

@@ -247,6 +247,30 @@ class TencentMapController(viewId: Int, binding: FlutterPluginBinding, private v
 private object TencentMapApiCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
     return when (type) {
+      124.toByte() -> {
+        return (readValue(buffer) as? Int)?.let {
+          MapType.ofRaw(it)
+        }
+      }
+
+      125.toByte() -> {
+        return (readValue(buffer) as? Int)?.let {
+          RestrictRegionMode.ofRaw(it)
+        }
+      }
+
+      126.toByte() -> {
+        return (readValue(buffer) as? Int)?.let {
+          UIControlAnchor.ofRaw(it)
+        }
+      }
+
+      127.toByte() -> {
+        return (readValue(buffer) as? Int)?.let {
+          UserLocationType.ofRaw(it)
+        }
+      }
+
       128.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           Anchor.fromList(it)
@@ -331,6 +355,26 @@ private object TencentMapApiCodec : StandardMessageCodec() {
 
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?) {
     when (value) {
+      is MapType -> {
+        stream.write(124)
+        writeValue(stream, value.raw)
+      }
+
+      is RestrictRegionMode -> {
+        stream.write(125)
+        writeValue(stream, value.raw)
+      }
+
+      is UIControlAnchor -> {
+        stream.write(126)
+        writeValue(stream, value.raw)
+      }
+
+      is UserLocationType -> {
+        stream.write(127)
+        writeValue(stream, value.raw)
+      }
+
       is Anchor -> {
         stream.write(128)
         writeValue(stream, value.toList())

@@ -198,6 +198,14 @@ class TencentMapController: NSObject {
   private class TencentMapCodecReader: FlutterStandardReader {
     override func readValue(ofType type: UInt8) -> Any? {
       switch type {
+      case 124:
+        return MapType(rawValue: self.readValue() as! Int)
+      case 125:
+        return RestrictRegionMode(rawValue: self.readValue() as! Int)
+      case 126:
+        return UIControlAnchor(rawValue: self.readValue() as! Int)
+      case 127:
+        return UserLocationType(rawValue: self.readValue() as! Int)
       case 128:
         return Anchor.fromList(self.readValue() as! [Any?])
       case 129:
@@ -232,7 +240,23 @@ class TencentMapController: NSObject {
 
   private class TencentMapCodecWriter: FlutterStandardWriter {
     override func writeValue(_ value: Any) {
-      if let value = value as? Anchor {
+      if let value = value as? MapType {
+        super.writeValue(124)
+        super.writeValue(value.rawValue)
+      }
+      else if let value = value as? RestrictRegionMode {
+        super.writeValue(125)
+        super.writeValue(value.rawValue)
+      }
+      else if let value = value as? UIControlAnchor {
+        super.writeValue(126)
+        super.writeValue(value.rawValue)
+      }
+      else if let value = value as? UserLocationType {
+        super.writeValue(127)
+        super.writeValue(value.rawValue)
+      }
+      else if let value = value as? Anchor {
         super.writeByte(128)
         super.writeValue(value.toList())
       } else if let value = value as? Bitmap {
