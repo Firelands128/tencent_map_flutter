@@ -296,10 +296,10 @@ class TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     mapId = id;
     final TencentMapController controller = await TencentMapController.init(id, this);
     widget.onMapCreated?.call(controller);
-    initMap();
+    _initMap();
   }
 
-  initMap() {
+  _initMap() {
     MapConfig config = MapConfig(
       mapType: widget.mapType,
       mapStyle: widget.mapStyle,
