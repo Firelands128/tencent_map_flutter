@@ -160,14 +160,9 @@ class TencentMapController {
     );
   }
 
-  /// 销毁地图
-  Future<void> destroy() {
-    return TencentMapMethodChannel.instance.destroy(mapId: mapId);
-  }
-
-  /// 停止地图渲染
-  Future<void> stop() {
-    return TencentMapMethodChannel.instance.stop(mapId: mapId);
+  /// 开始地图渲染
+  Future<void> start() {
+    return TencentMapMethodChannel.instance.start(mapId: mapId);
   }
 
   /// 暂停地图渲染
@@ -178,6 +173,16 @@ class TencentMapController {
   /// 恢复地图渲染
   Future<void> resume() {
     return TencentMapMethodChannel.instance.resume(mapId: mapId);
+  }
+
+  /// 停止地图渲染
+  Future<void> stop() {
+    return TencentMapMethodChannel.instance.stop(mapId: mapId);
+  }
+
+  /// 销毁地图
+  Future<void> destroy() {
+    return TencentMapMethodChannel.instance.destroy(mapId: mapId);
   }
 
   /// 获取当前定位
