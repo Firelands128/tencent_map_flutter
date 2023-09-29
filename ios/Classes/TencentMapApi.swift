@@ -10,10 +10,6 @@ class _TencentMapApi: NSObject {
     self.markers = markers
   }
 
-  func agreePrivacy(agreePrivacy: Bool) {
-    QMapServices.shared().setPrivacyAgreement(agreePrivacy)
-  }
-  
   func updateMapConfig(config: MapConfig) {
     if let type = config.mapType {
       mapView.mapType = [

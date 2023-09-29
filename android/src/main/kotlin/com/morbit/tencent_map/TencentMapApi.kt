@@ -11,11 +11,6 @@ import com.tencent.tencentmap.mapsdk.maps.model.LatLngBounds
 class TencentMapApi(private val tencentMap: TencentMap) {
   private val mapView = tencentMap.view
 
-  fun agreePrivacy(agreePrivacy: Boolean) {
-    TencentMapInitializer.setAgreePrivacy(agreePrivacy)
-    TencentLocationManager.setUserAgreePrivacy(agreePrivacy)
-  }
-
   fun updateMapConfig(config: MapConfig) {
     config.mapType?.let {
       mapView.map.mapType = when (it) {
