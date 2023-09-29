@@ -160,6 +160,11 @@ class TencentMapController {
     );
   }
 
+  /// 获取当前定位
+  Future<Location> getUserLocation() {
+    return TencentMapMethodChannel.instance.getUserLocation(mapId: mapId);
+  }
+
   /// 开始地图渲染
   Future<void> start() {
     return TencentMapMethodChannel.instance.start(mapId: mapId);
@@ -183,10 +188,5 @@ class TencentMapController {
   /// 销毁地图
   Future<void> destroy() {
     return TencentMapMethodChannel.instance.destroy(mapId: mapId);
-  }
-
-  /// 获取当前定位
-  Future<Location> getUserLocation() {
-    return TencentMapMethodChannel.instance.getUserLocation(mapId: mapId);
   }
 }

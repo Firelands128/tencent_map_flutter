@@ -69,30 +69,6 @@ class TencentMapApi(private val tencentMap: TencentMap) {
     }
   }
 
-  fun start() {
-    mapView.onStart()
-  }
-
-  fun pause() {
-    mapView.onPause()
-  }
-
-  fun resume() {
-    mapView.onResume()
-  }
-
-  fun stop() {
-    mapView.onStop()
-  }
-
-  fun destroy() {
-    mapView.onDestroy()
-  }
-
-  fun getUserLocation(): Location {
-    return mapView.map.myLocation.toLocation()
-  }
-
   fun moveCamera(position: CameraPosition, duration: Long) {
     val cameraPosition = position.toCameraPosition(mapView.map.cameraPosition)
     val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
@@ -182,5 +158,29 @@ class TencentMapApi(private val tencentMap: TencentMap) {
     if (options.anchor != null) {
       tencentMap.markers[markerId]?.setAnchor(options.anchor.x.toFloat(), options.anchor.y.toFloat())
     }
+  }
+
+  fun getUserLocation(): Location {
+    return mapView.map.myLocation.toLocation()
+  }
+
+  fun start() {
+    mapView.onStart()
+  }
+
+  fun pause() {
+    mapView.onPause()
+  }
+
+  fun resume() {
+    mapView.onResume()
+  }
+
+  fun stop() {
+    mapView.onStop()
+  }
+
+  fun destroy() {
+    mapView.onDestroy()
   }
 }

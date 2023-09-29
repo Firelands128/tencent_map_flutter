@@ -215,13 +215,6 @@ class TencentMapMethodChannel {
     );
   }
 
-  /// 获取当前定位信息
-  Future<Location> getUserLocation({required int mapId}) async {
-    final result = await _channel(mapId).invokeMethod<Location>("getUserLocation");
-    if (result == null) throw "Failed to get user location";
-    return result;
-  }
-
   /// 移动地图视野
   Future<void> moveCamera(CameraPosition position, int duration, {required int mapId}) {
     return _channel(mapId).invokeMethod(
@@ -299,6 +292,14 @@ class TencentMapMethodChannel {
       },
     );
   }
+
+  /// 获取当前定位信息
+  Future<Location> getUserLocation({required int mapId}) async {
+    final result = await _channel(mapId).invokeMethod<Location>("getUserLocation");
+    if (result == null) throw "Failed to get user location";
+    return result;
+  }
+
 
   /// 开始
   Future<void> start({required int mapId}) {

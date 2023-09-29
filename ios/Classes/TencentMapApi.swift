@@ -78,10 +78,6 @@ class _TencentMapApi: NSObject {
     }
   }
 
-  func getUserLocation() -> Location {
-    return mapView.userLocation.toLocation
-  }
-
   func moveCamera(position: CameraPosition, duration: Int64) {
     let animated = duration > 0
     if let it = position.position?.coordinate { mapView.setCenter(it, animated: animated) }
@@ -128,6 +124,10 @@ class _TencentMapApi: NSObject {
       annotation = marker.annotation
       mapView.addAnnotation(annotation)
     }
+  }
+
+  func getUserLocation() -> Location {
+    return mapView.userLocation.toLocation
   }
 
   func start() { }
