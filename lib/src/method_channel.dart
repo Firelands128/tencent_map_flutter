@@ -2,9 +2,7 @@ part of tencent_map;
 
 /// Tencent map API
 class TencentMapMethodChannel {
-  static final TencentMapMethodChannel _instance = TencentMapMethodChannel();
-
-  static TencentMapMethodChannel get instance => _instance;
+  static TencentMapMethodChannel instance = TencentMapMethodChannel();
 
   final MethodChannel _initializerChannel = const MethodChannel("plugins.flutter.dev/tencent_map_initializer");
 
@@ -32,11 +30,11 @@ class TencentMapMethodChannel {
   }
 
   // The controller we need to broadcast the different events coming from handleMethodCall.
-  final StreamController<MapEvent<Object?>> _mapEventStreamController = StreamController<MapEvent<Object?>>.broadcast();
+  final StreamController<MapEvent<Object?>> mapEventStreamController = StreamController<MapEvent<Object?>>.broadcast();
 
   // Returns a filtered view of the events in the _controller, by mapId.
   Stream<MapEvent<Object?>> _events(int mapId) =>
-      _mapEventStreamController.stream.where((MapEvent<Object?> event) => event.mapId == mapId);
+      mapEventStreamController.stream.where((MapEvent<Object?> event) => event.mapId == mapId);
 
   Stream<ScaleViewChangedEvent> onScaleViewChanged({required int mapId}) {
     return _events(mapId).whereType<ScaleViewChangedEvent>();
@@ -94,63 +92,63 @@ class TencentMapMethodChannel {
     switch (call.method) {
       case "onScaleViewChanged":
         final Map<String, Object?> arguments = _getArgumentDictionary(call);
-        _mapEventStreamController.add(ScaleViewChangedEvent(
+        mapEventStreamController.add(ScaleViewChangedEvent(
           mapId,
           arguments["scale"] as double,
         ));
         break;
       case "onPress":
         final Map<String, Object?> arguments = _getArgumentDictionary(call);
-        _mapEventStreamController.add(MapPressEvent(
+        mapEventStreamController.add(MapPressEvent(
           mapId,
           arguments["position"] as Position,
         ));
         break;
       case "onLongPress":
         final Map<String, Object?> arguments = _getArgumentDictionary(call);
-        _mapEventStreamController.add(MapLongPressEvent(
+        mapEventStreamController.add(MapLongPressEvent(
           mapId,
           arguments["position"] as Position,
         ));
         break;
       case "onTapPoi":
         final Map<String, Object?> arguments = _getArgumentDictionary(call);
-        _mapEventStreamController.add(PoiTapEvent(
+        mapEventStreamController.add(PoiTapEvent(
           mapId,
           arguments["poi"] as Poi,
         ));
         break;
       case "onCameraMoveStart":
         final Map<String, Object?> arguments = _getArgumentDictionary(call);
-        _mapEventStreamController.add(CameraMoveStartEvent(
+        mapEventStreamController.add(CameraMoveStartEvent(
           mapId,
           arguments["position"] as CameraPosition,
         ));
         break;
       case "onCameraMove":
         final Map<String, Object?> arguments = _getArgumentDictionary(call);
-        _mapEventStreamController.add(CameraMoveEvent(
+        mapEventStreamController.add(CameraMoveEvent(
           mapId,
           arguments["position"] as CameraPosition,
         ));
         break;
       case "onCameraMoveEnd":
         final Map<String, Object?> arguments = _getArgumentDictionary(call);
-        _mapEventStreamController.add(CameraMoveEndEvent(
+        mapEventStreamController.add(CameraMoveEndEvent(
           mapId,
           arguments["position"] as CameraPosition,
         ));
         break;
       case "onTapMarker":
         final Map<String, Object?> arguments = _getArgumentDictionary(call);
-        _mapEventStreamController.add(TapMarkerEvent(
+        mapEventStreamController.add(TapMarkerEvent(
           mapId,
           arguments["markerId"] as String,
         ));
         break;
       case "onMarkerDragStart":
         final Map<String, Object?> arguments = _getArgumentDictionary(call);
-        _mapEventStreamController.add(MarkerDragStartEvent(
+        mapEventStreamController.add(MarkerDragStartEvent(
           mapId,
           arguments["position"] as Position,
           arguments["markerId"] as String,
@@ -158,7 +156,7 @@ class TencentMapMethodChannel {
         break;
       case "onMarkerDrag":
         final Map<String, Object?> arguments = _getArgumentDictionary(call);
-        _mapEventStreamController.add(MarkerDragEvent(
+        mapEventStreamController.add(MarkerDragEvent(
           mapId,
           arguments["position"] as Position,
           arguments["markerId"] as String,
@@ -166,7 +164,7 @@ class TencentMapMethodChannel {
         break;
       case "onMarkerDragEnd":
         final Map<String, Object?> arguments = _getArgumentDictionary(call);
-        _mapEventStreamController.add(MarkerDragEndEvent(
+        mapEventStreamController.add(MarkerDragEndEvent(
           mapId,
           arguments["position"] as Position,
           arguments["markerId"] as String,
@@ -174,14 +172,14 @@ class TencentMapMethodChannel {
         break;
       case "onLocation":
         final Map<String, Object?> arguments = _getArgumentDictionary(call);
-        _mapEventStreamController.add(LocationChangedEvent(
+        mapEventStreamController.add(LocationChangedEvent(
           mapId,
           arguments["location"] as Location,
         ));
         break;
       case "onUserLocationClick":
         final Map<String, Object?> arguments = _getArgumentDictionary(call);
-        _mapEventStreamController.add(UserLocationClickEvent(
+        mapEventStreamController.add(UserLocationClickEvent(
           mapId,
           arguments["position"] as Position,
         ));
