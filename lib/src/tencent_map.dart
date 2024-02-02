@@ -292,10 +292,10 @@ class TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
     TencentMapMethodChannel.instance.updateMapConfig(config, mapId: mapId);
   }
 
-  _onPlatformViewCreated(int id) async {
+  _onPlatformViewCreated(int id) {
     mapId = id;
+    final TencentMapController controller = TencentMapController.init(id, this);
     _initMap();
-    final TencentMapController controller = await TencentMapController.init(id, this);
     widget.onMapCreated?.call(controller);
   }
 

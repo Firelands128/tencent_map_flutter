@@ -18,11 +18,11 @@ class TencentMapController {
   /// Initialize control of a [TencentMap] with [id].
   ///
   /// Mainly for internal use when instantiating a [TencentMapController] passed in [TencentMap.onMapCreated] callback.
-  static Future<TencentMapController> init(
+  static TencentMapController init(
     int id,
     TencentMapState tencentMapState,
-  ) async {
-    await TencentMapMethodChannel.instance.init(id);
+  ) {
+    TencentMapMethodChannel.instance.init(id);
     return TencentMapController._(
       tencentMapState,
       mapId: id,

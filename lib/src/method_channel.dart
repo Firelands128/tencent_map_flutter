@@ -19,7 +19,7 @@ class TencentMapMethodChannel {
     return channel;
   }
 
-  Future<void> init(int mapId) async {
+  void init(int mapId) {
     MethodChannel? channel = _channels[mapId];
     if (channel == null) {
       channel = MethodChannel(
@@ -196,7 +196,7 @@ class TencentMapMethodChannel {
   }
 
   /// 同意隐私协议，显示地图前必须调用
-  Future<void> agreePrivacy(bool agree) async {
+  Future<void> agreePrivacy(bool agree) {
     return _initializerChannel.invokeMethod(
       "agreePrivacy",
       <String, dynamic>{
