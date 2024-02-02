@@ -6,11 +6,9 @@
 
 A Flutter plugin that provides a [Tencent Map](https://lbs.qq.com/map/) widget.
 
-|             | Android | iOS     | Web                              |
-|-------------|---------|---------|----------------------------------|
-| **Support** | SDK 21+ | iOS 12+ | Same as [Flutter's][web-support] |
-
-[web-support]: https://docs.flutter.dev/reference/supported-platforms
+|             | Android | iOS     |
+|-------------|---------|---------|
+| **Support** | SDK 21+ | iOS 12+ |
 
 ## Usage
 
@@ -87,16 +85,6 @@ import QMapKit
   }
 }
 ```
-
-### Web
-
-You'll need to modify the `web/index.html` file of your Flutter Web application
-to include the Tencent Map JS SDK.
-```html
-  <script src="https://map.qq.com/api/gljs?v=1.exp&key='YOUR KEY HERE'"></script>
-```
-
-import Javascript API GL, more details in <https://lbs.qq.com/webApi/javascriptGL/glGuide/glBasic>
 
 ### All
 

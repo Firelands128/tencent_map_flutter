@@ -10,8 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_web_plugins:
-    sdk: flutter
   stream_transform: ^2.0.0
 
 dev_dependencies:
@@ -41,9 +39,6 @@ flutter:
         pluginClass: TencentMapPlugin
       ios:
         pluginClass: TencentMapPlugin
-      web:
-        pluginClass: TencentMapWeb
-        fileName: tencent_map_web.dart
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
