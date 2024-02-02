@@ -48,9 +48,9 @@ class TencentMapViewDelegate: NSObject, QMapViewDelegate {
       controller.onLocation(location: userLocation.toLocation)
     }
 
-    func mapView(_ mapView: QMapView!, didTapMyLocation location: CLLocationCoordinate2D) {
-      controller.onUserLocationClick(position: location.position)
-    }
+  func mapView(_ mapView: QMapView!, didTapMyLocation location: CLLocationCoordinate2D) {
+    controller.onUserLocationClick(position: location.position)
+  }
 
   func mapView(_ mapView: QMapView!, annotationView view: QAnnotationView!, didChange newState: QAnnotationViewDragState, fromOldState oldState: QAnnotationViewDragState) {
     if let annotation = view.annotation as? QPointAnnotation {

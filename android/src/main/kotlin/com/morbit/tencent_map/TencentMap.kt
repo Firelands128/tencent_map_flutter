@@ -1,7 +1,6 @@
 package com.morbit.tencent_map
 
 import android.content.Context
-import android.view.View
 import com.tencent.tencentmap.mapsdk.maps.BaseMapView
 import com.tencent.tencentmap.mapsdk.maps.MapView
 import com.tencent.tencentmap.mapsdk.maps.TextureMapView

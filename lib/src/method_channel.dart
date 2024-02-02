@@ -300,7 +300,6 @@ class TencentMapMethodChannel {
     return result;
   }
 
-
   /// 开始
   Future<void> start({required int mapId}) {
     return _channel(mapId).invokeMethod("start");
