@@ -116,6 +116,10 @@ class TencentMapApi(private val tencentMap: TencentMap) {
     )
   }
 
+  fun removeRestrictRegion() {
+    mapView.map.setRestrictBounds(null, null)
+  }
+
   fun addMarker(marker: Marker) {
     val tencentMarker = mapView.map.addMarker(marker.toMarkerOptions(tencentMap.binding))
     tencentMap.markers[marker.id] = tencentMarker

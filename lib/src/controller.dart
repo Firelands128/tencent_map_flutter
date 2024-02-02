@@ -135,6 +135,10 @@ class TencentMapController {
     );
   }
 
+  void removeRestrictRegion() {
+    TencentMapMethodChannel.instance.removeRestrictRegion(mapId: mapId);
+  }
+
   /// 添加标记
   void addMarker(Marker marker) {
     TencentMapMethodChannel.instance.addMarker(

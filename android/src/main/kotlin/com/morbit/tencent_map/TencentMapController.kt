@@ -64,6 +64,11 @@ class TencentMapController(viewId: Int, binding: FlutterPluginBinding, private v
         result.success(null)
       }
 
+      "removeRestrictRegion" -> {
+        api.removeRestrictRegion()
+        result.success(null)
+      }
+
       "addMarker" -> {
         val marker = call.argument<Marker>("marker")!!
         api.addMarker(marker)

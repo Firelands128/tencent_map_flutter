@@ -260,6 +260,10 @@ class TencentMapMethodChannel {
     );
   }
 
+  Future<void> removeRestrictRegion({required int mapId}) {
+    return _channel(mapId).invokeMethod("removeRestrictRegion");
+  }
+
   /// 添加标记点
   Future<void> addMarker(Marker marker, {required int mapId}) {
     return _channel(mapId).invokeMethod(

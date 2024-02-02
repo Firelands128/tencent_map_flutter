@@ -15,6 +15,12 @@ class RestrictMapPage extends StatefulWidget {
 }
 
 class _RestrictMapPageState extends State<RestrictMapPage> {
+  final Region restrictedRegion = Region(
+    north: 39.98437,
+    east: 116.31863,
+    south: 39.97837,
+    west: 116.31363,
+  );
   late TencentMapController controller;
   var restricted = false;
 
@@ -30,16 +36,12 @@ class _RestrictMapPageState extends State<RestrictMapPage> {
               value: restricted,
               onChanged: (value) {
                 setState(() {
-                  controller.setRestrictRegion(
-                    Region(
-                      north: 39.98437,
-                      east: 116.31863,
-                      south: 39.97837,
-                      west: 116.31363,
-                    ),
-                    RestrictRegionMode.fitWidth,
-                  );
                   restricted = value;
+                  if (value) {
+                    controller.setRestrictRegion(restrictedRegion, RestrictRegionMode.fitWidth);
+                  } else {
+                    controller.removeRestrictRegion();
+                  }
                 });
               },
             ),

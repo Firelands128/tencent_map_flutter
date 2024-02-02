@@ -58,6 +58,10 @@ class TencentMapController: NSObject {
       api.setRestrictRegion(region: region, mode: mode)
       result(nil)
     }
+    else if(call.method == "removeRestrictRegion") {
+      api.removeRestrictRegion()
+      result(nil)
+    }
     else if(call.method == "addMarker") {
       let arguments = call.arguments as! Dictionary<String, AnyObject>
       let marker = arguments["marker"] as! Marker

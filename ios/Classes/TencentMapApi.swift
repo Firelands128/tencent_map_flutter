@@ -97,6 +97,9 @@ class _TencentMapApi: NSObject {
     mapView.setLimitMapRect(QMapRectForCoordinateRegion(region.region), mode: mode.restrictMode)
   }
 
+  func removeRestrictRegion() {
+    mapView.setLimitMapRect(QMapRect(), mode: QMapLimitRectFitMode.width)
+  }
 
   func addMarker(marker: Marker) {
     let annotation = marker.annotation
