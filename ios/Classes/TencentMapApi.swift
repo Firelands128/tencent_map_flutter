@@ -3,11 +3,10 @@ import Flutter
 
 class _TencentMapApi: NSObject {
   let mapView: QMapView
-  var markers: [String: QPointAnnotation]
+  var markers = [String: QPointAnnotation]()
 
-  init(mapView: QMapView, markers: [String: QPointAnnotation]) {
+  init(mapView: QMapView) {
     self.mapView = mapView
-    self.markers = markers
   }
 
   func updateMapConfig(config: MapConfig) {

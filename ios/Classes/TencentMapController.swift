@@ -12,12 +12,10 @@ class TencentMapController: NSObject {
       binaryMessenger: registrar.messenger(),
       codec: TencentMapCodec.shared
     )
-  }
-
-  func setup() {
-    channel.setMethodCallHandler({ (call: FlutterMethodCall, result: FlutterResult) -> Void in
-      self.onMethodCall(call: call, result: result)
-    })
+    super.init()
+    channel.setMethodCallHandler { [weak self] (call, result) in
+      self?.onMethodCall(call: call, result: result)
+    }
   }
 
   func onMethodCall(call: FlutterMethodCall, result: FlutterResult) {
