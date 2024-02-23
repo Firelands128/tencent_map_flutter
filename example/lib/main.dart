@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:tencent_map/tencent_map.dart';
 
 import 'pages/add_remove_marker.dart';
@@ -32,6 +33,14 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     TencentMap.init(agreePrivacy: true);
+    requestLocationPermission();
+  }
+
+  Future<void> requestLocationPermission() async {
+    var status = await Permission.location.status;
+    if (status != PermissionStatus.granted) {
+      await Permission.location.request();
+    }
   }
 
   @override
