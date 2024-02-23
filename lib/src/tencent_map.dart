@@ -164,38 +164,9 @@ class TencentMap extends StatefulWidget {
   }
 }
 
-class TencentMapState extends State<TencentMap> with WidgetsBindingObserver {
+class TencentMapState extends State<TencentMap> {
   static final defaultUIControlOffset = UIControlOffset(x: 0, y: 0);
   late final int mapId;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    WidgetsBinding.instance.removeObserver(this);
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    switch (state) {
-      case AppLifecycleState.resumed:
-        TencentMapMethodChannel.instance.resume(mapId: mapId);
-        break;
-      case AppLifecycleState.paused:
-      case AppLifecycleState.inactive:
-        TencentMapMethodChannel.instance.pause(mapId: mapId);
-        break;
-      case AppLifecycleState.detached:
-        TencentMapMethodChannel.instance.destroy(mapId: mapId);
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
