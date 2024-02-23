@@ -5,15 +5,15 @@ import 'package:tencent_map/tencent_map.dart';
 import 'pages/add_remove_marker.dart';
 import 'pages/camera_move.dart';
 import 'pages/camera_region_move.dart';
-import 'pages/controls.dart';
-import 'pages/controls_position.dart';
-import 'pages/events.dart';
 import 'pages/flutter_marker.dart';
-import 'pages/layers.dart';
-import 'pages/location.dart';
-import 'pages/logo_scale.dart';
+import 'pages/map_controls.dart';
+import 'pages/map_controls_position.dart';
+import 'pages/map_events.dart';
+import 'pages/map_layers.dart';
+import 'pages/map_location.dart';
+import 'pages/map_logo_scale.dart';
+import 'pages/map_restriction.dart';
 import 'pages/map_types.dart';
-import 'pages/restrict_map.dart';
 
 void main() {
   runApp(const App());
@@ -61,13 +61,13 @@ class _AppState extends State<App> {
             Item(MapTypesPage.title, (_) => const MapTypesPage()),
             Item(CameraMovePage.title, (_) => const CameraMovePage()),
             Item(CameraRegionMovePage.title, (_) => const CameraRegionMovePage()),
-            Item(RestrictMapPage.title, (_) => const RestrictMapPage()),
-            Item(LayersPage.title, (_) => const LayersPage()),
-            Item(ControlsPage.title, (_) => const ControlsPage()),
-            Item(LogoScalePage.title, (_) => const LogoScalePage()),
-            Item(ControlsPositionPage.title, (_) => const ControlsPositionPage()),
-            Item(EventsPage.title, (_) => const EventsPage()),
-            Item(LocationPage.title, (_) => const LocationPage()),
+            Item(MapRestrictionPage.title, (_) => const MapRestrictionPage()),
+            Item(MapLayersPage.title, (_) => const MapLayersPage()),
+            Item(MapControlsPage.title, (_) => const MapControlsPage()),
+            Item(MapControlsPositionPage.title, (_) => const MapControlsPositionPage()),
+            Item(MapLogoScalePage.title, (_) => const MapLogoScalePage()),
+            Item(MapEventsPage.title, (_) => const MapEventsPage()),
+            Item(UserLocationPage.title, (_) => const UserLocationPage()),
             Item(AddRemoveMarkerPage.title, (_) => const AddRemoveMarkerPage()),
             Item(FlutterMarkerPage.title, (_) => const FlutterMarkerPage()),
           ]),

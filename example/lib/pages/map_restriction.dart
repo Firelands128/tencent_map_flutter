@@ -3,18 +3,18 @@ import 'package:tencent_map/tencent_map.dart';
 import 'package:tencent_map_example/utils.dart';
 
 /// 限制地图区域页面
-class RestrictMapPage extends StatefulWidget {
+class MapRestrictionPage extends StatefulWidget {
   /// 限制地图区域页面构造函数
-  const RestrictMapPage({super.key});
+  const MapRestrictionPage({super.key});
 
   /// 限制地图区域页面标题
   static const title = '限制地图区域';
 
   @override
-  State<RestrictMapPage> createState() => _RestrictMapPageState();
+  State<MapRestrictionPage> createState() => _MapRestrictionPageState();
 }
 
-class _RestrictMapPageState extends State<RestrictMapPage> {
+class _MapRestrictionPageState extends State<MapRestrictionPage> {
   final Region restrictedRegion = Region(
     north: 39.98437,
     east: 116.31863,
@@ -28,7 +28,7 @@ class _RestrictMapPageState extends State<RestrictMapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(RestrictMapPage.title),
+        title: const Text(MapRestrictionPage.title),
         actions: [
           Row(children: [
             const Text('限制'),

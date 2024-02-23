@@ -5,19 +5,19 @@ import 'package:flutter/services.dart';
 import 'package:tencent_map/tencent_map.dart';
 import 'package:tencent_map_example/utils.dart';
 
-/// 控件位置设置页面
-class ControlsPositionPage extends StatefulWidget {
-  /// 控件位置设置页面构造函数
-  const ControlsPositionPage({super.key});
+/// 地图控件位置设置页面
+class MapControlsPositionPage extends StatefulWidget {
+  /// 地图控件位置设置页面构造函数
+  const MapControlsPositionPage({super.key});
 
-  /// 控件位置设置页面标题
-  static const title = '控件位置';
+  /// 地图控件位置设置页面标题
+  static const title = '地图控件位置';
 
   @override
-  State<ControlsPositionPage> createState() => _ControlsPositionPageState();
+  State<MapControlsPositionPage> createState() => _MapControlsPositionPageState();
 }
 
-class _ControlsPositionPageState extends State<ControlsPositionPage> {
+class _MapControlsPositionPageState extends State<MapControlsPositionPage> {
   static const logo = "Logo";
   static const scale = "比例尺";
   static const compass = "指南针";
@@ -68,7 +68,7 @@ class _ControlsPositionPageState extends State<ControlsPositionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(ControlsPositionPage.title)),
+      appBar: AppBar(title: const Text(MapControlsPositionPage.title)),
       body: Column(
         children: [
           Expanded(

@@ -3,19 +3,19 @@ import 'package:tencent_map/tencent_map.dart';
 
 import '../utils.dart';
 
-/// 图层显示页面：路况、建筑物
-class LayersPage extends StatefulWidget {
-  /// 图层显示页面构造函数
-  const LayersPage({Key? key}) : super(key: key);
+/// 地图图层显示页面
+class MapLayersPage extends StatefulWidget {
+  /// 地图图层显示页面构造函数
+  const MapLayersPage({Key? key}) : super(key: key);
 
-  /// 图层显示页面标题
-  static const title = '图层：路况、建筑物';
+  /// 地图图层显示页面标题
+  static const title = '地图图层显示';
 
   @override
-  State<LayersPage> createState() => _LayersPageState();
+  State<MapLayersPage> createState() => _MapLayersPageState();
 }
 
-class _LayersPageState extends State<LayersPage> {
+class _MapLayersPageState extends State<MapLayersPage> {
   static const traffic = '路况';
   static const buildings = '建筑物';
   static const buildings3d = '3D建筑物';
@@ -47,7 +47,7 @@ class _LayersPageState extends State<LayersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(LayersPage.title)),
+      appBar: AppBar(title: const Text(MapLayersPage.title)),
       body: TencentMap(
         mapType: context.isDark ? MapType.dark : MapType.normal,
         trafficEnabled: _state[traffic] ?? false,

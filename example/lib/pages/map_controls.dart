@@ -3,19 +3,19 @@ import 'package:tencent_map/tencent_map.dart';
 
 import '../utils.dart';
 
-/// 控件显示页面：比例尺、指南针
-class ControlsPage extends StatefulWidget {
-  /// 控件显示页面构造函数
-  const ControlsPage({Key? key}) : super(key: key);
+/// 地图控件显示页面
+class MapControlsPage extends StatefulWidget {
+  /// 地图控件显示页面构造函数
+  const MapControlsPage({Key? key}) : super(key: key);
 
-  /// 控件显示页面标题
-  static const title = '控件：比例尺、指南针';
+  /// 地图控件显示页面标题
+  static const title = '地图控件显示';
 
   @override
-  State<ControlsPage> createState() => _ControlsPageState();
+  State<MapControlsPage> createState() => _MapControlsPageState();
 }
 
-class _ControlsPageState extends State<ControlsPage> {
+class _MapControlsPageState extends State<MapControlsPage> {
   static const scale = '比例尺';
   static const scaleFade = '比例尺淡出';
   static const compass = '指南针';
@@ -46,7 +46,7 @@ class _ControlsPageState extends State<ControlsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(ControlsPage.title)),
+      appBar: AppBar(title: const Text(MapControlsPage.title)),
       body: TencentMap(
         androidTexture: true,
         mapType: context.isDark ? MapType.dark : MapType.normal,

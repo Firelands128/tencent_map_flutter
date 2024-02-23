@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:tencent_map/tencent_map.dart';
 import 'package:tencent_map_example/utils.dart';
 
-/// Logo大小设置页面
-class LogoScalePage extends StatefulWidget {
-  /// Logo大小设置页面构造函数
-  const LogoScalePage({super.key});
+/// 地图Logo大小设置页面
+class MapLogoScalePage extends StatefulWidget {
+  /// 地图Logo大小设置页面构造函数
+  const MapLogoScalePage({super.key});
 
-  /// Logo大小设置页面标题
-  static const title = 'Logo大小设置';
+  /// 地图Logo大小设置页面标题
+  static const title = '地图Logo大小';
 
   @override
-  State<LogoScalePage> createState() => _LogoScalePageState();
+  State<MapLogoScalePage> createState() => _MapLogoScalePageState();
 }
 
-class _LogoScalePageState extends State<LogoScalePage> {
+class _MapLogoScalePageState extends State<MapLogoScalePage> {
   var scale = 1.0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(LogoScalePage.title)),
+      appBar: AppBar(title: const Text(MapLogoScalePage.title)),
       body: TencentMap(
         androidTexture: true,
         mapType: context.isDark ? MapType.dark : MapType.normal,

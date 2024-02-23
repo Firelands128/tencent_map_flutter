@@ -3,13 +3,13 @@ import 'package:tencent_map/tencent_map.dart';
 
 import '../utils.dart';
 
-/// 视野移动页面
+/// 地图视野移动页面
 class CameraMovePage extends StatefulWidget {
-  /// 视野移动页面构造函数
+  /// 地图视野移动页面构造函数
   const CameraMovePage({Key? key}) : super(key: key);
 
-  /// 视野移动页面标题
-  static const title = '视野移动';
+  /// 地图视野移动页面标题
+  static const title = '地图视野移动';
 
   @override
   State<CameraMovePage> createState() => _CameraMovePageState();

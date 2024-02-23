@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:tencent_map/tencent_map.dart';
 
 import '../utils.dart';
 
-/// 定位页面
-class LocationPage extends StatefulWidget {
-  /// 定位页面构造函数
-  const LocationPage({Key? key}) : super(key: key);
+/// 地图定位页面
+class UserLocationPage extends StatefulWidget {
+  /// 地图定位页面构造函数
+  const UserLocationPage({Key? key}) : super(key: key);
 
-  /// 定位页面标题
-  static const title = '定位';
+  /// 地图定位页面标题
+  static const title = '地图定位';
 
   @override
-  State<LocationPage> createState() => _LocationPageState();
+  State<UserLocationPage> createState() => _UserLocationPageState();
 }
 
-class _LocationPageState extends State<LocationPage> {
+class _UserLocationPageState extends State<UserLocationPage> {
   late TencentMapController controller;
 
   @override
@@ -28,7 +27,7 @@ class _LocationPageState extends State<LocationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(LocationPage.title),
+        title: const Text(UserLocationPage.title),
         actions: [
           TextButton(
             onPressed: () async {

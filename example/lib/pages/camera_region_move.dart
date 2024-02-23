@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tencent_map/tencent_map.dart';
 import 'package:tencent_map_example/utils.dart';
 
-/// 视野范围移动页面
+/// 地图视野范围移动页面
 class CameraRegionMovePage extends StatefulWidget {
-  /// 视野范围移动页面构造函数
+  /// 地图视野范围移动页面构造函数
   const CameraRegionMovePage({super.key});
 
-  /// 视野范围移动页面标题
-  static const title = '视野范围设置';
+  /// 地图视野范围移动页面标题
+  static const title = '地图视野范围';
 
   @override
   State<CameraRegionMovePage> createState() => _CameraRegionMovePageState();

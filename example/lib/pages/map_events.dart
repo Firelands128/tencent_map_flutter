@@ -4,18 +4,18 @@ import 'package:tencent_map/tencent_map.dart';
 import '../utils.dart';
 
 /// 地图事件回调页面
-class EventsPage extends StatefulWidget {
+class MapEventsPage extends StatefulWidget {
   /// 地图事件回调页面构造函数
-  const EventsPage({Key? key}) : super(key: key);
+  const MapEventsPage({Key? key}) : super(key: key);
 
   /// 地图事件回调页面标题
   static const title = '地图事件回调';
 
   @override
-  State<EventsPage> createState() => _EventsPageState();
+  State<MapEventsPage> createState() => _MapEventsPageState();
 }
 
-class _EventsPageState extends State<EventsPage> {
+class _MapEventsPageState extends State<MapEventsPage> {
   @override
   void initState() {
     super.initState();
@@ -27,7 +27,7 @@ class _EventsPageState extends State<EventsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(EventsPage.title)),
+      appBar: AppBar(title: const Text(MapEventsPage.title)),
       body: TencentMap(
         mapType: context.isDark ? MapType.dark : MapType.normal,
         onScaleViewChanged: (unit) => print("onScaleViewChanged: ${unit.toString()}"),
