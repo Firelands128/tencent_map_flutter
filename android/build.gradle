@@ -25,6 +25,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
+    namespace 'com.morbit.tencent_map'
     compileSdkVersion 33
 
     compileOptions {
@@ -43,6 +44,10 @@ android {
 
     defaultConfig {
         minSdkVersion 21
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
     }
 
     dependencies {
