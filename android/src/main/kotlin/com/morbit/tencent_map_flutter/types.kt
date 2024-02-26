@@ -1,4 +1,4 @@
-package com.morbit.tencent_map
+package com.morbit.tencent_map_flutter
 
 /** 地图类型 */
 enum class MapType(val raw: Int) {

@@ -1,4 +1,4 @@
-package com.morbit.tencent_map
+package com.morbit.tencent_map_flutter
 
 import android.graphics.BitmapFactory
 import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptor

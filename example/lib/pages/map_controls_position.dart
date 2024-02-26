@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tencent_map/tencent_map.dart';
-import 'package:tencent_map_example/utils.dart';
+import 'package:tencent_map_flutter/tencent_map_flutter.dart';
+import 'package:tencent_map_flutter_example/utils.dart';
 
 /// 地图控件位置设置页面
 class MapControlsPositionPage extends StatefulWidget {

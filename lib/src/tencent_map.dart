@@ -1,4 +1,4 @@
-part of tencent_map;
+part of tencent_map_flutter;
 
 /// 腾讯地图
 class TencentMap extends StatefulWidget {
@@ -173,14 +173,14 @@ class TencentMapState extends State<TencentMap> {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return AndroidView(
-          viewType: "tencent_map",
+          viewType: "tencent_map_flutter",
           creationParams: {"texture": widget.androidTexture},
           creationParamsCodec: const StandardMessageCodec(),
           onPlatformViewCreated: _onPlatformViewCreated,
         );
       case TargetPlatform.iOS:
         return UiKitView(
-          viewType: "tencent_map",
+          viewType: "tencent_map_flutter",
           onPlatformViewCreated: _onPlatformViewCreated,
         );
       default:

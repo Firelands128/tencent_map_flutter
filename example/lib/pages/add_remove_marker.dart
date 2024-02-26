@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tencent_map/tencent_map.dart';
+import 'package:tencent_map_flutter/tencent_map_flutter.dart';
 
 import '../utils.dart';
 

@@ -8,7 +8,7 @@ class TencentMapController: NSObject {
   init(viewId: Int64, registrar: FlutterPluginRegistrar, api: _TencentMapApi) {
     self.api = api
     channel = FlutterMethodChannel(
-      name: "plugins.flutter.dev/tencent_map_\(viewId)",
+      name: "plugins.flutter.dev/tencent_map_flutter_\(viewId)",
       binaryMessenger: registrar.messenger(),
       codec: TencentMapCodec.shared
     )

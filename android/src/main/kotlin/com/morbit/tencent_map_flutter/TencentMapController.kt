@@ -1,4 +1,4 @@
-package com.morbit.tencent_map
+package com.morbit.tencent_map_flutter
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 import io.flutter.plugin.common.MethodCall
@@ -14,7 +14,7 @@ class TencentMapController(viewId: Int, binding: FlutterPluginBinding, private v
   init {
     channel = MethodChannel(
       binding.binaryMessenger,
-      "plugins.flutter.dev/tencent_map_$viewId",
+      "plugins.flutter.dev/tencent_map_flutter_$viewId",
       StandardMethodCodec(TencentMapApiCodec),
     )
     channel.setMethodCallHandler { call: MethodCall, result: MethodChannel.Result ->

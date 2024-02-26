@@ -1,6 +1,6 @@
 //
 //  TencentMapViewDelegate.swift
-//  tencent_map
+//  tencent_map_flutter
 //
 //  Created by Wenqi Li on 2023/8/22.
 //

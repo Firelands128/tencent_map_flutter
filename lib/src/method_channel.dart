@@ -1,10 +1,10 @@
-part of tencent_map;
+part of tencent_map_flutter;
 
 /// Tencent map API
 class TencentMapMethodChannel {
   static TencentMapMethodChannel instance = TencentMapMethodChannel();
 
-  final MethodChannel _initializerChannel = const MethodChannel("plugins.flutter.dev/tencent_map_initializer");
+  final MethodChannel _initializerChannel = const MethodChannel("plugins.flutter.dev/tencent_map_flutter_initializer");
 
   final Map<int, MethodChannel> _channels = <int, MethodChannel>{};
 
@@ -21,7 +21,7 @@ class TencentMapMethodChannel {
     MethodChannel? channel = _channels[mapId];
     if (channel == null) {
       channel = MethodChannel(
-        "plugins.flutter.dev/tencent_map_$mapId",
+        "plugins.flutter.dev/tencent_map_flutter_$mapId",
         const StandardMethodCodec(_TencentMapApiCodec()),
       );
       channel.setMethodCallHandler((MethodCall call) => _handleMethodCall(call, mapId));

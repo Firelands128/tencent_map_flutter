@@ -1,4 +1,4 @@
-part of tencent_map;
+part of tencent_map_flutter;
 
 /// 地图类型
 enum MapType {

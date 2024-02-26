@@ -1,7 +1,7 @@
-name: tencent_map
-description: This is tencent map plugin
+name: tencent_map_flutter
+description: This is tencent map plugin for flutter
 version: 0.0.1
-repository: https://github.com/Firelands128/tencent_map
+repository: https://github.com/Firelands128/tencent_map_flutter
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -41,7 +41,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.morbit.tencent_map
+        package: com.morbit.tencent_map_flutter
         pluginClass: TencentMapPlugin
       ios:
         pluginClass: TencentMapPlugin

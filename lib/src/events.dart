@@ -1,4 +1,4 @@
-part of tencent_map;
+part of tencent_map_flutter;
 
 /// Generic event used as a base class for all events that might be triggered from map.
 abstract class MapEvent<T> {

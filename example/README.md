@@ -1,6 +1,6 @@
-# tencent_map_example
+# tencent_map_flutter_example
 
-Demonstrates how to use the tencent_map plugin.
+Demonstrates how to use the tencent_map_flutter plugin.
 
 ## Getting Started
 

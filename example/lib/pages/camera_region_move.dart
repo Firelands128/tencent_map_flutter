@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tencent_map/tencent_map.dart';
-import 'package:tencent_map_example/utils.dart';
+import 'package:tencent_map_flutter/tencent_map_flutter.dart';
+import 'package:tencent_map_flutter_example/utils.dart';
 
 /// 地图视野范围移动页面
 class CameraRegionMovePage extends StatefulWidget {

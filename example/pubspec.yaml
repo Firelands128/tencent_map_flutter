@@ -1,5 +1,5 @@
-name: tencent_map_example
-description: Demonstrates how to use the tencent_map plugin.
+name: tencent_map_flutter_example
+description: Demonstrates how to use the tencent_map_flutter plugin.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -18,9 +18,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  tencent_map:
+  tencent_map_flutter:
     # When depending on this package from a real application you should use:
-    #   tencent_map: ^x.y.z
+    #   tencent_map_flutter: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints
     # The example app is bundled with the plugin so we use a path dependency on
     # the parent directory to use the current plugin's version.

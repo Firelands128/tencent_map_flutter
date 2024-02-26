@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:tencent_map/tencent_map.dart';
+import 'package:tencent_map_flutter/tencent_map_flutter.dart';
 
 import 'pages/add_remove_marker.dart';
 import 'pages/camera_move.dart';

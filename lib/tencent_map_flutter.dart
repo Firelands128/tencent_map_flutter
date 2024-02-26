@@ -1,4 +1,4 @@
-library tencent_map;
+library tencent_map_flutter;
 
 import "dart:async";
 

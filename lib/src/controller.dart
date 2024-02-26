@@ -1,4 +1,4 @@
-part of tencent_map;
+part of tencent_map_flutter;
 
 /// Controller for a single TencentMap instance running on the host platform.
 class TencentMapController {

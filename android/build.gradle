@@ -1,4 +1,4 @@
-group 'com.morbit.tencent_map'
+group 'com.morbit.tencent_map_flutter'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -25,7 +25,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    namespace 'com.morbit.tencent_map'
+    namespace 'com.morbit.tencent_map_flutter'
     compileSdkVersion 33
 
     compileOptions {

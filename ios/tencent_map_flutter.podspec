@@ -1,9 +1,9 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint tencent_map.podspec` to validate before publishing.
+# Run `pod lib lint tencent_map_flutter.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'tencent_map'
+  s.name             = 'tencent_map_flutter'
   s.version          = '0.0.1'
   s.summary          = 'This is tencent map plugin'
   s.description      = <<-DESC

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tencent_map/tencent_map.dart';
+import 'package:tencent_map_flutter/tencent_map_flutter.dart';
 
 /// 地图类型切换页面
 class MapTypesPage extends StatefulWidget {

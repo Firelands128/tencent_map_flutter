@@ -1,4 +1,4 @@
-package com.morbit.tencent_map
+package com.morbit.tencent_map_flutter
 
 import com.tencent.map.geolocation.TencentLocationManager
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory

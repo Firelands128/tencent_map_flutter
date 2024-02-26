@@ -1,4 +1,4 @@
-package com.morbit.tencent_map
+package com.morbit.tencent_map_flutter
 
 import android.content.Context
 import io.flutter.embedding.engine.plugins.FlutterPlugin

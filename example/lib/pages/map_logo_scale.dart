@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tencent_map/tencent_map.dart';
-import 'package:tencent_map_example/utils.dart';
+import 'package:tencent_map_flutter/tencent_map_flutter.dart';
+import 'package:tencent_map_flutter_example/utils.dart';
 
 /// 地图Logo大小设置页面
 class MapLogoScalePage extends StatefulWidget {
