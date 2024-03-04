@@ -33,13 +33,13 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/tencent_map_flutter/ios"
 
 SPEC CHECKSUMS:
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   integration_test: 13825b8a9334a850581300559b8839134b124670
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
   Tencent-MapFoundation: 0e99a06d9a7585960c273c3ab3163cb8ec3ad1c9
   Tencent-MapSDK: 3af9389c260dada3b351518afb4a919ea5f49ee5
   tencent_map_flutter: 6abee6c0ba2d063b3709fbc104fe3176400fe015
 
-PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
+PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.2
