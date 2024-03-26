@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:tencent_map_flutter/tencent_map_flutter.dart';
 
@@ -49,8 +51,7 @@ class _UserLocationPageState extends State<UserLocationPage> {
         myLocationEnabled: true,
         userLocationType: UserLocationType.trackingLocationRotate,
         onLocation: (location) {
-          // ignore: avoid_print
-          print(
+          stdout.writeln(
             '${location.position.latitude}, ${location.position.longitude}',
           );
         },

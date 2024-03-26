@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:tencent_map_flutter/tencent_map_flutter.dart';
 
@@ -31,28 +33,28 @@ class _MapEventsPageState extends State<MapEventsPage> {
       body: TencentMap(
         mapType: context.isDark ? MapType.dark : MapType.normal,
         onScaleViewChanged: (unit) {
-          print("onScaleViewChanged: ${unit.toString()}");
+          stdout.writeln("onScaleViewChanged: ${unit.toString()}");
         },
         onPress: (position) {
-          print("onTap: ${position.encode().toString()}");
+          stdout.writeln("onTap: ${position.encode().toString()}");
         },
         onLongPress: (position) {
-          print("onLongPress: ${position.encode().toString()}");
+          stdout.writeln("onLongPress: ${position.encode().toString()}");
         },
         onTapPoi: (poi) {
-          print("onTapPoi: ${poi.encode().toString()}");
+          stdout.writeln("onTapPoi: ${poi.encode().toString()}");
         },
         onCameraMoveStart: (cameraPosition) {
-          print("onCameraMoveStart: ${cameraPosition.encode().toString()}");
+          stdout.writeln("onCameraMoveStart: ${cameraPosition.encode().toString()}");
         },
         onCameraMove: (cameraPosition) {
-          print("onCameraMove: ${cameraPosition.encode().toString()}");
+          stdout.writeln("onCameraMove: ${cameraPosition.encode().toString()}");
         },
         onCameraMoveEnd: (cameraPosition) {
-          print("onCameraMoveEnd: ${cameraPosition.encode().toString()}");
+          stdout.writeln("onCameraMoveEnd: ${cameraPosition.encode().toString()}");
         },
         onUserLocationClick: (position) {
-          print("onUserLocationClick: ${position.encode().toString()}");
+          stdout.writeln("onUserLocationClick: ${position.encode().toString()}");
         },
       ),
     );
