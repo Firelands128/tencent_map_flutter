@@ -1,5 +1,3 @@
-library tencent_map_flutter;
-
 import "dart:async";
 
 import "package:flutter/foundation.dart";

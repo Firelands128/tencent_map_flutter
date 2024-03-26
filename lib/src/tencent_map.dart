@@ -1,4 +1,4 @@
-part of tencent_map_flutter;
+part of '../tencent_map_flutter.dart';
 
 /// 腾讯地图
 class TencentMap extends StatefulWidget {

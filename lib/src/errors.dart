@@ -1,4 +1,4 @@
-part of tencent_map_flutter;
+part of '../tencent_map_flutter.dart';
 
 /// The error for provided unknown map id
 class UnknownMapIDError extends Error {
