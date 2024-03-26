@@ -31,7 +31,8 @@ class MapPressEvent extends _PositionedMapEvent<void> {
 
 /// Event that long pressed on map
 class MapLongPressEvent extends _PositionedMapEvent<void> {
-  MapLongPressEvent(int mapId, Position position) : super(mapId, position, null);
+  MapLongPressEvent(int mapId, Position position)
+      : super(mapId, position, null);
 }
 
 /// Event that pressed on poi
@@ -41,7 +42,8 @@ class PoiTapEvent extends MapEvent<Poi> {
 
 /// Event that camera move started
 class CameraMoveStartEvent extends MapEvent<CameraPosition> {
-  CameraMoveStartEvent(int mapId, CameraPosition position) : super(mapId, position);
+  CameraMoveStartEvent(int mapId, CameraPosition position)
+      : super(mapId, position);
 }
 
 /// Event that camera is moving
@@ -51,7 +53,8 @@ class CameraMoveEvent extends MapEvent<CameraPosition> {
 
 /// Event that camera move ended
 class CameraMoveEndEvent extends MapEvent<CameraPosition> {
-  CameraMoveEndEvent(int mapId, CameraPosition position) : super(mapId, position);
+  CameraMoveEndEvent(int mapId, CameraPosition position)
+      : super(mapId, position);
 }
 
 /// Event that pressed on marker
@@ -61,17 +64,20 @@ class TapMarkerEvent extends MapEvent<String> {
 
 /// Event that marker drag started
 class MarkerDragStartEvent extends _PositionedMapEvent<String> {
-  MarkerDragStartEvent(int mapId, Position position, String markerId) : super(mapId, position, markerId);
+  MarkerDragStartEvent(int mapId, Position position, String markerId)
+      : super(mapId, position, markerId);
 }
 
 /// Event that marker is dragging
 class MarkerDragEvent extends _PositionedMapEvent<String> {
-  MarkerDragEvent(int mapId, Position position, String markerId) : super(mapId, position, markerId);
+  MarkerDragEvent(int mapId, Position position, String markerId)
+      : super(mapId, position, markerId);
 }
 
 /// Event that marker drag ended
 class MarkerDragEndEvent extends _PositionedMapEvent<String> {
-  MarkerDragEndEvent(int mapId, Position position, String markerId) : super(mapId, position, markerId);
+  MarkerDragEndEvent(int mapId, Position position, String markerId)
+      : super(mapId, position, markerId);
 }
 
 /// Event that location changed
@@ -81,5 +87,6 @@ class LocationChangedEvent extends MapEvent<Location> {
 
 /// Event that pressed on user location
 class UserLocationClickEvent extends _PositionedMapEvent<void> {
-  UserLocationClickEvent(int mapId, Position position) : super(mapId, position, null);
+  UserLocationClickEvent(int mapId, Position position)
+      : super(mapId, position, null);
 }

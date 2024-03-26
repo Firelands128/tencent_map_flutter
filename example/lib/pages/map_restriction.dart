@@ -38,7 +38,10 @@ class _MapRestrictionPageState extends State<MapRestrictionPage> {
                 setState(() {
                   restricted = value;
                   if (value) {
-                    controller.setRestrictRegion(restrictedRegion, RestrictRegionMode.fitWidth);
+                    controller.setRestrictRegion(
+                      restrictedRegion,
+                      RestrictRegionMode.fitWidth,
+                    );
                   } else {
                     controller.removeRestrictRegion();
                   }

@@ -14,7 +14,8 @@ class MapControlsPositionPage extends StatefulWidget {
   static const title = '地图控件位置';
 
   @override
-  State<MapControlsPositionPage> createState() => _MapControlsPositionPageState();
+  State<MapControlsPositionPage> createState() =>
+      _MapControlsPositionPageState();
 }
 
 class _MapControlsPositionPageState extends State<MapControlsPositionPage> {
@@ -53,7 +54,9 @@ class _MapControlsPositionPageState extends State<MapControlsPositionPage> {
               },
               child: Row(children: [
                 Icon(
-                  item.key == anchor ? Icons.check_circle_outlined : Icons.radio_button_unchecked,
+                  item.key == anchor
+                      ? Icons.check_circle_outlined
+                      : Icons.radio_button_unchecked,
                   size: 20,
                 ),
                 const SizedBox(width: 8),
@@ -95,9 +98,8 @@ class _MapControlsPositionPageState extends State<MapControlsPositionPage> {
                       TextButton(
                         onPressed: () => showOptions(
                           anchor: logoPosition.anchor,
-                          onChanged: (anchor) => setState(
-                            () => logoPosition = logoPosition.copyWith(anchor: anchor),
-                          ),
+                          onChanged: (anchor) => setState(() => logoPosition =
+                              logoPosition.copyWith(anchor: anchor)),
                         ),
                         child: Text(
                           "$logo - ${anchorLabels[logoPosition.anchor]}",
@@ -149,13 +151,16 @@ class _MapControlsPositionPageState extends State<MapControlsPositionPage> {
                                 onPressed: () => showOptions(
                                   anchor: scalePosition.anchor,
                                   onChanged: (anchor) => setState(
-                                    () => scalePosition = scalePosition.copyWith(anchor: anchor),
+                                    () => scalePosition =
+                                        scalePosition.copyWith(anchor: anchor),
                                   ),
                                 ),
                                 child: Text(
                                   "$scale - ${anchorLabels[logoPosition.anchor]}",
                                   style: TextStyle(
-                                    color: Theme.of(context).colorScheme.onBackground,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ),
                                 ),
                               ),
@@ -166,7 +171,9 @@ class _MapControlsPositionPageState extends State<MapControlsPositionPage> {
                               child: Text(
                                 scale,
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.onBackground,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
                                 ),
                               ),
                             ),
@@ -277,7 +284,9 @@ class _OffsetTextField extends StatelessWidget {
               onChanged(value.isNotEmpty ? double.parse(value) : 0);
             },
             keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly,
+            ],
             style: const TextStyle(fontSize: 12),
             textAlign: TextAlign.center,
             decoration: const InputDecoration(

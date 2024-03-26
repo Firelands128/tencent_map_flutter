@@ -39,7 +39,8 @@ class _AddRemoveMarkerPageState extends State<AddRemoveMarkerPage> {
         onLongPress: (position) => onTap(position),
         onTapPoi: (poi) => onTap(poi.position),
         onTapMarker: (markerId) => onTapMarker(markerId),
-        onMarkerDragEnd: (markerId, position) => context.alert('${position.latitude}, ${position.longitude}'),
+        onMarkerDragEnd: (markerId, position) =>
+            context.alert('${position.latitude}, ${position.longitude}'),
       ),
     );
   }

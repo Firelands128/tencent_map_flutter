@@ -215,7 +215,8 @@ class TencentMapState extends State<TencentMap> {
             offset: defaultUIControlOffset,
           );
     }
-    if (widget.compassOffset != null && widget.compassOffset != oldWidget.compassOffset) {
+    if (widget.compassOffset != null &&
+        widget.compassOffset != oldWidget.compassOffset) {
       config.compassOffset = widget.compassOffset;
     }
     if (widget.compassEnabled != oldWidget.compassEnabled) {

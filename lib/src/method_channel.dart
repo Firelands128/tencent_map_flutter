@@ -4,7 +4,9 @@ part of '../tencent_map_flutter.dart';
 class TencentMapMethodChannel {
   static TencentMapMethodChannel instance = TencentMapMethodChannel();
 
-  final MethodChannel _initializerChannel = const MethodChannel("plugins.flutter.dev/tencent_map_flutter_initializer");
+  final MethodChannel _initializerChannel = const MethodChannel(
+    "plugins.flutter.dev/tencent_map_flutter_initializer",
+  );
 
   final Map<int, MethodChannel> _channels = <int, MethodChannel>{};
 
@@ -24,17 +26,21 @@ class TencentMapMethodChannel {
         "plugins.flutter.dev/tencent_map_flutter_$mapId",
         const StandardMethodCodec(_TencentMapApiCodec()),
       );
-      channel.setMethodCallHandler((MethodCall call) => _handleMethodCall(call, mapId));
+      channel.setMethodCallHandler(
+        (MethodCall call) => _handleMethodCall(call, mapId),
+      );
       _channels[mapId] = channel;
     }
   }
 
   // The controller we need to broadcast the different events coming from handleMethodCall.
-  final StreamController<MapEvent<Object?>> mapEventStreamController = StreamController<MapEvent<Object?>>.broadcast();
+  final StreamController<MapEvent<Object?>> mapEventStreamController =
+      StreamController<MapEvent<Object?>>.broadcast();
 
   // Returns a filtered view of the events in the _controller, by mapId.
   Stream<MapEvent<Object?>> _events(int mapId) =>
-      mapEventStreamController.stream.where((MapEvent<Object?> event) => event.mapId == mapId);
+      mapEventStreamController.stream
+          .where((MapEvent<Object?> event) => event.mapId == mapId);
 
   Stream<ScaleViewChangedEvent> onScaleViewChanged({required int mapId}) {
     return _events(mapId).whereType<ScaleViewChangedEvent>();
@@ -214,7 +220,11 @@ class TencentMapMethodChannel {
   }
 
   /// 移动地图视野
-  Future<void> moveCamera(CameraPosition position, int duration, {required int mapId}) {
+  Future<void> moveCamera(
+    CameraPosition position,
+    int duration, {
+    required int mapId,
+  }) {
     return _channel(mapId).invokeMethod(
       "moveCamera",
       <String, dynamic>{
@@ -225,7 +235,12 @@ class TencentMapMethodChannel {
   }
 
   /// 移动地图视野到某个地图区域
-  Future<void> moveCameraToRegion(Region region, EdgePadding padding, int duration, {required int mapId}) {
+  Future<void> moveCameraToRegion(
+    Region region,
+    EdgePadding padding,
+    int duration, {
+    required int mapId,
+  }) {
     return _channel(mapId).invokeMethod(
       "moveCameraToRegion",
       <String, dynamic>{
@@ -237,8 +252,12 @@ class TencentMapMethodChannel {
   }
 
   /// 移动地图视野到包含一组坐标点的某个地图区域
-  Future<void> moveCameraToRegionWithPosition(List<Position?> positions, EdgePadding padding, int duration,
-      {required int mapId}) {
+  Future<void> moveCameraToRegionWithPosition(
+    List<Position?> positions,
+    EdgePadding padding,
+    int duration, {
+    required int mapId,
+  }) {
     return _channel(mapId).invokeMethod(
       "moveCameraToRegionWithPosition",
       <String, dynamic>{
@@ -250,7 +269,11 @@ class TencentMapMethodChannel {
   }
 
   /// 限制地图显示区域
-  Future<void> setRestrictRegion(Region region, RestrictRegionMode mode, {required int mapId}) {
+  Future<void> setRestrictRegion(
+    Region region,
+    RestrictRegionMode mode, {
+    required int mapId,
+  }) {
     return _channel(mapId).invokeMethod(
       "setRestrictRegion",
       <String, dynamic>{
@@ -285,7 +308,11 @@ class TencentMapMethodChannel {
   }
 
   /// 更新标记点
-  Future<void> updateMarker(String markerId, MarkerUpdateOptions options, {required int mapId}) {
+  Future<void> updateMarker(
+    String markerId,
+    MarkerUpdateOptions options, {
+    required int mapId,
+  }) {
     return _channel(mapId).invokeMethod(
       "updateMarker",
       <String, dynamic>{
@@ -297,7 +324,8 @@ class TencentMapMethodChannel {
 
   /// 获取当前定位信息
   Future<Location> getUserLocation({required int mapId}) async {
-    final result = await _channel(mapId).invokeMethod<Location>("getUserLocation");
+    final result =
+        await _channel(mapId).invokeMethod<Location>("getUserLocation");
     if (result == null) throw "Failed to get user location";
     return result;
   }

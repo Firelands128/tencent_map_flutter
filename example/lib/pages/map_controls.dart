@@ -28,19 +28,23 @@ class _MapControlsPageState extends State<MapControlsPage> {
   };
 
   List<Widget> get items {
-    return _items.map(
-          (item) =>
-          Column(
+    return _items
+        .map(
+          (item) => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(padding: const EdgeInsets.only(top: 16), child: Text(item)),
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Text(item),
+              ),
               Switch(
                 value: _state[item]!,
                 onChanged: (value) => setState(() => _state[item] = value),
               ),
             ],
           ),
-    ).toList();
+        )
+        .toList();
   }
 
   @override

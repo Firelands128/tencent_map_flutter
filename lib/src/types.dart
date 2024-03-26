@@ -138,7 +138,9 @@ class CameraPosition {
   static CameraPosition decode(Object result) {
     result as List<Object?>;
     return CameraPosition(
-      position: result[0] != null ? Position.decode(result[0]! as List<Object?>) : null,
+      position: result[0] != null
+          ? Position.decode(result[0]! as List<Object?>)
+          : null,
       heading: result[1] as double?,
       skew: result[2] as double?,
       zoom: result[3] as double?,
@@ -296,12 +298,19 @@ class MapConfig {
   static MapConfig decode(Object result) {
     result as List<Object?>;
     return MapConfig(
-      mapType: result[0] != null ? MapType.values.elementAt(result[0] as int) : null,
+      mapType:
+          result[0] != null ? MapType.values.elementAt(result[0] as int) : null,
       mapStyle: result[1] as int?,
       logoScale: result[2] as double?,
-      logoPosition: result[3] != null ? UIControlPosition.decode(result[3]! as List<Object?>) : null,
-      scalePosition: result[4] != null ? UIControlPosition.decode(result[4]! as List<Object?>) : null,
-      compassOffset: result[5] != null ? UIControlOffset.decode(result[5]! as List<Object?>) : null,
+      logoPosition: result[3] != null
+          ? UIControlPosition.decode(result[3]! as List<Object?>)
+          : null,
+      scalePosition: result[4] != null
+          ? UIControlPosition.decode(result[4]! as List<Object?>)
+          : null,
+      compassOffset: result[5] != null
+          ? UIControlOffset.decode(result[5]! as List<Object?>)
+          : null,
       compassEnabled: result[6] as bool?,
       scaleEnabled: result[7] as bool?,
       scaleFadeEnabled: result[8] as bool?,
@@ -315,7 +324,9 @@ class MapConfig {
       buildingsEnabled: result[16] as bool?,
       buildings3dEnabled: result[17] as bool?,
       myLocationEnabled: result[18] as bool?,
-      userLocationType: result[19] != null ? UserLocationType.values.elementAt(result[19] as int) : null,
+      userLocationType: result[19] != null
+          ? UserLocationType.values.elementAt(result[19] as int)
+          : null,
     );
   }
 }
@@ -379,8 +390,10 @@ class Marker {
       rotation: result[3] as double?,
       zIndex: result[4] as int?,
       draggable: result[5] as bool?,
-      icon: result[6] != null ? Bitmap.decode(result[6]! as List<Object?>) : null,
-      anchor: result[7] != null ? Anchor.decode(result[7]! as List<Object?>) : null,
+      icon:
+          result[6] != null ? Bitmap.decode(result[6]! as List<Object?>) : null,
+      anchor:
+          result[7] != null ? Anchor.decode(result[7]! as List<Object?>) : null,
     );
   }
 }
@@ -433,13 +446,17 @@ class MarkerUpdateOptions {
   static MarkerUpdateOptions decode(Object result) {
     result as List<Object?>;
     return MarkerUpdateOptions(
-      position: result[0] != null ? Position.decode(result[0]! as List<Object?>) : null,
+      position: result[0] != null
+          ? Position.decode(result[0]! as List<Object?>)
+          : null,
       alpha: result[1] as double?,
       rotation: result[2] as double?,
       zIndex: result[3] as int?,
       draggable: result[4] as bool?,
-      icon: result[5] != null ? Bitmap.decode(result[5]! as List<Object?>) : null,
-      anchor: result[6] != null ? Anchor.decode(result[6]! as List<Object?>) : null,
+      icon:
+          result[5] != null ? Bitmap.decode(result[5]! as List<Object?>) : null,
+      anchor:
+          result[6] != null ? Anchor.decode(result[6]! as List<Object?>) : null,
     );
   }
 }
@@ -478,8 +495,11 @@ class Position {
   Position({
     required double latitude,
     required double longitude,
-  })  : latitude = latitude < -90.0 ? -90.0 : (latitude > 90.0 ? 90.0 : latitude),
-        longitude = longitude >= -180 && longitude < 180 ? longitude : (longitude + 180.0) % 360.0 - 180.0;
+  })  : latitude =
+            latitude < -90.0 ? -90.0 : (latitude > 90.0 ? 90.0 : latitude),
+        longitude = longitude >= -180 && longitude < 180
+            ? longitude
+            : (longitude + 180.0) % 360.0 - 180.0;
 
   /// 位置的纬度
   double latitude;

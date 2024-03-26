@@ -58,18 +58,54 @@ class _AppState extends State<App> {
         ),
         home: Scaffold(
           body: ListView(children: [
-            Item(MapTypesPage.title, (_) => const MapTypesPage()),
-            Item(CameraMovePage.title, (_) => const CameraMovePage()),
-            Item(CameraRegionMovePage.title, (_) => const CameraRegionMovePage()),
-            Item(MapRestrictionPage.title, (_) => const MapRestrictionPage()),
-            Item(MapLayersPage.title, (_) => const MapLayersPage()),
-            Item(MapControlsPage.title, (_) => const MapControlsPage()),
-            Item(MapControlsPositionPage.title, (_) => const MapControlsPositionPage()),
-            Item(MapLogoScalePage.title, (_) => const MapLogoScalePage()),
-            Item(MapEventsPage.title, (_) => const MapEventsPage()),
-            Item(UserLocationPage.title, (_) => const UserLocationPage()),
-            Item(AddRemoveMarkerPage.title, (_) => const AddRemoveMarkerPage()),
-            Item(FlutterMarkerPage.title, (_) => const FlutterMarkerPage()),
+            Item(
+              MapTypesPage.title,
+              (_) => const MapTypesPage(),
+            ),
+            Item(
+              CameraMovePage.title,
+              (_) => const CameraMovePage(),
+            ),
+            Item(
+              CameraRegionMovePage.title,
+              (_) => const CameraRegionMovePage(),
+            ),
+            Item(
+              MapRestrictionPage.title,
+              (_) => const MapRestrictionPage(),
+            ),
+            Item(
+              MapLayersPage.title,
+              (_) => const MapLayersPage(),
+            ),
+            Item(
+              MapControlsPage.title,
+              (_) => const MapControlsPage(),
+            ),
+            Item(
+              MapControlsPositionPage.title,
+              (_) => const MapControlsPositionPage(),
+            ),
+            Item(
+              MapLogoScalePage.title,
+              (_) => const MapLogoScalePage(),
+            ),
+            Item(
+              MapEventsPage.title,
+              (_) => const MapEventsPage(),
+            ),
+            Item(
+              UserLocationPage.title,
+              (_) => const UserLocationPage(),
+            ),
+            Item(
+              AddRemoveMarkerPage.title,
+              (_) => const AddRemoveMarkerPage(),
+            ),
+            Item(
+              FlutterMarkerPage.title,
+              (_) => const FlutterMarkerPage(),
+            ),
           ]),
         ),
       ),

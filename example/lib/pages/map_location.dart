@@ -50,7 +50,9 @@ class _UserLocationPageState extends State<UserLocationPage> {
         userLocationType: UserLocationType.trackingLocationRotate,
         onLocation: (location) {
           // ignore: avoid_print
-          print('${location.position.latitude}, ${location.position.longitude}');
+          print(
+            '${location.position.latitude}, ${location.position.longitude}',
+          );
         },
         onMapCreated: (controller) async {
           this.controller = controller;
