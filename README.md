@@ -2,7 +2,7 @@
 
 <?code-excerpt path-base="example/lib"?>
 
-[![pub package](https://img.shields.io/pub/v/google_maps_flutter.svg)](https://pub.dev/packages/google_maps_flutter)
+[![pub package](https://img.shields.io/pub/v/tencent_map_flutter.svg)](https://pub.dev/packages/tencent_map_flutter)
 
 A Flutter plugin that provides a [Tencent Map](https://lbs.qq.com/map/) widget.
 
@@ -52,8 +52,7 @@ To set up, specify your API key in the application delegate `ios/Runner/AppDeleg
 ```objectivec
 #import "AppDelegate.h"
 #import "GeneratedPluginRegistrant.h"
-
-@import GoogleMaps;
+#import <QMapKit/QMapKit.h>
 
 @implementation AppDelegate
 
