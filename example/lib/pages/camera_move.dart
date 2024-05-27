@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:tencent_map_flutter/tencent_map_flutter.dart';
 
 import '../utils.dart';
@@ -19,13 +20,13 @@ class _CameraMovePageState extends State<CameraMovePage> {
   late TencentMapController controller;
   var animated = false;
   static final position1 = CameraPosition(
-    position: Position(latitude: 39.97837, longitude: 116.31363),
+    position: const LatLng(39.97837, 116.31363),
     zoom: 19,
     heading: 45,
     skew: 45,
   );
   static final position2 = CameraPosition(
-    position: Position(latitude: 39.97537, longitude: 116.31363),
+    position: const LatLng(39.97537, 116.31363),
     zoom: 16,
     heading: 0,
     skew: 0,

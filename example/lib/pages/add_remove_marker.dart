@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:tencent_map_flutter/tencent_map_flutter.dart';
 
 import '../utils.dart';
@@ -45,7 +46,7 @@ class _AddRemoveMarkerPageState extends State<AddRemoveMarkerPage> {
     );
   }
 
-  void onTap(Position position) async {
+  void onTap(LatLng position) async {
     final String markerId = 'marker_id_${_markerIdCounter++}';
     final marker = Marker(
       id: markerId,

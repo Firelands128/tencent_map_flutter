@@ -115,7 +115,7 @@ class CameraPosition {
   });
 
   /// 地图视野的位置
-  Position? position;
+  LatLng? position;
 
   /// 地图视野的旋转角度
   double? heading;
@@ -128,7 +128,7 @@ class CameraPosition {
 
   Object encode() {
     return <Object?>[
-      position?.encode(),
+      position?.position.encode(),
       heading,
       skew,
       zoom,
@@ -139,7 +139,7 @@ class CameraPosition {
     result as List<Object?>;
     return CameraPosition(
       position: result[0] != null
-          ? Position.decode(result[0]! as List<Object?>)
+          ? Position.decode(result[0]! as List<Object?>).latLng
           : null,
       heading: result[1] as double?,
       skew: result[2] as double?,
@@ -198,7 +198,7 @@ class Location {
   });
 
   /// 定位点的位置
-  Position position;
+  LatLng position;
 
   /// 定位点的方向
   double? heading;
@@ -208,7 +208,7 @@ class Location {
 
   Object encode() {
     return <Object?>[
-      position.encode(),
+      position.position.encode(),
       heading,
       accuracy,
     ];
@@ -217,7 +217,7 @@ class Location {
   static Location decode(Object result) {
     result as List<Object?>;
     return Location(
-      position: Position.decode(result[0]! as List<Object?>),
+      position: Position.decode(result[0]! as List<Object?>).latLng,
       heading: result[1] as double?,
       accuracy: result[2] as double?,
     );
@@ -348,7 +348,7 @@ class Marker {
   String id;
 
   /// 标记点的位置
-  Position position;
+  LatLng position;
 
   /// 标记点的透明度
   double? alpha;
@@ -371,7 +371,7 @@ class Marker {
   Object encode() {
     return <Object?>[
       id,
-      position.encode(),
+      position.position.encode(),
       alpha,
       rotation,
       zIndex,
@@ -385,7 +385,7 @@ class Marker {
     result as List<Object?>;
     return Marker(
       id: result[0]! as String,
-      position: Position.decode(result[1]! as List<Object?>),
+      position: Position.decode(result[1]! as List<Object?>).latLng,
       alpha: result[2] as double?,
       rotation: result[3] as double?,
       zIndex: result[4] as int?,
@@ -411,7 +411,7 @@ class MarkerUpdateOptions {
   });
 
   /// 标记点的位置
-  Position? position;
+  LatLng? position;
 
   /// 标记点的透明度
   double? alpha;
@@ -433,7 +433,7 @@ class MarkerUpdateOptions {
 
   Object encode() {
     return <Object?>[
-      position?.encode(),
+      position?.position.encode(),
       alpha,
       rotation,
       zIndex,
@@ -447,7 +447,7 @@ class MarkerUpdateOptions {
     result as List<Object?>;
     return MarkerUpdateOptions(
       position: result[0] != null
-          ? Position.decode(result[0]! as List<Object?>)
+          ? Position.decode(result[0]! as List<Object?>).latLng
           : null,
       alpha: result[1] as double?,
       rotation: result[2] as double?,
@@ -472,12 +472,12 @@ class Poi {
   String name;
 
   /// 兴趣点的位置
-  Position position;
+  LatLng position;
 
   Object encode() {
     return <Object?>[
       name,
-      position.encode(),
+      position.position.encode(),
     ];
   }
 
@@ -485,7 +485,7 @@ class Poi {
     result as List<Object?>;
     return Poi(
       name: result[0]! as String,
-      position: Position.decode(result[1]! as List<Object?>),
+      position: Position.decode(result[1]! as List<Object?>).latLng,
     );
   }
 }

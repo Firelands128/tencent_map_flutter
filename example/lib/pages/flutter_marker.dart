@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:tencent_map_flutter/tencent_map_flutter.dart';
 
@@ -48,7 +49,7 @@ class _FlutterMarkerPageState extends State<FlutterMarkerPage> {
   }
 
   void onMapCreated(TencentMapController controller) async {
-    final position = Position(latitude: 39.909, longitude: 116.397);
+    const position = LatLng(39.909, 116.397);
     controller.moveCamera(CameraPosition(position: position));
     final image = await screenshot.capture();
     controller.addMarker(

@@ -118,10 +118,10 @@ class TencentMap extends StatefulWidget {
   final void Function(double)? onScaleViewChanged;
 
   /// 当点击地图上任意地点时会触发该回调，方法会传入点击的坐标点，事件可能被上层覆盖物拦截
-  final void Function(Position)? onPress;
+  final void Function(LatLng)? onPress;
 
   /// 当地图上任意地点进行长按点击时会触发该回调，事件可能被上层覆盖物拦截（Android Only）
-  final void Function(Position)? onLongPress;
+  final void Function(LatLng)? onLongPress;
 
   /// 当点击地图上任意的POI时调用，方法会传入点击的POI信息
   final void Function(Poi)? onTapPoi;
@@ -139,19 +139,19 @@ class TencentMap extends StatefulWidget {
   final void Function(String markerId)? onTapMarker;
 
   /// 当开始拖动点标记时触发该回调（Android Only）
-  final void Function(String markerId, Position position)? onMarkerDragStart;
+  final void Function(String markerId, LatLng position)? onMarkerDragStart;
 
   /// 当拖动点标记时触发该回调（Android Only）
-  final void Function(String markerId, Position position)? onMarkerDrag;
+  final void Function(String markerId, LatLng position)? onMarkerDrag;
 
   /// 当拖动点标记完成时触发该回调（Android Only）
-  final void Function(String markerId, Position position)? onMarkerDragEnd;
+  final void Function(String markerId, LatLng position)? onMarkerDragEnd;
 
   /// 当前位置改变时触发该回调（Android Only）
   final void Function(Location)? onLocation;
 
   /// 当点击地图上的定位标会触发该回调
-  final void Function(Position)? onUserLocationClick;
+  final void Function(LatLng)? onUserLocationClick;
 
   @override
   createState() => TencentMapState();

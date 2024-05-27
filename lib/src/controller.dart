@@ -37,12 +37,12 @@ class TencentMapController {
     }
     if (_tencentMapState.widget.onPress != null) {
       TencentMapMethodChannel.instance.onMapPress(mapId: mapId).listen(
-          (MapPressEvent e) => _tencentMapState.widget.onPress!(e.position));
+          (MapPressEvent e) => _tencentMapState.widget.onPress!(e.position.latLng));
     }
     if (_tencentMapState.widget.onLongPress != null) {
       TencentMapMethodChannel.instance.onMapLongPress(mapId: mapId).listen(
           (MapLongPressEvent e) =>
-              _tencentMapState.widget.onLongPress!(e.position));
+              _tencentMapState.widget.onLongPress!(e.position.latLng));
     }
     if (_tencentMapState.widget.onTapPoi != null) {
       TencentMapMethodChannel.instance.onPoiTap(mapId: mapId).listen(
@@ -70,17 +70,17 @@ class TencentMapController {
     if (_tencentMapState.widget.onMarkerDragStart != null) {
       TencentMapMethodChannel.instance.onMarkerDragStart(mapId: mapId).listen(
           (MarkerDragStartEvent e) =>
-              _tencentMapState.widget.onMarkerDragStart!(e.value, e.position));
+              _tencentMapState.widget.onMarkerDragStart!(e.value, e.position.latLng));
     }
     if (_tencentMapState.widget.onMarkerDrag != null) {
       TencentMapMethodChannel.instance.onMarkerDrag(mapId: mapId).listen(
           (MarkerDragEvent e) =>
-              _tencentMapState.widget.onMarkerDrag!(e.value, e.position));
+              _tencentMapState.widget.onMarkerDrag!(e.value, e.position.latLng));
     }
     if (_tencentMapState.widget.onMarkerDragEnd != null) {
       TencentMapMethodChannel.instance.onMarkerDragEnd(mapId: mapId).listen(
           (MarkerDragEndEvent e) =>
-              _tencentMapState.widget.onMarkerDragEnd!(e.value, e.position));
+              _tencentMapState.widget.onMarkerDragEnd!(e.value, e.position.latLng));
     }
     if (_tencentMapState.widget.onLocation != null) {
       TencentMapMethodChannel.instance.onLocationChanged(mapId: mapId).listen(
@@ -90,7 +90,7 @@ class TencentMapController {
     if (_tencentMapState.widget.onUserLocationClick != null) {
       TencentMapMethodChannel.instance.onUserLocationClick(mapId: mapId).listen(
           (UserLocationClickEvent e) =>
-              _tencentMapState.widget.onUserLocationClick!(e.position));
+              _tencentMapState.widget.onUserLocationClick!(e.position.latLng));
     }
   }
 
@@ -116,10 +116,10 @@ class TencentMapController {
 
   /// 移动地图视野到包含一组坐标点的某个地图区域
   void moveCameraToRegionWithPosition(
-      List<Position> positions, EdgePadding padding,
+      List<LatLng> positions, EdgePadding padding,
       [Duration? duration]) {
     TencentMapMethodChannel.instance.moveCameraToRegionWithPosition(
-      positions,
+      positions.map((latLng) => latLng.position).toList(),
       padding,
       duration?.inMilliseconds ?? 0,
       mapId: mapId,

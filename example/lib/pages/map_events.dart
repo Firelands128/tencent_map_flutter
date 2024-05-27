@@ -36,10 +36,10 @@ class _MapEventsPageState extends State<MapEventsPage> {
           stdout.writeln("onScaleViewChanged: ${unit.toString()}");
         },
         onPress: (position) {
-          stdout.writeln("onTap: ${position.encode().toString()}");
+          stdout.writeln("onTap: ${position.toJson().toString()}");
         },
         onLongPress: (position) {
-          stdout.writeln("onLongPress: ${position.encode().toString()}");
+          stdout.writeln("onLongPress: ${position.toJson().toString()}");
         },
         onTapPoi: (poi) {
           stdout.writeln("onTapPoi: ${poi.encode().toString()}");
@@ -54,7 +54,7 @@ class _MapEventsPageState extends State<MapEventsPage> {
           stdout.writeln("onCameraMoveEnd: ${cameraPosition.encode().toString()}");
         },
         onUserLocationClick: (position) {
-          stdout.writeln("onUserLocationClick: ${position.encode().toString()}");
+          stdout.writeln("onUserLocationClick: ${position.toJson().toString()}");
         },
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:tencent_map_flutter/tencent_map_flutter.dart';
 import 'package:tencent_map_flutter_example/utils.dart';
 
@@ -72,9 +73,9 @@ class _CameraRegionMovePageState extends State<CameraRegionMovePage> {
                   child: const Text(' 视野 2 '),
                   onPressed: () => controller.moveCameraToRegionWithPosition(
                       [
-                        Position(latitude: 39.98437, longitude: 116.31863),
-                        Position(latitude: 39.98937, longitude: 116.32363),
-                        Position(latitude: 39.98037, longitude: 116.31163),
+                        const LatLng(39.98437, 116.31863),
+                        const LatLng(39.98937, 116.32363),
+                        const LatLng(39.98037, 116.31163),
                       ],
                       EdgePadding(
                         top: 0.2,
