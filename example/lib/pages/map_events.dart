@@ -33,28 +33,28 @@ class _MapEventsPageState extends State<MapEventsPage> {
       body: TencentMap(
         mapType: context.isDark ? MapType.dark : MapType.normal,
         onScaleViewChanged: (unit) {
-          stdout.writeln("onScaleViewChanged: ${unit.toString()}");
+          debugPrint("onScaleViewChanged: ${unit.toString()}");
         },
         onPress: (position) {
-          stdout.writeln("onTap: ${position.toJson().toString()}");
+          debugPrint("onTap: ${position.toJson().toString()}");
         },
         onLongPress: (position) {
-          stdout.writeln("onLongPress: ${position.toJson().toString()}");
+          debugPrint("onLongPress: ${position.toJson().toString()}");
         },
         onTapPoi: (poi) {
-          stdout.writeln("onTapPoi: ${poi.encode().toString()}");
+          debugPrint("onTapPoi: ${poi.encode().toString()}");
         },
         onCameraMoveStart: (cameraPosition) {
-          stdout.writeln("onCameraMoveStart: ${cameraPosition.encode().toString()}");
+          debugPrint("onCameraMoveStart: ${cameraPosition.encode().toString()}");
         },
         onCameraMove: (cameraPosition) {
-          stdout.writeln("onCameraMove: ${cameraPosition.encode().toString()}");
+          debugPrint("onCameraMove: ${cameraPosition.encode().toString()}");
         },
         onCameraMoveEnd: (cameraPosition) {
-          stdout.writeln("onCameraMoveEnd: ${cameraPosition.encode().toString()}");
+          debugPrint("onCameraMoveEnd: ${cameraPosition.encode().toString()}");
         },
         onUserLocationClick: (position) {
-          stdout.writeln("onUserLocationClick: ${position.toJson().toString()}");
+          debugPrint("onUserLocationClick: ${position.toJson().toString()}");
         },
       ),
     );

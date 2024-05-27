@@ -51,7 +51,7 @@ class _UserLocationPageState extends State<UserLocationPage> {
         myLocationEnabled: true,
         userLocationType: UserLocationType.trackingLocationRotate,
         onLocation: (location) {
-          stdout.writeln(
+          debugPrint(
             '${location.position.latitude}, ${location.position.longitude}',
           );
         },
